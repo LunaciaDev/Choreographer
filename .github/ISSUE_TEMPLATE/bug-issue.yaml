@@ -1,0 +1,46 @@
+name: Bug Report
+description: Report a clearly broken issue.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report us about an issue with the app.
+
+        Before we start, please make sure that your issue has not been reported before. You can do this by searching in our [issue tracker](https://github.com/LunaciaDev/Choreographer/issues). If it has already been reported, please see if you can add anything useful to that issue instead of opening another one.
+
+        Please also ensure that you are running the latest version of the app, as issues from previous versions may have been fixed.
+  - type: dropdown
+    attributes:
+      label: Type
+      options:
+        - Application Crash
+        - Unusual behavior
+        - Performance
+        - Cosmetic
+        - Other
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        # Bug Description
+
+        Please fill out all the required information about the bug. Please be as concise as possible, so it is easier for me to reproduce the issue. I can not assist if the issue can not be replicated on my side.
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please describe in detail on how you find the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Screenshots / Videos
+      description: Add screenshots/videos that show the bug here.
+      placeholder: Drag and drop the screenshots/video into this box.
+    validations:
+      required: false
