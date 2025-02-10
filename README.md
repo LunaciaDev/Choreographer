@@ -29,7 +29,7 @@ Choreographer is a **Work in Progress**. Expect bugs, drastic change, half-baked
 
 You can find the latest stable version of the app in the [Release](https://github.com/LunaciaDev/Choreographer/releases) section.
 
-## Building
+## Building from Source
 
 ### Prerequisite
 
@@ -78,12 +78,6 @@ where `<target>` is one of the following:
 This will create a zip file in `lwjgl3/build/construo/dist`, containing the built app.
 
 See [LibGDX deployment](https://libgdx.com/wiki/deployment/bundling-a-jre) for more.
-
-## License
-
-The source code is licensed under the [MIT License](https://opensource.org/license/MIT). Please see [the license file](https://github.com/LunaciaDev/Choreographer/blob/main/LICENSE) for more information.
-
-Please note that this license ONLY apply to the **source code**. The branding "Foxhole" belong to Siege Camp along with all of the game assets. Community-made modded assets also belong to their respective creator.
 
 ## Special Thanks
 
