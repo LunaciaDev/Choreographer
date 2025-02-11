@@ -5,7 +5,7 @@ public class Crate {
     private int amount;
 
     /**
-     * Initialize a Crate, with name, queue type and amount required.
+     * Initialize a Crate with ID and amount required.
      * 
      * @param name ItemID
      * @param amount How many crates are needed
