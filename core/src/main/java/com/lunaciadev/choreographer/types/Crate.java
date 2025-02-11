@@ -10,18 +10,26 @@ public class Crate {
         UNIFORMS
     }
 
-    private String name;
+    private int id;
     private QueueType type;
 
     private int amount;
 
-    public Crate(String name, QueueType type, int amount) {
-        this.name = name;
+    /**
+     * Initialize a Crate, with name, queue type and amount required.
+     * 
+     * @param name ItemID
+     * @param type Queue Type of the item
+     * @param amount How many crates are needed
+     */
+    public Crate(int id, QueueType type, int amount) {
+        this.id = id;
         this.type = type;
         this.amount = amount;
     }
-    public String getName() {
-        return name;
+
+    public int getId() {
+        return id;
     }
 
     public QueueType getType() {
@@ -31,6 +39,6 @@ public class Crate {
     public boolean dequeue() {
         amount -= 4;
         
-        return amount == 0;
+        return amount <= 0;
     }
 }
