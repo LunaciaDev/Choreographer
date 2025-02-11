@@ -2,26 +2,32 @@ package com.lunaciadev.choreographer.types;
 
 public class Crate {
     private int id;
-    private int amount;
+    private int crateNeeded;
+    private int crateMade;
 
     /**
      * Initialize a Crate with ID and amount required.
      * 
      * @param name ItemID
-     * @param amount How many crates are needed
+     * @param crateNeeded How many crates are needed
      */
-    public Crate(int id, int amount) {
+    public Crate(int id, int crateNeeded) {
         this.id = id;
-        this.amount = amount;
+        this.crateNeeded = crateNeeded;
+        this.crateMade = 0;
     }
 
     public int getId() {
         return id;
     }
 
-    public boolean dequeue() {
-        amount -= 4;
+    public int getCrateMade() {
+        return crateMade;
+    }
+
+    public boolean queueManufactured() {
+        crateMade += 4;
         
-        return amount <= 0;
+        return crateMade >= crateNeeded;
     }
 }
