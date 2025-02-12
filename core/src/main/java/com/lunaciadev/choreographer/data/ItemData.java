@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.lunaciadev.choreographer.types.Cost;
+import com.lunaciadev.choreographer.types.ConstantCost;
 
 public class ItemData {
     enum QueueType {
@@ -20,9 +20,9 @@ public class ItemData {
     private class ItemDataHolder {
         private QueueType queueType;
         private String itemName;
-        private Cost cost;
+        private ConstantCost cost;
 
-        public ItemDataHolder(String itemName, QueueType queueType, Cost cost) {
+        public ItemDataHolder(String itemName, QueueType queueType, ConstantCost cost) {
             this.itemName = itemName;
             this.queueType = queueType;
             this.cost = cost;
@@ -32,7 +32,7 @@ public class ItemData {
             return itemName;
         }
 
-        public Cost getCost() {
+        public ConstantCost getCost() {
             return cost;
         }
 
@@ -80,7 +80,7 @@ public class ItemData {
             }
 
             // cost are in multiple of 4, as queue are also multiple of 4.
-            items.add(new ItemDataHolder(values[0], queueType, new Cost(Integer.parseInt(values[2]) * 4,
+            items.add(new ItemDataHolder(values[0], queueType, new ConstantCost(Integer.parseInt(values[2]) * 4,
                     Integer.parseInt(values[3]) * 4, Integer.parseInt(values[4]) * 4,
                     Integer.parseInt(values[5]) * 4)));
         }
@@ -95,7 +95,13 @@ public class ItemData {
         return items.get(id).getItemName();
     }
 
-    public Cost getCost(int id) {
+    /**
+     * Return the cost of an item. Attempt at modifying the return value throw an Exception.
+     * 
+     * @param id The item's ID
+     * @return Cost of the item
+     */
+    public ConstantCost getCost(int id) {
         return items.get(id).getCost();
     }
 
