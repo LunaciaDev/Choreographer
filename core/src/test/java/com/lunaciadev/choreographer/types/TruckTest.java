@@ -50,5 +50,13 @@ public class TruckTest {
         assertEquals(result[0], testList[0]);
         assertEquals(result[1], testList[2]);
         assertEquals(result[2], testList[1]);
+
+        // just in case
+        testTruck.removeLastAdded();
+
+        result = testTruck.getTruckContent();
+
+        assertEquals(result[0], testList[0]);
+        assertEquals(result[1], testList[2]);
     }
 }
