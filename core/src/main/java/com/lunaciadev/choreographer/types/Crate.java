@@ -9,7 +9,7 @@ public class Crate {
     /**
      * Initialize a Crate with ID and amount required.
      * 
-     * @param name ItemID
+     * @param name        ItemID
      * @param queueNeeded How many queue are needed
      */
     public Crate(int id, int queueNeeded, int priority) {
@@ -31,9 +31,21 @@ public class Crate {
         return priority;
     }
 
+    /**
+     * Call when a queue is made. Return true if it has reached the goal, false
+     * otherwise
+     */
     public boolean queueManufactured() {
         queueMade += 4;
-        
+
+        return queueMade >= queueNeeded;
+    }
+
+    public void undoQueueManufactured() {
+        queueMade -= 4;
+    }
+
+    public boolean isCompleted() {
         return queueMade >= queueNeeded;
     }
 }
