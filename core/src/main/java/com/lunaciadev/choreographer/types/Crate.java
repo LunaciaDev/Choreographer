@@ -4,6 +4,7 @@ public class Crate {
     private int id;
     private int crateNeeded;
     private int crateMade;
+    private int priority;
 
     /**
      * Initialize a Crate with ID and amount required.
@@ -11,10 +12,11 @@ public class Crate {
      * @param name ItemID
      * @param crateNeeded How many crates are needed
      */
-    public Crate(int id, int crateNeeded) {
+    public Crate(int id, int crateNeeded, int priority) {
         this.id = id;
         this.crateNeeded = crateNeeded;
         this.crateMade = 0;
+        this.priority = priority;
     }
 
     public int getId() {
@@ -23,6 +25,10 @@ public class Crate {
 
     public int getCrateMade() {
         return crateMade;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     public boolean queueManufactured() {
