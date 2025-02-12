@@ -3,8 +3,9 @@ package com.lunaciadev.choreographer.core;
 import java.util.HashMap;
 
 import com.lunaciadev.choreographer.types.Crate;
+import com.lunaciadev.choreographer.utils.Inputable;
 
-public class ManualInputHandler {
+public class ManualInputHandler extends Inputable {
     private HashMap<Integer, Crate> inputCrates;
 
     public ManualInputHandler() {
@@ -39,14 +40,17 @@ public class ManualInputHandler {
         }
     }
 
-    /**
-     * Get all the crate that has been recorded. There is no guaranteed order.
-     * 
-     * @return Array of recorded crate, in no particular order.
-     */
-    public Crate[] getInputCrates() {
-        Crate[] resultCrates = new Crate[inputCrates.size()];
+    public void clearData() {
+        inputCrates.clear();
+    }
 
-        return inputCrates.values().toArray(resultCrates);
+    /**
+     * Get all the crate that has been recorded as a HashMap.
+     * 
+     * @return HashMap of recorded Crates.
+     */
+    @Override
+    public HashMap<Integer, Crate> getData() {
+        return inputCrates;
     }
 }
