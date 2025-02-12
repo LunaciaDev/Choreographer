@@ -2,6 +2,7 @@ name: Bug Report
 description: Report a clearly broken issue.
 title: "[Bug]: "
 labels: ["bug", "triage"]
+projects: "LunaciaDev/1"
 body:
   - type: markdown
     attributes:
@@ -26,8 +27,6 @@ body:
   - type: markdown
     attributes:
       value: |
-        # Bug Description
-
         Please fill out all the required information about the bug. Please be as concise as possible, so it is easier for me to reproduce the issue. I can not assist if the issue can not be replicated on my side.
 
   - type: textarea
