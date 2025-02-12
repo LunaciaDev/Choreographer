@@ -180,23 +180,21 @@ public class Choreographer {
     private ItemData itemData;
 
     /**
-     * Emitted after a QueueReqeust. Return a single Boolean.
+     * Emitted after a QueueReqeust.
      * 
-     * True if the request was handled successfully, False otherwise.
+     * @param Boolean True if the request was handled successfully, False otherwise.
      */
     public Signal queueRequestComplete;
 
     /**
-     * Emitted after an UndoRequest. Return a single Boolean.
+     * Emitted after an UndoRequest.
      * 
-     * True if the request was handled successfully, False otherwise.
+     * @param Boolean True if the request was handled successfully, False otherwise.
      */
     public Signal undoRequestComplete;
 
     /**
      * Emitted after a checkFinished, if and only if all queue are empty.
-     * 
-     * No return value.
      */
     public Signal reachedManuGoal;
 
