@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.badlogic.gdx.Gdx;
 import com.lunaciadev.choreographer.GdxExtension;
-import com.lunaciadev.choreographer.data.ItemData.QueueType;
+import com.lunaciadev.choreographer.types.QueueType;
 
 public class ItemDataTest {
 

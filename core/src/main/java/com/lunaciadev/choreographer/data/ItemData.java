@@ -6,17 +6,9 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.lunaciadev.choreographer.types.ConstantCost;
+import com.lunaciadev.choreographer.types.QueueType;
 
 public class ItemData {
-    enum QueueType {
-        SMALL_ARMS,
-        HEAVY_ARMS,
-        HEAVY_AMMO,
-        UTILITIES,
-        MEDICAL,
-        UNIFORMS
-    }
-
     private class ItemDataHolder {
         private QueueType queueType;
         private String itemName;
