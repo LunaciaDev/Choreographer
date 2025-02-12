@@ -40,6 +40,10 @@ public class ManualInputHandler extends Inputable {
         }
     }
 
+    public void clearData() {
+        inputCrates.clear();
+    }
+
     /**
      * Get all the crate that has been recorded as a HashMap.
      * 

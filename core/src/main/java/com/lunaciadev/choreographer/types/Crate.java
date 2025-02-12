@@ -31,6 +31,10 @@ public class Crate {
         return priority;
     }
 
+    public int getQueueNeeded() {
+        return queueNeeded;
+    }
+
     /**
      * Call when a queue is made. Return true if it has reached the goal, false
      * otherwise

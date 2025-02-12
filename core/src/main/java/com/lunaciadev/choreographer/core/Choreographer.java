@@ -1,5 +1,7 @@
 package com.lunaciadev.choreographer.core;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import com.badlogic.gdx.utils.Queue;
@@ -163,6 +165,43 @@ public class Choreographer {
             }
         }
     
+        public void enqueueArray(QueueType queueType, ArrayList<Crate> crateList) {
+            Queue<Crate> temp;
+
+            switch (queueType) {
+                case HEAVY_AMMO:
+                    temp = heavyAmmoQueue;
+                    break;
+                case HEAVY_ARMS:
+                    temp = heavyArmQueue;
+                    break;
+                case LIGHT_ARMS:
+                    temp = lightArmQueue;
+                    break;
+                case MATERIALS:
+                    temp = materialsQueue;
+                    break;
+                case MEDICAL:
+                    temp = medicalQueue;
+                    break;
+                case UNIFORMS:
+                    temp = uniformsQueue;
+                    break;
+                case UTILITIES:
+                    temp = utilitiesQueue;
+                    break;
+                default:
+                    // this realistically should NOT happen
+                    // the checker is bugging me about temp not being initialized..
+                    temp = null;
+                    break;
+            }
+            
+            for (Crate crate : crateList) {
+                temp.addLast(crate);
+            }
+        }
+
         public boolean isFinished() {
             return lightArmQueue.isEmpty() &
                    heavyArmQueue.isEmpty() &
@@ -171,6 +210,20 @@ public class Choreographer {
                    medicalQueue.isEmpty() &
                    uniformsQueue.isEmpty() &
                    materialsQueue.isEmpty();
+        }
+    }
+
+    private class CompareByQueue implements Comparator<Crate> {
+        @Override
+        public int compare(Crate o1, Crate o2) {
+            return o2.getQueueNeeded() - o1.getQueueNeeded();
+        }
+    }
+
+    private class CompareByPriority implements Comparator<Crate> {
+        @Override
+        public int compare(Crate o1, Crate o2) {
+            return o1.getPriority() - o2.getPriority();
         }
     }
 
@@ -202,19 +255,86 @@ public class Choreographer {
         queueManager = new QueueManager();
         truckQueue = new Queue<>();
         truckQueue.addFirst(new Truck(itemData));
+
+        queueRequestComplete = new Signal();
+        undoRequestComplete = new Signal();
+        reachedManuGoal = new Signal();
+
         this.itemData = itemData;
     }
 
     public void setData(Inputable dataSource) {
-        this.crateMapping = dataSource.getData();
+        crateMapping = dataSource.getData();
+
+        ArrayList<Crate> lightArmQueue = new ArrayList<>();
+        ArrayList<Crate> heavyArmQueue = new ArrayList<>();
+        ArrayList<Crate> heavyAmmoQueue = new ArrayList<>();
+        ArrayList<Crate> utilitiesQueue = new ArrayList<>();
+        ArrayList<Crate> medicalQueue = new ArrayList<>();
+        ArrayList<Crate> uniformsQueue = new ArrayList<>();
+        ArrayList<Crate> materialsQueue = new ArrayList<>();
+
+        for (Crate crate: crateMapping.values()) {
+            switch (itemData.getQueueType(crate.getId())) {
+                case HEAVY_AMMO:
+                    heavyAmmoQueue.add(crate);
+                    break;
+                case HEAVY_ARMS:
+                    heavyArmQueue.add(crate);
+                    break;
+                case LIGHT_ARMS:
+                    lightArmQueue.add(crate);
+                    break;
+                case MATERIALS:
+                    materialsQueue.add(crate);
+                    break;
+                case MEDICAL:
+                    medicalQueue.add(crate);
+                    break;
+                case UNIFORMS:
+                    uniformsQueue.add(crate);
+                    break;
+                case UTILITIES:
+                    utilitiesQueue.add(crate);
+                    break;
+            }
+        }
+
+        CompareByQueue compareByQueue = new CompareByQueue();
+        CompareByPriority compareByPriority = new CompareByPriority();
+
+        // thanks the star java sort are stable
+
+        lightArmQueue.sort(compareByQueue);
+        lightArmQueue.sort(compareByPriority);
+        heavyArmQueue.sort(compareByQueue);
+        heavyArmQueue.sort(compareByPriority);
+        heavyAmmoQueue.sort(compareByQueue);
+        heavyAmmoQueue.sort(compareByPriority);
+        utilitiesQueue.sort(compareByQueue);
+        utilitiesQueue.sort(compareByPriority);
+        medicalQueue.sort(compareByQueue);
+        medicalQueue.sort(compareByPriority);
+        uniformsQueue.sort(compareByQueue);
+        uniformsQueue.sort(compareByPriority);
+        materialsQueue.sort(compareByQueue);
+        materialsQueue.sort(compareByPriority);
+
+        queueManager.enqueueArray(QueueType.LIGHT_ARMS, lightArmQueue);
+        queueManager.enqueueArray(QueueType.HEAVY_ARMS, heavyArmQueue);
+        queueManager.enqueueArray(QueueType.HEAVY_AMMO, heavyAmmoQueue);
+        queueManager.enqueueArray(QueueType.UTILITIES, utilitiesQueue);
+        queueManager.enqueueArray(QueueType.MEDICAL, medicalQueue);
+        queueManager.enqueueArray(QueueType.UNIFORMS, uniformsQueue);
+        queueManager.enqueueArray(QueueType.MATERIALS, materialsQueue);
     }
 
-    public void onQueueRequest(QueueType queue) {
+    public int onQueueRequest(QueueType queue) {
         int id = queueManager.dequeue(queue);
 
         if (id == -1) {
             queueRequestComplete.emit(false);
-            return;
+            return -1;
         }
 
         if (!truckQueue.last().addItem(id)) {
@@ -223,16 +343,18 @@ public class Choreographer {
         }
 
         queueRequestComplete.emit(true);
+        return id;
     }
 
-    public void onUndoRequest() {
+    public boolean onUndoRequest() {
         int id = truckQueue.last().removeLastAdded();
 
         if (id == -1) {
             undoRequestComplete.emit(false);
+            return false;
         }
 
-        if (truckQueue.last().isEmpty()) {
+        if (truckQueue.last().isEmpty() && truckQueue.size != 1) {
             truckQueue.removeLast();
         }
 
@@ -242,11 +364,17 @@ public class Choreographer {
             queueManager.enqueue(itemData.getQueueType(id), target);
         }
         target.undoQueueManufactured();
+
         undoRequestComplete.emit(true);
+        return true;
     }
 
-    public void onCheckFinished() {
-        if (queueManager.isFinished()) 
+    public boolean onCheckFinished() {
+        if (queueManager.isFinished()) {
             reachedManuGoal.emit((Object) null);
+            return true;
+        }
+
+        return false;
     }
 }
