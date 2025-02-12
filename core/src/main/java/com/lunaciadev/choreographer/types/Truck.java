@@ -46,4 +46,8 @@ public class Truck {
 
         return truckContent.toArray(content);
     }
+
+    public Cost getTruckCost() {
+        return truckCost;
+    }
 }
