@@ -79,8 +79,10 @@ public class ItemData {
                     throw new RuntimeException("Invalid queue type in database, row data: " + temp);
             }
 
-            items.add(new ItemDataHolder(values[0], queueType, new Cost(Integer.parseInt(values[2]),
-                    Integer.parseInt(values[3]), Integer.parseInt(values[4]), Integer.parseInt(values[5]))));
+            // cost are in multiple of 4, as queue are also multiple of 4.
+            items.add(new ItemDataHolder(values[0], queueType, new Cost(Integer.parseInt(values[2]) * 4,
+                    Integer.parseInt(values[3]) * 4, Integer.parseInt(values[4]) * 4,
+                    Integer.parseInt(values[5]) * 4)));
         }
     }
 

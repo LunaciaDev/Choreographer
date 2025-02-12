@@ -24,7 +24,7 @@ public class ItemDataTest {
 
         assertEquals("Cascadier", itemData.getItemName(0));
         assertEquals(QueueType.SMALL_ARMS, itemData.getQueueType(0));
-        assertEquals(60, itemData.getCost(0).getBmatCost());
+        assertEquals(240, itemData.getCost(0).getBmatCost());
         assertEquals(0, itemData.getCost(0).getEmatCost());
         assertEquals(0, itemData.getCost(0).getRmatCost());
         assertEquals(0, itemData.getCost(0).getHematCost());
