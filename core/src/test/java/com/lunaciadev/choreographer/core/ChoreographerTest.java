@@ -93,4 +93,19 @@ public class ChoreographerTest {
         assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
         assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
     }
+
+    @Test
+    public void testTruckSubmission() {
+        inputHandler.clearData();
+
+        inputHandler.addCrate(0, 0, 12);
+
+        Choreographer choreographer = new Choreographer(itemData);
+        choreographer.setData(inputHandler);
+
+        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
+        choreographer.onSubmitTruck();
+        assertEquals(false, choreographer.onUndoRequest());
+    }
 }

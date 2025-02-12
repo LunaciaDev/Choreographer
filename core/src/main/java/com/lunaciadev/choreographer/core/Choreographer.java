@@ -228,6 +228,7 @@ public class Choreographer {
     }
 
     private QueueManager queueManager;
+    // TODO allow the Trucks to be pooled, reducing allocation rate
     private Queue<Truck> truckQueue;
     private HashMap<Integer, Crate> crateMapping;
     private ItemData itemData;
@@ -235,14 +236,14 @@ public class Choreographer {
     /**
      * Emitted after a QueueReqeust.
      * 
-     * @param Boolean True if the request was handled successfully, False otherwise.
+     * @param status {@code Boolean} True if the request was handled successfully, False otherwise.
      */
     public Signal queueRequestComplete;
 
     /**
      * Emitted after an UndoRequest.
      * 
-     * @param Boolean True if the request was handled successfully, False otherwise.
+     * @param status {@code Boolean} True if the request was handled successfully, False otherwise.
      */
     public Signal undoRequestComplete;
 
@@ -250,6 +251,13 @@ public class Choreographer {
      * Emitted after a checkFinished, if and only if all queue are empty.
      */
     public Signal reachedManuGoal;
+
+    /**
+     * Emitted after a TruckQueue request.
+     * 
+     * @param truckQueue {@code Queue<Truck>} currently queued Trucks
+     */
+    public Signal returnTruckQueue;
 
     public Choreographer(ItemData itemData) {
         queueManager = new QueueManager();
@@ -259,6 +267,7 @@ public class Choreographer {
         queueRequestComplete = new Signal();
         undoRequestComplete = new Signal();
         reachedManuGoal = new Signal();
+        returnTruckQueue = new Signal();
 
         this.itemData = itemData;
     }
@@ -369,6 +378,14 @@ public class Choreographer {
         return true;
     }
 
+    public void onSubmitTruck() {
+        truckQueue.removeFirst();
+
+        if (truckQueue.isEmpty()) {
+            truckQueue.addFirst(new Truck(itemData));
+        }
+    }
+
     public boolean onCheckFinished() {
         if (queueManager.isFinished()) {
             reachedManuGoal.emit((Object) null);
@@ -376,5 +393,9 @@ public class Choreographer {
         }
 
         return false;
+    }
+
+    public void getTruckQueue() {
+        returnTruckQueue.emit(truckQueue);
     }
 }
