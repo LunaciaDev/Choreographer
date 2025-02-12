@@ -22,12 +22,21 @@ public class Truck {
             return false;
         }
 
-        truckCost.increaseBmatCost(itemCost.getBmatCost());
-        truckCost.increaseEmatCost(itemCost.getEmatCost());
-        truckCost.increaseHematCost(itemCost.getHematCost());
-        truckCost.increaseRmatCost(itemCost.getRmatCost());
-
+        truckCost.add(itemCost);
         truckContent.add(id);
+
+        return true;
+    }
+
+    public boolean removeLastAdded() {
+        if (truckContent.isEmpty()) {
+            return false;
+        }
+
+        int id = truckContent.remove(truckContent.size() - 1);
+        Cost itemCost = itemData.getCost(id);
+
+        truckCost.subtract(itemCost);
 
         return true;
     }

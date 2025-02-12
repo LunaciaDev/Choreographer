@@ -32,41 +32,56 @@ public class Cost {
     }
 
     /**
-     * Increase the amount of bmat needed by cost.
+     * Add the other {@link Cost} into itself.
      * 
-     * @param cost
+     * @param cost The other cost to add
      */
-    public void increaseBmatCost(int cost) {
-        this.bmatCost += cost;
+    public void add(Cost cost) {
+        this.bmatCost += cost.bmatCost;
+        this.ematCost += cost.ematCost;
+        this.hematCost += cost.hematCost;
+        this.rmatCost += cost.rmatCost;
     }
 
     /**
-     * Increase the amount of emat needed by cost.
+     * Subtract the other {@link Cost} from itself.
      * 
-     * @param cost
+     * @param cost The other cost to subtract
      */
-    public void increaseEmatCost(int cost) {
-        this.ematCost += cost;
+    public void subtract(Cost cost) {
+        this.bmatCost -= cost.bmatCost;
+        this.ematCost -= cost.ematCost;
+        this.hematCost -= cost.hematCost;
+        this.rmatCost -= cost.rmatCost;
     }
 
     /**
-     * Increase the amount of hemat needed by cost.
+     * Convenience method to check if two {@link Cost} are equals in content.
      * 
-     * @param cost
+     * @param cost The other cost to compare with
+     * @return true if both cost are equal in content, false otherwise.
      */
-    public void increaseHematCost(int cost) {
-        this.hematCost += cost;
+    public boolean equals(Cost cost) {
+        return this.bmatCost == cost.bmatCost & 
+               this.ematCost == cost.ematCost &
+               this.hematCost == cost.hematCost &
+               this.rmatCost == cost.rmatCost;
     }
 
     /**
-     * Increase the amount of rmat needed by cost.
+     * Get how many slot the cost is taking up.
      * 
-     * @param cost
+     * A Slot in Foxhole hold 100 unit of the same item, so we simply divide each
+     * cost individually by 100, rounded up. Adding those up together yield how many
+     * slot is currently in use.
+     * 
+     * This function is used to check if we can add another item to the truck, hence
+     * the input of otherCost. Passing an empty Cost work if you are only checking
+     * the current slot usage.
+     * 
+     * @param otherCost The resource cost being added
+     * @return How many slot is being used, with otherCost being considered.
      */
-    public void increaseRmatCost(int cost) {
-        this.rmatCost += cost;
-    }
-
     public int getSlotNeeded(Cost otherCost) {
         int bmatCost = this.bmatCost + otherCost.bmatCost;
         int ematCost = this.ematCost + otherCost.ematCost;
