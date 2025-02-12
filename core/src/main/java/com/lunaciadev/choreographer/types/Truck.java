@@ -1,17 +1,18 @@
 package com.lunaciadev.choreographer.types;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.lunaciadev.choreographer.data.ItemData;
 
 public class Truck {
-    private List<Integer> itemIDs;
+    private ArrayList<Integer> truckContent;
     private Cost truckCost;
     private ItemData itemData;
 
     public Truck(ItemData itemData) {
         this.itemData = itemData;
         this.truckCost = new Cost(0, 0, 0, 0);
+        this.truckContent = new ArrayList<Integer>();
     }
 
     public boolean addItem(int id) {
@@ -26,10 +27,14 @@ public class Truck {
         truckCost.increaseHematCost(itemCost.getHematCost());
         truckCost.increaseRmatCost(itemCost.getRmatCost());
 
+        truckContent.add(id);
+
         return true;
     }
 
     public Integer[] getTruckContent() {
-        return (Integer[]) itemIDs.toArray();
+        Integer[] content = new Integer[truckContent.size()];
+
+        return truckContent.toArray(content);
     }
 }
