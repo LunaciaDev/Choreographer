@@ -50,7 +50,7 @@ public class ItemData {
 
             switch (values[1]) {
                 case "0":
-                    queueType = QueueType.SMALL_ARMS;
+                    queueType = QueueType.LIGHT_ARMS;
                     break;
                 case "1":
                     queueType = QueueType.HEAVY_ARMS;
