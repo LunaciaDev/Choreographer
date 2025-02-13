@@ -13,11 +13,11 @@ import com.lunaciadev.choreographer.types.QueueType;
 @ExtendWith(GdxExtension.class)
 public class ChoreographerTest {
     private ItemData itemData;
-    private ManualInputHandler inputHandler;
+    private InputHandler inputHandler;
 
     public ChoreographerTest() throws Exception {
         itemData = new ItemData(Gdx.files.local("../assets/itemData.csv").reader(8192));
-        inputHandler = new ManualInputHandler();
+        inputHandler = new InputHandler();
     }
 
     @Test
