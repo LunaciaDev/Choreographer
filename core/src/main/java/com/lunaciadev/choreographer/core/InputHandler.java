@@ -3,18 +3,19 @@ package com.lunaciadev.choreographer.core;
 import java.util.HashMap;
 
 import com.lunaciadev.choreographer.types.Crate;
-import com.lunaciadev.choreographer.utils.Inputable;
 
-public class ManualInputHandler extends Inputable {
+public class InputHandler {
     private HashMap<Integer, Crate> inputCrates;
 
-    public ManualInputHandler() {
+    public InputHandler() {
         inputCrates = new HashMap<Integer, Crate>();
     }
 
     /**
      * In theory these methods need not be unit tested since they are only simple
      * wrapper of HashMap, so.
+     * 
+     * LogiHub import will communicate with the InputHandler as well.
      */
 
     /**
@@ -49,7 +50,6 @@ public class ManualInputHandler extends Inputable {
      * 
      * @return HashMap of recorded Crates.
      */
-    @Override
     public HashMap<Integer, Crate> getData() {
         return inputCrates;
     }

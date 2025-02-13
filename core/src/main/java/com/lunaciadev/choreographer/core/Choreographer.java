@@ -9,7 +9,6 @@ import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.types.Truck;
-import com.lunaciadev.choreographer.utils.Inputable;
 import com.lunaciadev.choreographer.utils.Signal;
 
 /**
@@ -212,7 +211,7 @@ public class Choreographer {
         this.itemData = itemData;
     }
 
-    public void setData(Inputable dataSource) {
+    public void setData(InputHandler dataSource) {
         crateMapping = dataSource.getData();
 
         ArrayList<Crate> lightArmQueue = new ArrayList<>();
