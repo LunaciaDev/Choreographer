@@ -326,7 +326,7 @@ public class Choreographer {
     }
 
     public boolean onCheckFinished() {
-        if (queueManager.isFinished()) {
+        if (queueManager.isFinished() && (truckQueue.size == 1 && truckQueue.first().isEmpty())) {
             reachedManuGoal.emit((Object) null);
             return true;
         }
@@ -336,5 +336,11 @@ public class Choreographer {
 
     public void getTruckQueue() {
         returnTruckQueue.emit(truckQueue);
+    }
+
+    public HashMap<Integer, Crate> getResult() {
+        // wtf
+        while (onUndoRequest());
+        return crateMapping;
     }
 }
