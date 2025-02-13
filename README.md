@@ -30,12 +30,6 @@ You can find the latest stable version of the app in the [Release](https://githu
 
 ## Building from Source
 
-### Prerequisite
-
-Please make sure that you have the following installed:
-
-- A desktop platform with [LibGDX](https://libgdx.com/) and its dependencies installed.
-
 ### Getting the Source Code
 
 Clone the repository:
