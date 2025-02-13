@@ -103,4 +103,8 @@ public class ItemData {
     public QueueType getQueueType(int id) {
         return items.get(id).getQueueType();
     }
+
+    public int getItemDataSize() {
+        return items.size();
+    }
 }

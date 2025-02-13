@@ -60,13 +60,15 @@ public class ChoreographerTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        // cannot set 0 and 2 having same priority because if same priority and goal size, it's random who go first.
-
         assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
         assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
         assertEquals(false, choreographer.onCheckFinished());
         assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
         assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(false, choreographer.onCheckFinished());
+        choreographer.onSubmitTruck();
+        assertEquals(false, choreographer.onCheckFinished());
+        choreographer.onSubmitTruck();
         assertEquals(true, choreographer.onCheckFinished());
     }
 
