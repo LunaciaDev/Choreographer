@@ -13,13 +13,14 @@ import com.lunaciadev.choreographer.utils.Inputable;
 import com.lunaciadev.choreographer.utils.Signal;
 
 /**
- * We now approach the meat of the program -Lunacia
- * 
  * The Choreographer is the one who will instruct the dance. Need to be tested
  * throughly.
  * 
  * We divide the incoming crate into 6 sets based on their catagory, sorted by
  * the queueGoal.
+ * 
+ * Each set is first sorted by crate amount, then sorted by priority. Sort must
+ * be stable. It can handle enqueue, dequeue, and undo tasks.
  */
 public class Choreographer {
     private class QueueManager {
@@ -41,99 +42,36 @@ public class Choreographer {
             materialsQueue = new Queue<>();
         }
 
+        private int processDequeue(Queue<Crate> queue) {
+            if (queue.isEmpty()) {
+                return -1;
+            }
+
+            Crate target = queue.first();
+
+            if (target.queueManufactured()) {
+                queue.removeFirst();
+            }
+
+            return target.getId();
+        }
+
         public int dequeue(QueueType queueType) {
             switch (queueType) {
                 case HEAVY_AMMO:
-                    if (heavyAmmoQueue.isEmpty()) {
-                        return -1;
-                    }
-                    else {
-                        Crate target = heavyAmmoQueue.first();
-
-                        if (target.queueManufactured()) {
-                            heavyAmmoQueue.removeFirst();
-                        }
-
-                        return target.getId();
-                    }
+                    return processDequeue(heavyAmmoQueue);
                 case HEAVY_ARMS:
-                    if (heavyArmQueue.isEmpty()) {
-                        return -1;
-                    }
-                    else {
-                        Crate target = heavyArmQueue.first();
-
-                        if (target.queueManufactured()) {
-                            heavyArmQueue.removeFirst();
-                        }
-
-                        return target.getId();
-                    }
+                    return processDequeue(heavyArmQueue);
                 case MATERIALS:
-                    if (materialsQueue.isEmpty()) {
-                        return -1;
-                    }
-                    else {
-                        Crate target = materialsQueue.first();
-
-                        if (target.queueManufactured()) {
-                            materialsQueue.removeFirst();
-                        }
-
-                        return target.getId();
-                    }
+                    return processDequeue(materialsQueue);
                 case MEDICAL:
-                    if (medicalQueue.isEmpty()) {
-                        return -1;
-                    }
-                    else {
-                        Crate target = medicalQueue.first();
-
-                        if (target.queueManufactured()) {
-                            medicalQueue.removeFirst();
-                        }
-
-                        return target.getId();
-                    }
+                    return processDequeue(medicalQueue);
                 case LIGHT_ARMS:
-                    if (lightArmQueue.isEmpty()) {
-                        return -1;
-                    }
-                    else {
-                        Crate target = lightArmQueue.first();
-
-                        if (target.queueManufactured()) {
-                            lightArmQueue.removeFirst();
-                        }
-
-                        return target.getId();
-                    }
+                    return processDequeue(lightArmQueue);
                 case UNIFORMS:
-                    if (uniformsQueue.isEmpty()) {
-                        return -1;
-                    }
-                    else {
-                        Crate target = uniformsQueue.first();
-
-                        if (target.queueManufactured()) {
-                            uniformsQueue.removeFirst();
-                        }
-
-                        return target.getId();
-                    }
+                    return processDequeue(uniformsQueue);
                 case UTILITIES:
-                if (utilitiesQueue.isEmpty()) {
-                    return -1;
-                }
-                else {
-                    Crate target = utilitiesQueue.first();
-
-                    if (target.queueManufactured()) {
-                        utilitiesQueue.removeFirst();
-                    }
-
-                    return target.getId();
-                }
+                    return processDequeue(utilitiesQueue);
                 default:
                     return -1;
             }
@@ -164,7 +102,7 @@ public class Choreographer {
                     break;
             }
         }
-    
+
         public void enqueueArray(QueueType queueType, ArrayList<Crate> crateList) {
             Queue<Crate> temp;
 
@@ -196,7 +134,7 @@ public class Choreographer {
                     temp = null;
                     break;
             }
-            
+
             for (Crate crate : crateList) {
                 temp.addLast(crate);
             }
@@ -204,12 +142,12 @@ public class Choreographer {
 
         public boolean isFinished() {
             return lightArmQueue.isEmpty() &
-                   heavyArmQueue.isEmpty() &
-                   heavyAmmoQueue.isEmpty() &
-                   utilitiesQueue.isEmpty() &
-                   medicalQueue.isEmpty() &
-                   uniformsQueue.isEmpty() &
-                   materialsQueue.isEmpty();
+                    heavyArmQueue.isEmpty() &
+                    heavyAmmoQueue.isEmpty() &
+                    utilitiesQueue.isEmpty() &
+                    medicalQueue.isEmpty() &
+                    uniformsQueue.isEmpty() &
+                    materialsQueue.isEmpty();
         }
     }
 
@@ -236,14 +174,16 @@ public class Choreographer {
     /**
      * Emitted after a QueueReqeust.
      * 
-     * @param status {@code Boolean} True if the request was handled successfully, False otherwise.
+     * @param status {@code Boolean} True if the request was handled successfully,
+     *               False otherwise.
      */
     public Signal queueRequestComplete;
 
     /**
      * Emitted after an UndoRequest.
      * 
-     * @param status {@code Boolean} True if the request was handled successfully, False otherwise.
+     * @param status {@code Boolean} True if the request was handled successfully,
+     *               False otherwise.
      */
     public Signal undoRequestComplete;
 
@@ -283,7 +223,7 @@ public class Choreographer {
         ArrayList<Crate> uniformsQueue = new ArrayList<>();
         ArrayList<Crate> materialsQueue = new ArrayList<>();
 
-        for (Crate crate: crateMapping.values()) {
+        for (Crate crate : crateMapping.values()) {
             switch (itemData.getQueueType(crate.getId())) {
                 case HEAVY_AMMO:
                     heavyAmmoQueue.add(crate);
