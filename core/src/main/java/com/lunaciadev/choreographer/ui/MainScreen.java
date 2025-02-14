@@ -8,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.data.UIDataPackage;
-import com.lunaciadev.choreographer.types.Crate;
-import com.lunaciadev.choreographer.widgets.ManuItem;
 
 public class MainScreen implements Screen {
     private Stage stage;
@@ -56,16 +54,6 @@ public class MainScreen implements Screen {
         medicalTable = new Table();
         uniformTable = new Table();
         resourceTable = new Table();
-
-        lightArmTable.add(new ManuItem(uiDataPackage, new Crate(0, 12, 0)));
-        lightArmTable.row();
-        lightArmTable.add(new ManuItem(uiDataPackage, new Crate(2, 16, 1)));
-        heavyArmTable.add(new ManuItem(uiDataPackage, new Crate(27, 8, 1)));
-        heavyShellTable.add(new ManuItem(uiDataPackage, new Crate(44, 20, 2)));
-        utilitiesTable.add(new ManuItem(uiDataPackage, new Crate(50, 16, 2)));
-        medicalTable.add(new ManuItem(uiDataPackage, new Crate(74, 60, 0)));
-        uniformTable.add(new ManuItem(uiDataPackage, new Crate(79, 16, 0)));
-        resourceTable.add(new ManuItem(uiDataPackage, new Crate(83, 60, 0)));
 
         content.add(lightArmTable);
         content.add(heavyArmTable);

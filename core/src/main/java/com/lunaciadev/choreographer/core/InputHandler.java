@@ -3,6 +3,7 @@ package com.lunaciadev.choreographer.core;
 import java.util.HashMap;
 
 import com.lunaciadev.choreographer.types.Crate;
+import com.lunaciadev.choreographer.types.Priority;
 
 public class InputHandler {
     private HashMap<Integer, Crate> inputCrates;
@@ -26,7 +27,7 @@ public class InputHandler {
      * @param priority        Manufacturing Priority (0-2 from High to Low)
      * @param manufactureGoal How many queue to set as the manu goal
      */
-    public void addCrate(int id, int priority, int manufactureGoal) {
+    public void addCrate(int id, Priority priority, int manufactureGoal) {
         inputCrates.put(id, new Crate(id, manufactureGoal, priority));
     }
 

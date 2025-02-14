@@ -160,7 +160,7 @@ public class Choreographer {
     private class CompareByPriority implements Comparator<Crate> {
         @Override
         public int compare(Crate o1, Crate o2) {
-            return o1.getPriority() - o2.getPriority();
+            return o1.getPriority().getId() - o2.getPriority().getId();
         }
     }
 

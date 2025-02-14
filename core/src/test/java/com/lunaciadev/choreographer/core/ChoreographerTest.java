@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import com.badlogic.gdx.Gdx;
 import com.lunaciadev.choreographer.GdxExtension;
 import com.lunaciadev.choreographer.data.ItemData;
+import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.types.QueueType;
 
 @ExtendWith(GdxExtension.class)
@@ -24,14 +25,14 @@ public class ChoreographerTest {
     public void testLightArmQueueSystem() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 2, 8);
-        inputHandler.addCrate(1, 2, 4);
+        inputHandler.addCrate(0, Priority.NO_PRIORITY, 8);
+        inputHandler.addCrate(1, Priority.NO_PRIORITY, 4);
 
-        inputHandler.addCrate(2, 1, 8);
-        inputHandler.addCrate(3, 1, 4);
+        inputHandler.addCrate(2, Priority.PRIORITY, 8);
+        inputHandler.addCrate(3, Priority.PRIORITY, 4);
 
-        inputHandler.addCrate(4, 0, 8);
-        inputHandler.addCrate(5, 0, 4);
+        inputHandler.addCrate(4, Priority.HIGH_PRIORITY, 8);
+        inputHandler.addCrate(5, Priority.HIGH_PRIORITY, 4);
 
         // should return 5 4 3 2 1 0. One test is enough to extrapolate..?
 
@@ -53,9 +54,9 @@ public class ChoreographerTest {
     public void testSystemFinish() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 1, 4);
-        inputHandler.addCrate(1, 0, 8);
-        inputHandler.addCrate(2, 0, 4);
+        inputHandler.addCrate(0, Priority.PRIORITY, 4);
+        inputHandler.addCrate(1, Priority.HIGH_PRIORITY, 8);
+        inputHandler.addCrate(2, Priority.HIGH_PRIORITY, 4);
 
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
@@ -76,9 +77,9 @@ public class ChoreographerTest {
     public void testUndoRequest() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 1, 4);
-        inputHandler.addCrate(1, 0, 8);
-        inputHandler.addCrate(2, 0, 4);
+        inputHandler.addCrate(0, Priority.PRIORITY, 4);
+        inputHandler.addCrate(1, Priority.HIGH_PRIORITY, 8);
+        inputHandler.addCrate(2, Priority.HIGH_PRIORITY, 4);
 
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
@@ -100,7 +101,7 @@ public class ChoreographerTest {
     public void testTruckSubmission() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 0, 12);
+        inputHandler.addCrate(0, Priority.HIGH_PRIORITY, 12);
 
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);

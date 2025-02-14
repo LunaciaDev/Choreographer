@@ -84,19 +84,7 @@ public class ManuItem extends WidgetGroup {
         nameLabel.setText(itemData.getItemName(crate.getId()));
         amountLabel.setText(Integer.toString(crate.getQueueNeeded()));
         costLabel.setText(generateCostString(itemData.getCost(crate.getId())));
-        
-        switch (crate.getPriority()) {
-            case 0:
-                priorityLabel.setText("High Priority");
-                break;
-            case 1:
-                priorityLabel.setText("Priority");
-                break;
-            case 2:
-                priorityLabel.setText("");
-                break;
-        }
-
+        priorityLabel.setText(crate.getPriority().getReadableName());
         invalidateHierarchy();
     }
 

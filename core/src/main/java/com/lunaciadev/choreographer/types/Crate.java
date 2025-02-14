@@ -4,15 +4,16 @@ public class Crate {
     private int id;
     private int queueNeeded;
     private int queueMade;
-    private int priority;
+    private Priority priority;
 
     /**
      * Initialize a Crate with ID and amount required.
      * 
      * @param name        ItemID
+     * @param priority    The priority of Crate
      * @param queueNeeded How many queue are needed
      */
-    public Crate(int id, int queueNeeded, int priority) {
+    public Crate(int id, int queueNeeded, Priority priority) {
         this.id = id;
         this.queueNeeded = queueNeeded;
         this.queueMade = 0;
@@ -27,7 +28,7 @@ public class Crate {
         return queueMade;
     }
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 

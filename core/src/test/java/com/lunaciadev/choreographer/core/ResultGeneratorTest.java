@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import com.badlogic.gdx.Gdx;
 import com.lunaciadev.choreographer.GdxExtension;
 import com.lunaciadev.choreographer.data.ItemData;
+import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.types.QueueType;
 
 @ExtendWith(GdxExtension.class)
@@ -47,8 +48,8 @@ public class ResultGeneratorTest {
     public void testFullResult() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 0, 8);
-        inputHandler.addCrate(1, 0, 12);
+        inputHandler.addCrate(0, Priority.HIGH_PRIORITY, 8);
+        inputHandler.addCrate(1, Priority.HIGH_PRIORITY, 12);
 
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
@@ -85,8 +86,8 @@ public class ResultGeneratorTest {
     public void testUncommitedResult() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 0, 8);
-        inputHandler.addCrate(1, 0, 12);
+        inputHandler.addCrate(0, Priority.HIGH_PRIORITY, 8);
+        inputHandler.addCrate(1, Priority.HIGH_PRIORITY, 12);
 
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
@@ -117,8 +118,8 @@ public class ResultGeneratorTest {
     public void testPartiallyCommitedResult() {
         inputHandler.clearData();
 
-        inputHandler.addCrate(0, 0, 8);
-        inputHandler.addCrate(1, 0, 12);
+        inputHandler.addCrate(0, Priority.HIGH_PRIORITY, 8);
+        inputHandler.addCrate(1, Priority.HIGH_PRIORITY, 12);
 
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
