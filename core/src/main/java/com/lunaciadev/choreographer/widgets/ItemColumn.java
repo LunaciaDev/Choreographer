@@ -15,11 +15,15 @@ public class ItemColumn {
     private Table table;
     private UIDataPackage uiDataPackage;
     private QueueType columnType;
+    private final float cellPadding = 5;
 
     public ItemColumn(Table table, UIDataPackage uiDataPackage, QueueType columnType) {
         this.table = table;
         this.uiDataPackage = uiDataPackage;
         this.columnType = columnType;
+
+        table.setDebug(true);
+        table.top();
 
         crateArray = new Array<>();
         manuItemPool = new Pool<ManuItem>() {
@@ -39,7 +43,10 @@ public class ItemColumn {
         if (uiDataPackage.getItemData().getQueueType(crate.getId()) != columnType) return;
 
         ManuItem manuItem = manuItemPool.obtain();
-        table.add(manuItem);
+        table.add(manuItem)
+                .expandX()
+                .fill()
+                .pad(cellPadding);
         table.row();
 
         manuItem.setData(crate);

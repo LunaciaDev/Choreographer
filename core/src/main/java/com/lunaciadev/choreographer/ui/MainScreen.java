@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -73,7 +74,7 @@ public class MainScreen implements Screen {
 
         Table content = new Table();
 
-        content.defaults().expand().fill();
+        content.defaults().expandY().fill().width(Value.percentWidth(1/7f, rootTable));
 
         Table lightArmTable = new Table();
         Table heavyArmTable = new Table();
@@ -91,9 +92,7 @@ public class MainScreen implements Screen {
         content.add(uniformTable);
         content.add(resourceTable);
 
-        rootTable.add(content)
-                .fill()
-                .expand();
+        rootTable.add(content).grow();
 
         stage.addActor(rootTable);
 

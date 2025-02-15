@@ -1,6 +1,6 @@
 package com.lunaciadev.choreographer.widgets;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -114,11 +114,10 @@ public class ManuItem extends WidgetGroup {
 
     @Override
     public float getPrefWidth() {
-        return this.getParent().getWidth();
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+        float maxWidth = 0;
+        for (Actor child : getChildren()) {
+            maxWidth = Math.max(maxWidth, child.getRight());
+        }
+        return maxWidth;  // Dynamically calculates width
     }
 }
