@@ -1,16 +1,11 @@
 package com.lunaciadev.choreographer.widgets;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
@@ -40,14 +35,8 @@ public class ManuItem extends WidgetGroup {
     }
 
     public void setLayout() {
-        // TODO: remove later
-        Pixmap bg = new Pixmap(1, 1, Pixmap.Format.RGB565);
-        bg.setColor(Color.BLACK);
-        bg.fill();
-
         rootTable = new Table();
         rootTable.pad(outerPadding);
-        rootTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(bg))));
 
         // TODO add a figure, rn we ignore
 

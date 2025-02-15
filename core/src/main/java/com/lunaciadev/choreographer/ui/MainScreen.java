@@ -1,13 +1,18 @@
 package com.lunaciadev.choreographer.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.utils.Signal;
 
 public class MainScreen implements Screen {
     private Stage stage;
@@ -20,19 +25,38 @@ public class MainScreen implements Screen {
     private Table uniformTable;
     private Table resourceTable;
 
+    private AddItemPopup addItemPopup;
+
+    /**
+     * Emitted when the "add" button is clicked.
+     * 
+     * @param Stage the stage to show the popup
+     */
+    public Signal addButtonClicked = new Signal();
+
     public MainScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
-        layout();
+        Gdx.input.setInputProcessor(stage);
+        setLayout();
     }
 
-    private void layout() {
+    private void setLayout() {
         Table rootTable = new Table();
         rootTable.setFillParent(true);
 
         Table toolbar = new Table();
 
         // TODO add component to Toolbar, when I have those... Subtitude with Labels for now.
+
+        TextButton addButton = new TextButton("Add", uiDataPackage.getSkin());
+        addButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                addButtonClicked.emit(stage);
+            }
+        });
+
+        toolbar.add(addButton);
 
         toolbar.add(new Label("Add", uiDataPackage.getSkin()));
         toolbar.add(new Label("Import from LogiHub", uiDataPackage.getSkin()));
@@ -45,7 +69,7 @@ public class MainScreen implements Screen {
 
         Table content = new Table();
 
-        content.defaults().expand().fill();
+        content.defaults().grow();
 
         lightArmTable = new Table();
         heavyArmTable = new Table();
@@ -68,6 +92,9 @@ public class MainScreen implements Screen {
                 .expand();
 
         stage.addActor(rootTable);
+
+        addItemPopup = new AddItemPopup(uiDataPackage);
+        addButtonClicked.connect(addItemPopup::onAddNewItemButtonClicked);
     }
 
     @Override
