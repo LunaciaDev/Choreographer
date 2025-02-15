@@ -1,7 +1,6 @@
 package com.lunaciadev.choreographer.core;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import com.badlogic.gdx.utils.Queue;
@@ -150,19 +149,7 @@ public class Choreographer {
         }
     }
 
-    private class CompareByQueue implements Comparator<Crate> {
-        @Override
-        public int compare(Crate o1, Crate o2) {
-            return o2.getQueueNeeded() - o1.getQueueNeeded();
-        }
-    }
 
-    private class CompareByPriority implements Comparator<Crate> {
-        @Override
-        public int compare(Crate o1, Crate o2) {
-            return o1.getPriority().getId() - o2.getPriority().getId();
-        }
-    }
 
     private QueueManager queueManager;
     // TODO allow the Trucks to be pooled, reducing allocation rate
@@ -248,25 +235,22 @@ public class Choreographer {
             }
         }
 
-        CompareByQueue compareByQueue = new CompareByQueue();
-        CompareByPriority compareByPriority = new CompareByPriority();
-
         // thanks the star java sort are stable
 
-        lightArmQueue.sort(compareByQueue);
-        lightArmQueue.sort(compareByPriority);
-        heavyArmQueue.sort(compareByQueue);
-        heavyArmQueue.sort(compareByPriority);
-        heavyAmmoQueue.sort(compareByQueue);
-        heavyAmmoQueue.sort(compareByPriority);
-        utilitiesQueue.sort(compareByQueue);
-        utilitiesQueue.sort(compareByPriority);
-        medicalQueue.sort(compareByQueue);
-        medicalQueue.sort(compareByPriority);
-        uniformsQueue.sort(compareByQueue);
-        uniformsQueue.sort(compareByPriority);
-        materialsQueue.sort(compareByQueue);
-        materialsQueue.sort(compareByPriority);
+        lightArmQueue.sort(Crate.compareByQueue);
+        lightArmQueue.sort(Crate.compareByPriority);
+        heavyArmQueue.sort(Crate.compareByQueue);
+        heavyArmQueue.sort(Crate.compareByPriority);
+        heavyAmmoQueue.sort(Crate.compareByQueue);
+        heavyAmmoQueue.sort(Crate.compareByPriority);
+        utilitiesQueue.sort(Crate.compareByQueue);
+        utilitiesQueue.sort(Crate.compareByPriority);
+        medicalQueue.sort(Crate.compareByQueue);
+        medicalQueue.sort(Crate.compareByPriority);
+        uniformsQueue.sort(Crate.compareByQueue);
+        uniformsQueue.sort(Crate.compareByPriority);
+        materialsQueue.sort(Crate.compareByQueue);
+        materialsQueue.sort(Crate.compareByPriority);
 
         queueManager.enqueueArray(QueueType.LIGHT_ARMS, lightArmQueue);
         queueManager.enqueueArray(QueueType.HEAVY_ARMS, heavyArmQueue);

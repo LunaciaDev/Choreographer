@@ -1,5 +1,7 @@
 package com.lunaciadev.choreographer.types;
 
+import java.util.Comparator;
+
 public class Crate {
     private int id;
     private int queueNeeded;
@@ -53,4 +55,16 @@ public class Crate {
     public boolean isCompleted() {
         return queueMade >= queueNeeded;
     }
+
+    public static Comparator<Crate> compareByQueue = new Comparator<Crate>() {
+        public int compare(Crate o1, Crate o2) {
+            return o2.queueNeeded - o1.queueNeeded;
+        };
+    };
+
+    public static Comparator<Crate> compareByPriority = new Comparator<Crate>() {
+        public int compare(Crate o1, Crate o2) {
+            return o1.getPriority().getId() - o2.getPriority().getId();
+        };
+    };
 }
