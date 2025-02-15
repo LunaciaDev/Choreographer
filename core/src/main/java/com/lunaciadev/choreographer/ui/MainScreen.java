@@ -11,21 +11,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.lunaciadev.choreographer.core.InputHandler;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.utils.Signal;
+import com.lunaciadev.choreographer.widgets.ItemColumn;
 
 public class MainScreen implements Screen {
     private Stage stage;
     private UIDataPackage uiDataPackage;
-    private Table lightArmTable;
-    private Table heavyArmTable;
-    private Table heavyShellTable;
-    private Table utilitiesTable;
-    private Table medicalTable;
-    private Table uniformTable;
-    private Table resourceTable;
+    private ItemColumn lightArmColumn;
+    private ItemColumn heavyArmColumn;
+    private ItemColumn heavyShellColumn;
+    private ItemColumn utilitiesColumn;
+    private ItemColumn medicalColumn;
+    private ItemColumn uniformColumn;
+    private ItemColumn resourceColumn;
 
     private AddItemPopup addItemPopup;
+    private InputHandler inputHandler;
 
     /**
      * Emitted when the "add" button is clicked.
@@ -69,15 +73,15 @@ public class MainScreen implements Screen {
 
         Table content = new Table();
 
-        content.defaults().grow();
+        content.defaults().expand().fill();
 
-        lightArmTable = new Table();
-        heavyArmTable = new Table();
-        heavyShellTable = new Table();
-        utilitiesTable = new Table();
-        medicalTable = new Table();
-        uniformTable = new Table();
-        resourceTable = new Table();
+        Table lightArmTable = new Table();
+        Table heavyArmTable = new Table();
+        Table heavyShellTable = new Table();
+        Table utilitiesTable = new Table();
+        Table medicalTable = new Table();
+        Table uniformTable = new Table();
+        Table resourceTable = new Table();
 
         content.add(lightArmTable);
         content.add(heavyArmTable);
@@ -95,6 +99,30 @@ public class MainScreen implements Screen {
 
         addItemPopup = new AddItemPopup(uiDataPackage);
         addButtonClicked.connect(addItemPopup::onAddNewItemButtonClicked);
+
+        inputHandler = new InputHandler();
+        addItemPopup.addItemFormSubmitted.connect(inputHandler::addCrate);
+
+        lightArmColumn = new ItemColumn(lightArmTable, uiDataPackage, QueueType.LIGHT_ARMS);
+        inputHandler.crateAdded.connect(lightArmColumn::onAddItem);
+
+        heavyArmColumn = new ItemColumn(heavyArmTable, uiDataPackage, QueueType.HEAVY_ARMS);
+        inputHandler.crateAdded.connect(heavyArmColumn::onAddItem);
+
+        heavyShellColumn = new ItemColumn(heavyShellTable, uiDataPackage, QueueType.HEAVY_AMMO);
+        inputHandler.crateAdded.connect(heavyShellColumn::onAddItem);
+
+        utilitiesColumn = new ItemColumn(utilitiesTable, uiDataPackage, QueueType.UTILITIES);
+        inputHandler.crateAdded.connect(utilitiesColumn::onAddItem);
+
+        medicalColumn = new ItemColumn(medicalTable, uiDataPackage, QueueType.MEDICAL);
+        inputHandler.crateAdded.connect(medicalColumn::onAddItem);
+
+        uniformColumn = new ItemColumn(uniformTable, uiDataPackage, QueueType.UNIFORMS);
+        inputHandler.crateAdded.connect(uniformColumn::onAddItem);
+
+        resourceColumn = new ItemColumn(resourceTable, uiDataPackage, QueueType.MATERIALS);
+        inputHandler.crateAdded.connect(resourceColumn::onAddItem);
     }
 
     @Override

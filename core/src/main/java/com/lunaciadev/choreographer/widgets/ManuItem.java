@@ -27,11 +27,10 @@ public class ManuItem extends WidgetGroup {
     // How much space is padded inbetween row of the widget
     private final float innerPadding = 5;
 
-    public ManuItem(UIDataPackage uiDataPackage, Crate crate) {
+    public ManuItem(UIDataPackage uiDataPackage) {
         this.itemData = uiDataPackage.getItemData();
         this.skin = uiDataPackage.getSkin();
         setLayout();
-        setData(crate);
     }
 
     public void setLayout() {

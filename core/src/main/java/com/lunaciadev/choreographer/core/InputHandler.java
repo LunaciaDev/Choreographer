@@ -4,12 +4,22 @@ import java.util.HashMap;
 
 import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.Priority;
+import com.lunaciadev.choreographer.ui.AddItemPopup;
+import com.lunaciadev.choreographer.utils.Signal;
 
 public class InputHandler {
     private HashMap<Integer, Crate> inputCrates;
 
+    /**
+     * Emitted when a crate is added to the handler.
+     * 
+     * @param crate {@link Crate} The added crate.
+     */
+    public Signal crateAdded;
+
     public InputHandler() {
         inputCrates = new HashMap<Integer, Crate>();
+        crateAdded = new Signal();
     }
 
     /**
@@ -20,15 +30,16 @@ public class InputHandler {
      */
 
     /**
-     * Add a crate into the handler. If the crate has been added previously,
-     * overwrite their value.
-     * 
-     * @param id              Item ID
-     * @param priority        Manufacturing Priority (0-2 from High to Low)
-     * @param manufactureGoal How many queue to set as the manu goal
+     * Slot, triggered by {@link AddItemPopup#addItemFormSubmitted}
      */
-    public void addCrate(int id, Priority priority, int manufactureGoal) {
+    public void addCrate(Object... args) {
+        int id = (int) args[0];
+        Priority priority = (Priority) args[1];
+        int manufactureGoal = (int) args[2];
+
         inputCrates.put(id, new Crate(id, manufactureGoal, priority));
+
+        crateAdded.emit(inputCrates.get(id));
     }
 
     /**

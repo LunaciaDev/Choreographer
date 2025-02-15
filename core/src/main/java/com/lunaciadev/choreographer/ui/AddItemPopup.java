@@ -25,9 +25,9 @@ public class AddItemPopup extends Dialog {
     /**
      * Emitted when the form is submitted.
      * 
-     * @param itemID     {@code int} The ItemID that was given
-     * @param priorityID {@code int} The PriorityID that was given
-     * @param goal       {@code int} Manufacturing goal of the item
+     * @param itemID     {@link Integer} The ItemID that was given
+     * @param priorityID {@link Priority} The PriorityID that was given
+     * @param goal       {@link Integer} Manufacturing goal of the item
      */
     public Signal addItemFormSubmitted;
 
