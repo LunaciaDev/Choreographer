@@ -7,6 +7,8 @@ import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.ui.AddItemPopup;
 import com.lunaciadev.choreographer.ui.EditItemPopup;
 import com.lunaciadev.choreographer.utils.Signal;
+import com.lunaciadev.choreographer.widgets.ItemColumn;
+
 
 public class InputHandler {
     private HashMap<Integer, Crate> inputCrates;
@@ -26,10 +28,18 @@ public class InputHandler {
      */
     public Signal crateEdited;
 
+    /**
+     * Emitted when a crate is deleted.
+     * 
+     * @param crate {@link Crate} The deleted crate.
+     */
+    public Signal crateDeleted;
+
     public InputHandler() {
         inputCrates = new HashMap<Integer, Crate>();
         crateAdded = new Signal();
         crateEdited = new Signal();
+        crateDeleted = new Signal();
     }
 
     /**
@@ -78,14 +88,16 @@ public class InputHandler {
     }
 
     /**
-     * Remove a crate from the handler. If the crate does not exists, do nothing.
-     * 
-     * @param id Item ID
+     * Slot, triggered by {@link ItemColumn#deleteButtonClicked}
      */
-    public void removeCrate(int id) {
-        if (inputCrates.containsKey(id)) {
-            inputCrates.remove(id);
-        }
+    public void removeCrate(Object... args) {
+        int id = ((Crate) args[0]).getId();
+
+        /**
+         * There must be a crate here for it to show up in the UI.
+         */
+        inputCrates.remove(id);
+        crateDeleted.emit(args[0]);
     }
 
     public void clearData() {

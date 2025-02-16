@@ -27,16 +27,18 @@ public class ManuItem extends WidgetGroup {
 
     private Crate data;
     private Signal editSignal;
+    private Signal deleteSignal;
 
     // How much space is padded around the widget (not margin, PADDING)
     private final float outerPadding = 10;
     // How much space is padded inbetween row of the widget
     private final float innerPadding = 5;
 
-    public ManuItem(UIDataPackage uiDataPackage, Signal editSignal) {
+    public ManuItem(UIDataPackage uiDataPackage, Signal editSignal, Signal deleteSignal) {
         this.itemData = uiDataPackage.getItemData();
         this.skin = uiDataPackage.getSkin();
         this.editSignal = editSignal;
+        this.deleteSignal = deleteSignal;
         setLayout();
     }
 
@@ -79,6 +81,14 @@ public class ManuItem extends WidgetGroup {
         });
 
         TextButton deleteButton = new TextButton("Delete", skin);
+
+        deleteButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                deleteSignal.emit(data);
+                data = null;
+            }
+        });
 
         Table lastRow = new Table();
 

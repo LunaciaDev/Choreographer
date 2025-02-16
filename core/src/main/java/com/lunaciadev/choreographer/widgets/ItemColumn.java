@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.lunaciadev.choreographer.core.InputHandler;
+import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
 import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.QueueType;
@@ -14,8 +15,9 @@ public class ItemColumn {
     private Array<Crate> crateArray;
     private Pool<ManuItem> manuItemPool;
     private Table table;
-    private UIDataPackage uiDataPackage;
     private QueueType columnType;
+    private ItemData itemData;
+
     private final float cellPadding = 5;
 
     /**
@@ -25,9 +27,16 @@ public class ItemColumn {
      */
     public Signal editButtonClicked;
 
+    /**
+     * Emitted when one of its ManuItem has its deleteButton clicked.
+     * 
+     * @param crate {@link Crate} The item's data.
+     */
+    public Signal deleteButtonClicked;
+
     public ItemColumn(Table table, UIDataPackage uiDataPackage, QueueType columnType) {
         this.table = table;
-        this.uiDataPackage = uiDataPackage;
+        this.itemData = uiDataPackage.getItemData();
         this.columnType = columnType;
 
         table.setDebug(true);
@@ -37,11 +46,12 @@ public class ItemColumn {
         manuItemPool = new Pool<ManuItem>() {
             @Override
             protected ManuItem newObject() {
-                return new ManuItem(uiDataPackage, editButtonClicked);
+                return new ManuItem(uiDataPackage, editButtonClicked, deleteButtonClicked);
             }
         };
 
         editButtonClicked = new Signal();
+        deleteButtonClicked = new Signal();
     }
 
     /**
@@ -50,7 +60,7 @@ public class ItemColumn {
     public void onAddItem(Object... args) {
         Crate crate = (Crate) args[0];
 
-        if (uiDataPackage.getItemData().getQueueType(crate.getId()) != columnType) return;
+        if (itemData.getQueueType(crate.getId()) != columnType) return;
 
         ManuItem manuItem = manuItemPool.obtain();
 
@@ -72,7 +82,7 @@ public class ItemColumn {
     public void onDataModified(Object... args) {
         Crate crate = (Crate) args[0];
 
-        if (uiDataPackage.getItemData().getQueueType(crate.getId()) != columnType) return;
+        if (itemData.getQueueType(crate.getId()) != columnType) return;
         dataModified();
     }
 
@@ -80,18 +90,23 @@ public class ItemColumn {
         crateArray.sort(Crate.compareByQueue);
         crateArray.sort(Crate.compareByPriority);
 
-        Array<Actor> cells = table.getChildren();
+        Array<Actor> manuItems = table.getChildren();
 
-        for (int i = 0; i < cells.size; i++) {
-            ((ManuItem) cells.get(i)).setData(crateArray.get(i));
+        for (int i = 0; i < manuItems.size; i++) {
+            ((ManuItem) manuItems.get(i)).setData(crateArray.get(i));
         }
 
         // item size are fixed, just call invalidate to be certain.
         table.invalidate();
     }
 
-    public void removeItem(Crate crate) {
-        if (uiDataPackage.getItemData().getQueueType(crate.getId()) != columnType) return;
+    /**
+     * Slot, triggered by {@link InputHandler#crateDeleted}
+     */
+    public void onCrateDeleted(Object... args) {
+        Crate crate = (Crate) args[0];
+
+        if (itemData.getQueueType(crate.getId()) != columnType) return;
 
         // we should have the reference of that crate too. Would be VERY FUNNY if we do not.
         int index = crateArray.indexOf(crate, true);
