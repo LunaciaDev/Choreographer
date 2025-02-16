@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -77,13 +78,13 @@ public class MainScreen implements Screen {
 
         content.defaults().expandY().fill().width(Value.percentWidth(1/7f, rootTable));
 
-        Table lightArmTable = new Table();
-        Table heavyArmTable = new Table();
-        Table heavyShellTable = new Table();
-        Table utilitiesTable = new Table();
-        Table medicalTable = new Table();
-        Table uniformTable = new Table();
-        Table resourceTable = new Table();
+        VerticalGroup lightArmTable = new VerticalGroup();
+        VerticalGroup heavyArmTable = new VerticalGroup();
+        VerticalGroup heavyShellTable = new VerticalGroup();
+        VerticalGroup utilitiesTable = new VerticalGroup();
+        VerticalGroup medicalTable = new VerticalGroup();
+        VerticalGroup uniformTable = new VerticalGroup();
+        VerticalGroup resourceTable = new VerticalGroup();
 
         content.add(lightArmTable);
         content.add(heavyArmTable);

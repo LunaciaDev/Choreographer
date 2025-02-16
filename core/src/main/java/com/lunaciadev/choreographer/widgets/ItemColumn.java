@@ -1,7 +1,7 @@
 package com.lunaciadev.choreographer.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.lunaciadev.choreographer.core.InputHandler;
@@ -14,7 +14,7 @@ import com.lunaciadev.choreographer.utils.Signal;
 public class ItemColumn {
     private Array<Crate> crateArray;
     private Pool<ManuItem> manuItemPool;
-    private Table table;
+    private VerticalGroup group;
     private QueueType columnType;
     private ItemData itemData;
 
@@ -34,13 +34,15 @@ public class ItemColumn {
      */
     public Signal deleteButtonClicked;
 
-    public ItemColumn(Table table, UIDataPackage uiDataPackage, QueueType columnType) {
-        this.table = table;
+    public ItemColumn(VerticalGroup group, UIDataPackage uiDataPackage, QueueType columnType) {
+        this.group = group;
         this.itemData = uiDataPackage.getItemData();
         this.columnType = columnType;
 
-        table.setDebug(true);
-        table.top();
+        group.expand()
+                .space(cellPadding)
+                .top()
+                .fill();
 
         crateArray = new Array<>();
         manuItemPool = new Pool<ManuItem>() {
@@ -64,11 +66,7 @@ public class ItemColumn {
 
         ManuItem manuItem = manuItemPool.obtain();
 
-        table.add(manuItem)
-                .expandX()
-                .fill()
-                .pad(cellPadding);
-        table.row();
+        group.addActor(manuItem);
 
         manuItem.setData(crate);
 
@@ -90,14 +88,14 @@ public class ItemColumn {
         crateArray.sort(Crate.compareByQueue);
         crateArray.sort(Crate.compareByPriority);
 
-        Array<Actor> manuItems = table.getChildren();
+        Array<Actor> manuItems = group.getChildren();
 
         for (int i = 0; i < manuItems.size; i++) {
             ((ManuItem) manuItems.get(i)).setData(crateArray.get(i));
         }
 
         // item size are fixed, just call invalidate to be certain.
-        table.invalidate();
+        group.invalidate();
     }
 
     /**
@@ -110,10 +108,10 @@ public class ItemColumn {
 
         // we should have the reference of that crate too. Would be VERY FUNNY if we do not.
         int index = crateArray.indexOf(crate, true);
-        ManuItem manuItem = (ManuItem) table.getChild(index);
+        ManuItem manuItem = (ManuItem) group.getChild(index);
         
         crateArray.removeIndex(index);
-        table.removeActorAt(index, false);
+        group.removeActorAt(index, false);
         manuItemPool.free(manuItem);
 
         dataModified();

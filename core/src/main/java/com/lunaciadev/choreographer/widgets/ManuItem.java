@@ -70,6 +70,7 @@ public class ManuItem extends WidgetGroup {
         rootTable.row();
 
         priorityLabel = new Label("[PH]", skin);
+        priorityLabel.setAlignment(Align.left);
 
         TextButton editButton = new TextButton("Edit", skin);
 
@@ -93,7 +94,8 @@ public class ManuItem extends WidgetGroup {
         Table lastRow = new Table();
 
         lastRow.add(priorityLabel)
-                .expandX();
+                .expandX()
+                .fillX();
         lastRow.add(editButton)
                 .pad(0, 0, 0, 5);
         lastRow.add(deleteButton);
