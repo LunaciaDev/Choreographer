@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.lunaciadev.choreographer.data.UIDataPackage;
@@ -48,6 +49,7 @@ public class EditItemPopup extends Dialog {
         itemNameField = new Label("", uiDataPackage.getSkin());
         priorityField = new SelectBox<String>(uiDataPackage.getSkin());
         amountField = new TextField("", uiDataPackage.getSkin());
+        amountField.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
 
         Array<String> temp = new Array<>();
         for (Priority priority : Priority.values()) {
