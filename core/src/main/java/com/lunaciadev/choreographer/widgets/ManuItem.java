@@ -4,13 +4,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
 import com.lunaciadev.choreographer.types.Cost;
 import com.lunaciadev.choreographer.types.Crate;
+import com.lunaciadev.choreographer.utils.Signal;
 
 public class ManuItem extends WidgetGroup {
     private ItemData itemData;
@@ -22,14 +25,18 @@ public class ManuItem extends WidgetGroup {
     private boolean isFirstItem;
     private Table rootTable;
 
+    private Crate data;
+    private Signal editSignal;
+
     // How much space is padded around the widget (not margin, PADDING)
     private final float outerPadding = 10;
     // How much space is padded inbetween row of the widget
     private final float innerPadding = 5;
 
-    public ManuItem(UIDataPackage uiDataPackage) {
+    public ManuItem(UIDataPackage uiDataPackage, Signal editSignal) {
         this.itemData = uiDataPackage.getItemData();
         this.skin = uiDataPackage.getSkin();
+        this.editSignal = editSignal;
         setLayout();
     }
 
@@ -62,13 +69,35 @@ public class ManuItem extends WidgetGroup {
 
         priorityLabel = new Label("[PH]", skin);
 
-        rootTable.add(priorityLabel);
+        TextButton editButton = new TextButton("Edit", skin);
+
+        editButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                editSignal.emit(data);
+            }
+        });
+
+        TextButton deleteButton = new TextButton("Delete", skin);
+
+        Table lastRow = new Table();
+
+        lastRow.add(priorityLabel)
+                .expandX();
+        lastRow.add(editButton)
+                .pad(0, 0, 0, 5);
+        lastRow.add(deleteButton);
+
+        rootTable.add(lastRow)
+                .expandX()
+                .fill();
         
         this.addActor(rootTable);
         rootTable.setFillParent(true);
     }
 
     public void setData(Crate crate) {
+        this.data = crate;
         nameLabel.setText(itemData.getItemName(crate.getId()));
         amountLabel.setText(Integer.toString(crate.getQueueNeeded()));
         costLabel.setText(generateCostString(itemData.getCost(crate.getId())));

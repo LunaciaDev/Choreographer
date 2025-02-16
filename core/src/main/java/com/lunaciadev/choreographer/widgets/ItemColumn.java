@@ -8,6 +8,7 @@ import com.lunaciadev.choreographer.core.InputHandler;
 import com.lunaciadev.choreographer.data.UIDataPackage;
 import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.QueueType;
+import com.lunaciadev.choreographer.utils.Signal;
 
 public class ItemColumn {
     private Array<Crate> crateArray;
@@ -16,6 +17,13 @@ public class ItemColumn {
     private UIDataPackage uiDataPackage;
     private QueueType columnType;
     private final float cellPadding = 5;
+
+    /**
+     * Emitted when one of its ManuItem has its editButton clicked.
+     * 
+     * @param crate {@link Crate} The item's data.
+     */
+    public Signal editButtonClicked;
 
     public ItemColumn(Table table, UIDataPackage uiDataPackage, QueueType columnType) {
         this.table = table;
@@ -29,9 +37,11 @@ public class ItemColumn {
         manuItemPool = new Pool<ManuItem>() {
             @Override
             protected ManuItem newObject() {
-                return new ManuItem(uiDataPackage);
+                return new ManuItem(uiDataPackage, editButtonClicked);
             }
         };
+
+        editButtonClicked = new Signal();
     }
 
     /**
@@ -43,6 +53,7 @@ public class ItemColumn {
         if (uiDataPackage.getItemData().getQueueType(crate.getId()) != columnType) return;
 
         ManuItem manuItem = manuItemPool.obtain();
+
         table.add(manuItem)
                 .expandX()
                 .fill()
@@ -55,12 +66,16 @@ public class ItemColumn {
         dataModified();
     }
 
-    public void onDataModified(Crate crate) {
+    /**
+     * Slot, triggered by {@link InputHandler#crateAdded}
+     */
+    public void onDataModified(Object... args) {
+        Crate crate = (Crate) args[0];
+
         if (uiDataPackage.getItemData().getQueueType(crate.getId()) != columnType) return;
         dataModified();
     }
 
-    // need to sort crateArray again.
     public void dataModified() {
         crateArray.sort(Crate.compareByQueue);
         crateArray.sort(Crate.compareByPriority);

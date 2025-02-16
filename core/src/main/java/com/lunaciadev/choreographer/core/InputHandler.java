@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.ui.AddItemPopup;
+import com.lunaciadev.choreographer.ui.EditItemPopup;
 import com.lunaciadev.choreographer.utils.Signal;
 
 public class InputHandler {
@@ -17,9 +18,18 @@ public class InputHandler {
      */
     public Signal crateAdded;
 
+    /**
+     * Emitted when a crate is edited.
+     * 
+     * @param crate {@link Crate} The edited crate. This crate is the exact same
+     *              object as the old crate (equality operator yield true).
+     */
+    public Signal crateEdited;
+
     public InputHandler() {
         inputCrates = new HashMap<Integer, Crate>();
         crateAdded = new Signal();
+        crateEdited = new Signal();
     }
 
     /**
@@ -40,6 +50,22 @@ public class InputHandler {
         inputCrates.put(id, new Crate(id, manufactureGoal, priority));
 
         crateAdded.emit(inputCrates.get(id));
+    }
+
+    /**
+     * Slot, triggered by {@link EditItemPopup#editItemFormSubmitted}
+     */
+    public void editCrate(Object... args) {
+        int id = (int) args[0];
+        Priority priority = (Priority) args[1];
+        int manufactureGoal = (int) args[2];
+
+        Crate targetCrate = inputCrates.get(id);
+
+        targetCrate.setPriority(priority);
+        targetCrate.setQueueNeeded(manufactureGoal);
+
+        crateEdited.emit(targetCrate);
     }
 
     /**

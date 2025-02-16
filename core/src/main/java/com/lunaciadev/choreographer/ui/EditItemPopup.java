@@ -11,48 +11,45 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.utils.Signal;
+import com.lunaciadev.choreographer.widgets.ItemColumn;
 
-public class AddItemPopup extends Dialog {
+public class EditItemPopup extends Dialog {
     private UIDataPackage uiDataPackage;
 
-    private SelectBox<String> itemNameField;
+    private Label itemNameField;
     private SelectBox<String> priorityField;
     private TextField amountField;
     private Stage stage;
 
+    private int itemID;
+
     /**
-     * Emitted when the form is submitted after an add request.
+     * Emitted when the form is submitted after an edit request.
      * 
      * @param itemID     {@link Integer} The ItemID that was given
      * @param priorityID {@link Priority} The PriorityID that was given
      * @param goal       {@link Integer} Manufacturing goal of the item
      */
-    public Signal addItemFormSubmitted;
+    public Signal editItemFormSubmitted;
 
-    public AddItemPopup(UIDataPackage uiDataPackage, Stage stage) {
+    public EditItemPopup(UIDataPackage uiDataPackage, Stage stage) {
         super("", uiDataPackage.getSkin());
         this.uiDataPackage = uiDataPackage;
-        this.addItemFormSubmitted = new Signal();
+        this.editItemFormSubmitted = new Signal();
         this.stage = stage;
         setLayout();
     }
 
     private void setLayout() {
         Table rootTable = this.getContentTable();
-        itemNameField = new SelectBox<String>(uiDataPackage.getSkin());
+        itemNameField = new Label("", uiDataPackage.getSkin());
         priorityField = new SelectBox<String>(uiDataPackage.getSkin());
         amountField = new TextField("", uiDataPackage.getSkin());
 
         Array<String> temp = new Array<>();
-        for (int i = 0; i < uiDataPackage.getItemData().getItemDataSize(); i++) {
-            temp.add(uiDataPackage.getItemData().getItemName(i));
-        }
-        itemNameField.setItems(temp);
-
-        temp.clear();
-
         for (Priority priority : Priority.values()) {
             temp.add(priority.getReadableName());
         }
@@ -89,9 +86,8 @@ public class AddItemPopup extends Dialog {
                  * Null case shouldnt show up at all, as the input is guaranteed to always
                  * return an ID that is being used by Priority
                  */
-                addItemFormSubmitted.emit(itemNameField.getSelectedIndex(), selectedPriority,
-                        Integer.parseInt(amountField.getText()));
-            
+                editItemFormSubmitted.emit(itemID, selectedPriority, Integer.parseInt(amountField.getText()));
+
                 hide();
             }
         });
@@ -108,12 +104,15 @@ public class AddItemPopup extends Dialog {
     }
 
     /**
-     * Slot, triggered by {@link MainScreen#addButtonClicked}
+     * Slot, triggered by {@link ItemColumn#editButtonClicked}
      */
-    public void onAddNewItemButtonClicked(Object... args) {
-        itemNameField.setSelectedIndex(0);
-        priorityField.setSelectedIndex(0);
-        amountField.setText("");
+    public void onEditItemButtonClicked(Object... args) {
+        Crate crate = (Crate) args[0];
+
+        this.itemID = crate.getId();
+        itemNameField.setText(uiDataPackage.getItemData().getItemName(itemID));
+        priorityField.setSelected(crate.getPriority().getReadableName());
+        amountField.setText(Integer.toString(crate.getQueueNeeded()));
 
         stage.addActor(this);
         this.show(stage);

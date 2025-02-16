@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Signal {
-    private final List<Slot> slots = new ArrayList<Slot>();
+    private List<Slot> slots = new ArrayList<Slot>();
 
     public void connect(Slot slot) {
         slots.add(slot);

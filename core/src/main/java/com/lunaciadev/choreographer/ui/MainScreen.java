@@ -30,6 +30,7 @@ public class MainScreen implements Screen {
     private ItemColumn resourceColumn;
 
     private AddItemPopup addItemPopup;
+    private EditItemPopup editItemPopup;
     private InputHandler inputHandler;
 
     /**
@@ -96,32 +97,48 @@ public class MainScreen implements Screen {
 
         stage.addActor(rootTable);
 
-        addItemPopup = new AddItemPopup(uiDataPackage);
+        addItemPopup = new AddItemPopup(uiDataPackage, stage);
+        editItemPopup = new EditItemPopup(uiDataPackage, stage);
         addButtonClicked.connect(addItemPopup::onAddNewItemButtonClicked);
 
         inputHandler = new InputHandler();
         addItemPopup.addItemFormSubmitted.connect(inputHandler::addCrate);
+        editItemPopup.editItemFormSubmitted.connect(inputHandler::editCrate);
 
         lightArmColumn = new ItemColumn(lightArmTable, uiDataPackage, QueueType.LIGHT_ARMS);
         inputHandler.crateAdded.connect(lightArmColumn::onAddItem);
+        inputHandler.crateEdited.connect(lightArmColumn::onDataModified);
+        lightArmColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
 
         heavyArmColumn = new ItemColumn(heavyArmTable, uiDataPackage, QueueType.HEAVY_ARMS);
         inputHandler.crateAdded.connect(heavyArmColumn::onAddItem);
+        inputHandler.crateEdited.connect(heavyArmColumn::onDataModified);
+        heavyArmColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
 
         heavyShellColumn = new ItemColumn(heavyShellTable, uiDataPackage, QueueType.HEAVY_AMMO);
         inputHandler.crateAdded.connect(heavyShellColumn::onAddItem);
+        inputHandler.crateEdited.connect(heavyShellColumn::onDataModified);
+        heavyShellColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
 
         utilitiesColumn = new ItemColumn(utilitiesTable, uiDataPackage, QueueType.UTILITIES);
         inputHandler.crateAdded.connect(utilitiesColumn::onAddItem);
+        inputHandler.crateEdited.connect(utilitiesColumn::onDataModified);
+        utilitiesColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
 
         medicalColumn = new ItemColumn(medicalTable, uiDataPackage, QueueType.MEDICAL);
         inputHandler.crateAdded.connect(medicalColumn::onAddItem);
+        inputHandler.crateEdited.connect(medicalColumn::onDataModified);
+        medicalColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
 
         uniformColumn = new ItemColumn(uniformTable, uiDataPackage, QueueType.UNIFORMS);
         inputHandler.crateAdded.connect(uniformColumn::onAddItem);
+        inputHandler.crateEdited.connect(uniformColumn::onDataModified);
+        uniformColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
 
         resourceColumn = new ItemColumn(resourceTable, uiDataPackage, QueueType.MATERIALS);
         inputHandler.crateAdded.connect(resourceColumn::onAddItem);
+        inputHandler.crateEdited.connect(resourceColumn::onDataModified);
+        resourceColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
     }
 
     @Override
