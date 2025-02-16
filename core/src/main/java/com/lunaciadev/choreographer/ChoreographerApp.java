@@ -1,34 +1,37 @@
 package com.lunaciadev.choreographer;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.lunaciadev.choreographer.data.ItemData;
+import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.ui.MainScreen;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class ChoreographerApp extends ApplicationAdapter {
-    private SpriteBatch batch;
-    private Texture image;
+public class ChoreographerApp extends Game {
+    private Screen currentScreen;
+    private UIDataPackage uiDataPackage;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
-    }
+        Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        ItemData itemData;
 
-    @Override
-    public void render() {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
-        batch.draw(image, 140, 210);
-        batch.end();
+        try {
+            itemData = new ItemData();
+        } catch (Exception e) {
+            // TODO: handle exception
+            return;
+        }
+
+        uiDataPackage = new UIDataPackage(itemData, skin);
+
+        currentScreen = new MainScreen(uiDataPackage);
+        this.screen = currentScreen;
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        image.dispose();
+
     }
 }

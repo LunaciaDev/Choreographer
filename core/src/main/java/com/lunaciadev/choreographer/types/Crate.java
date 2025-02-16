@@ -1,21 +1,44 @@
 package com.lunaciadev.choreographer.types;
 
+import java.util.Comparator;
+
 public class Crate {
+    public static Comparator<Crate> compareByQueue = new Comparator<Crate>() {
+        public int compare(Crate o1, Crate o2) {
+            return o2.queueNeeded - o1.queueNeeded;
+        };
+    };
+    public static Comparator<Crate> compareByPriority = new Comparator<Crate>() {
+        public int compare(Crate o1, Crate o2) {
+            return o1.getPriority().getId() - o2.getPriority().getId();
+        };
+    };
+
     private int id;
+
     private int queueNeeded;
     private int queueMade;
-    private int priority;
+    private Priority priority;
 
     /**
      * Initialize a Crate with ID and amount required.
      * 
      * @param name        ItemID
+     * @param priority    The priority of Crate
      * @param queueNeeded How many queue are needed
      */
-    public Crate(int id, int queueNeeded, int priority) {
+    public Crate(int id, int queueNeeded, Priority priority) {
         this.id = id;
         this.queueNeeded = queueNeeded;
         this.queueMade = 0;
+        this.priority = priority;
+    }
+
+    public void setQueueNeeded(int queueNeeded) {
+        this.queueNeeded = queueNeeded;
+    }
+
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
@@ -27,7 +50,7 @@ public class Crate {
         return queueMade;
     }
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
