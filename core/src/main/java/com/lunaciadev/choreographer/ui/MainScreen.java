@@ -64,8 +64,6 @@ public class MainScreen implements Screen {
         });
 
         toolbar.add(addButton);
-
-        toolbar.add(new Label("Add", uiDataPackage.getSkin()));
         toolbar.add(new Label("Import from LogiHub", uiDataPackage.getSkin()));
         toolbar.add(new Label("Start Manu", uiDataPackage.getSkin()));
 
