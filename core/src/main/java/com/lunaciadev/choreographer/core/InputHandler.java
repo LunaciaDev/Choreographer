@@ -47,6 +47,15 @@ public class InputHandler {
         Priority priority = (Priority) args[1];
         int manufactureGoal = (int) args[2];
 
+        /**
+         * If crate already exists, switch to editCrate method as this method if used
+         * when the crate already exist cause inconsistent state between data and UI.
+         */
+        if (inputCrates.containsKey(id)) {
+            editCrate(args);
+            return;
+        }
+
         inputCrates.put(id, new Crate(id, manufactureGoal, priority));
 
         crateAdded.emit(inputCrates.get(id));
