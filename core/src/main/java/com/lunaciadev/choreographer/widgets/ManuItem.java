@@ -156,9 +156,11 @@ public class ManuItem extends WidgetGroup {
     @Override
     public float getPrefWidth() {
         float maxWidth = 0;
+
         for (Actor child : getChildren()) {
-            maxWidth = Math.max(maxWidth, child.getRight());
+            maxWidth = Math.max(maxWidth, child.getWidth());
         }
-        return maxWidth;  // Dynamically calculates width
+
+        return maxWidth;
     }
 }

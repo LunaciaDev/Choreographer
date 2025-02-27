@@ -39,10 +39,9 @@ public class ItemColumn {
         this.itemData = uiDataPackage.getItemData();
         this.columnType = columnType;
 
-        group.expand()
+        group.grow()
                 .space(cellPadding)
-                .top()
-                .fill();
+                .top();
 
         crateArray = new Array<>();
         manuItemPool = new Pool<ManuItem>() {
