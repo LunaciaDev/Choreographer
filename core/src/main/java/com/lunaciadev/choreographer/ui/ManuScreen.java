@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.data.UIDataPackage;
@@ -41,6 +42,9 @@ public class ManuScreen implements Screen {
 
         // Setting up the first row - header
 
+        // TODO: setup a custom widget for this..... man.
+        // Looks something like this
+
         HorizontalGroup header = new HorizontalGroup();
         header.grow();
 
@@ -54,13 +58,38 @@ public class ManuScreen implements Screen {
 
         // TODO: setup a custom widget for this.
 
+        // Looks something like this
+
+        VerticalGroup currentItems = new VerticalGroup();
+        currentItems.grow();
+
+        currentItems.addActor(new Label("Booker Rifle", skin));
+        currentItems.addActor(new Label("Officer Regalia", skin));
+
+        rootTable.add(currentItems);
+        rootTable.row();
+
         // Setting up the third row - material need to be pulled
 
         // TODO: setup a custom widget for this also
 
+        // Look something like this
+
+        rootTable.add(new Label("600b, 320e, 120r, 10he", skin));
+        rootTable.row();
+
         // Setting up the fourth row - queue type that still have item
 
         // TODO: setup a custom widget for this also also
+
+        // Look something like this
+
+        HorizontalGroup typesHaveItems = new HorizontalGroup();
+        typesHaveItems.grow();
+
+        typesHaveItems.addActor(new Label("Light Arms", skin)); // green BG for active, hidden/red BG for inactive?
+        typesHaveItems.addActor(new Label("Heavy Arms", skin));
+        // etc...
 
         // why are everything stubs.
 
