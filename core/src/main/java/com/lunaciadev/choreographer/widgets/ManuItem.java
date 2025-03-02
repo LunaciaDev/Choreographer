@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
-import com.lunaciadev.choreographer.types.Cost;
 import com.lunaciadev.choreographer.types.Crate;
+import com.lunaciadev.choreographer.utils.CostStringGenerator;
 import com.lunaciadev.choreographer.utils.Signal;
 
 public class ManuItem extends WidgetGroup {
@@ -22,8 +22,9 @@ public class ManuItem extends WidgetGroup {
     private Label amountLabel;
     private Label costLabel;
     private Label priorityLabel;
-    private boolean isFirstItem;
     private Table rootTable;
+
+    private CostStringGenerator costStringGenerator;
 
     private Crate data;
     private Signal editSignal;
@@ -39,6 +40,7 @@ public class ManuItem extends WidgetGroup {
         this.skin = uiDataPackage.getSkin();
         this.editSignal = editSignal;
         this.deleteSignal = deleteSignal;
+        this.costStringGenerator = new CostStringGenerator();
         setLayout();
     }
 
@@ -112,39 +114,8 @@ public class ManuItem extends WidgetGroup {
         this.data = crate;
         nameLabel.setText(itemData.getItemName(crate.getId()));
         amountLabel.setText(Integer.toString(crate.getQueueNeeded()));
-        costLabel.setText(generateCostString(itemData.getCost(crate.getId())));
+        costLabel.setText(costStringGenerator.generate(itemData.getCost(crate.getId())));
         priorityLabel.setText(crate.getPriority().getReadableName());
-    }
-
-    private String generateCostString(Cost itemCost) {
-        StringBuilder costString = new StringBuilder();
-        isFirstItem = true;
-
-        addToString(itemCost.getBmatCost(), costString, 0);
-        addToString(itemCost.getEmatCost(), costString, 1);
-        addToString(itemCost.getHematCost(), costString, 2);
-        addToString(itemCost.getRmatCost(), costString, 3);
-
-        return costString.toString();
-    }
-
-    private void addToString(int cost, StringBuilder costString, int type) {
-        if (cost == 0) return;
-
-        if (!isFirstItem) {
-            costString.append(", ");
-        }
-
-        costString.append(Integer.toString(cost));
-
-        switch(type) {
-            case 0: costString.append("b"); break;
-            case 1: costString.append("e"); break;
-            case 2: costString.append("he"); break;
-            case 3: costString.append("r"); break;
-        }
-
-        isFirstItem = false;
     }
 
     @Override
