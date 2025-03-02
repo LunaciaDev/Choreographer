@@ -102,7 +102,7 @@ public class Choreographer {
         }
 
         public void enqueueArray(QueueType queueType, ArrayList<Crate> crateList) {
-            Queue<Crate> temp;
+            Queue<Crate> temp = null;
 
             switch (queueType) {
                 case HEAVY_AMMO:
@@ -126,11 +126,6 @@ public class Choreographer {
                 case UTILITIES:
                     temp = utilitiesQueue;
                     break;
-                default:
-                    // this realistically should NOT happen
-                    // the checker is bugging me about temp not being initialized..
-                    temp = null;
-                    break;
             }
 
             for (Crate crate : crateList) {
@@ -148,8 +143,6 @@ public class Choreographer {
                     materialsQueue.isEmpty();
         }
     }
-
-
 
     private QueueManager queueManager;
     // TODO allow the Trucks to be pooled, reducing allocation rate
@@ -323,8 +316,13 @@ public class Choreographer {
     }
 
     public HashMap<Integer, Crate> getResult() {
-        // wtf
+        // wtf.
         while (onUndoRequest());
         return crateMapping;
+    }
+
+    // TODO add a signal
+    public int getQueueSize() {
+        return truckQueue.size;
     }
 }

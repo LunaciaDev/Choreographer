@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -76,22 +75,6 @@ public class MainScreen implements Screen {
 
         content.defaults().expandY().fill().width(Value.percentWidth(1/7f, rootTable));
 
-        VerticalGroup lightArmTable = new VerticalGroup();
-        VerticalGroup heavyArmTable = new VerticalGroup();
-        VerticalGroup heavyShellTable = new VerticalGroup();
-        VerticalGroup utilitiesTable = new VerticalGroup();
-        VerticalGroup medicalTable = new VerticalGroup();
-        VerticalGroup uniformTable = new VerticalGroup();
-        VerticalGroup resourceTable = new VerticalGroup();
-
-        content.add(lightArmTable);
-        content.add(heavyArmTable);
-        content.add(heavyShellTable);
-        content.add(utilitiesTable);
-        content.add(medicalTable);
-        content.add(uniformTable);
-        content.add(resourceTable);
-
         rootTable.add(content).grow();
 
         stage.addActor(rootTable);
@@ -104,54 +87,62 @@ public class MainScreen implements Screen {
         addItemPopup.addItemFormSubmitted.connect(inputHandler::addCrate);
         editItemPopup.editItemFormSubmitted.connect(inputHandler::editCrate);
 
-        lightArmColumn = new ItemColumn(lightArmTable, uiDataPackage, QueueType.LIGHT_ARMS);
+        lightArmColumn = new ItemColumn(uiDataPackage, QueueType.LIGHT_ARMS);
         inputHandler.crateAdded.connect(lightArmColumn::onAddItem);
         inputHandler.crateEdited.connect(lightArmColumn::onDataModified);
         inputHandler.crateDeleted.connect(lightArmColumn::onCrateDeleted);
         lightArmColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         lightArmColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        heavyArmColumn = new ItemColumn(heavyArmTable, uiDataPackage, QueueType.HEAVY_ARMS);
+        heavyArmColumn = new ItemColumn(uiDataPackage, QueueType.HEAVY_ARMS);
         inputHandler.crateAdded.connect(heavyArmColumn::onAddItem);
         inputHandler.crateEdited.connect(heavyArmColumn::onDataModified);
         inputHandler.crateDeleted.connect(heavyArmColumn::onCrateDeleted);
         heavyArmColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         heavyArmColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        heavyShellColumn = new ItemColumn(heavyShellTable, uiDataPackage, QueueType.HEAVY_AMMO);
+        heavyShellColumn = new ItemColumn(uiDataPackage, QueueType.HEAVY_AMMO);
         inputHandler.crateAdded.connect(heavyShellColumn::onAddItem);
         inputHandler.crateEdited.connect(heavyShellColumn::onDataModified);
         inputHandler.crateDeleted.connect(heavyShellColumn::onCrateDeleted);
         heavyShellColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         heavyShellColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        utilitiesColumn = new ItemColumn(utilitiesTable, uiDataPackage, QueueType.UTILITIES);
+        utilitiesColumn = new ItemColumn(uiDataPackage, QueueType.UTILITIES);
         inputHandler.crateAdded.connect(utilitiesColumn::onAddItem);
         inputHandler.crateEdited.connect(utilitiesColumn::onDataModified);
         inputHandler.crateDeleted.connect(utilitiesColumn::onCrateDeleted);
         utilitiesColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         utilitiesColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        medicalColumn = new ItemColumn(medicalTable, uiDataPackage, QueueType.MEDICAL);
+        medicalColumn = new ItemColumn(uiDataPackage, QueueType.MEDICAL);
         inputHandler.crateAdded.connect(medicalColumn::onAddItem);
         inputHandler.crateEdited.connect(medicalColumn::onDataModified);
         inputHandler.crateDeleted.connect(medicalColumn::onCrateDeleted);
         medicalColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         medicalColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        uniformColumn = new ItemColumn(uniformTable, uiDataPackage, QueueType.UNIFORMS);
+        uniformColumn = new ItemColumn(uiDataPackage, QueueType.UNIFORMS);
         inputHandler.crateAdded.connect(uniformColumn::onAddItem);
         inputHandler.crateEdited.connect(uniformColumn::onDataModified);
         inputHandler.crateDeleted.connect(uniformColumn::onCrateDeleted);
         uniformColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         uniformColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        resourceColumn = new ItemColumn(resourceTable, uiDataPackage, QueueType.MATERIALS);
+        resourceColumn = new ItemColumn(uiDataPackage, QueueType.MATERIALS);
         inputHandler.crateAdded.connect(resourceColumn::onAddItem);
         inputHandler.crateEdited.connect(resourceColumn::onDataModified);
         inputHandler.crateDeleted.connect(resourceColumn::onCrateDeleted);
         resourceColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         resourceColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
+
+        content.add(lightArmColumn.getColumn());
+        content.add(heavyArmColumn.getColumn());
+        content.add(heavyShellColumn.getColumn());
+        content.add(utilitiesColumn.getColumn());
+        content.add(medicalColumn.getColumn());
+        content.add(uniformColumn.getColumn());
+        content.add(resourceColumn.getColumn());
     }
 
     @Override
