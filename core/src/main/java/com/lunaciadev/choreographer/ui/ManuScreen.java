@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ProgressDisplay;
 
 public class ManuScreen implements Screen {
@@ -77,7 +78,12 @@ public class ManuScreen implements Screen {
 
         // Look something like this
 
-        rootTable.add(new Label("600b, 320e, 120r, 10he", skin));
+        CostLabel costLabel = new CostLabel(uiDataPackage);
+
+        choreographer.queueRequestComplete.connect(costLabel::onItemQueued);
+        choreographer.truckSubmitted.connect(costLabel::onTruckSubmitted);
+
+        rootTable.add(costLabel.getLabel());
         rootTable.row();
 
         // Setting up the fourth row - queue type that still have item
