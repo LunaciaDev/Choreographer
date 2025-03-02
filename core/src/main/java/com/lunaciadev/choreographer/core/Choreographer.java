@@ -178,6 +178,14 @@ public class Choreographer {
      */
     public Signal returnTruckQueue;
 
+    /**
+     * Emitted after a truck is submitted.
+     * 
+     * @param queueSize {@code Integer} how many Trucks are queued.
+     * @param progress  {@code Float} the progress on finishing the goal.
+     */
+    public Signal truckSubmitted;
+
     public Choreographer(ItemData itemData) {
         queueManager = new QueueManager();
         truckQueue = new Queue<>();
@@ -300,6 +308,8 @@ public class Choreographer {
         if (truckQueue.isEmpty()) {
             truckQueue.addFirst(new Truck(itemData));
         }
+
+        truckSubmitted.emit(getQueueSize(), getProgress());
     }
 
     public boolean onCheckFinished() {
@@ -317,12 +327,31 @@ public class Choreographer {
 
     public HashMap<Integer, Crate> getResult() {
         // wtf.
-        while (onUndoRequest());
+        while (onUndoRequest())
+            ;
         return crateMapping;
     }
 
-    // TODO add a signal
-    public int getQueueSize() {
-        return truckQueue.size;
+    private int getQueueSize() {
+        return truckQueue.size - 1;
+    }
+
+    private float getProgress() {
+        int crateCompleted = 0;
+        int crateNeeded = 0;
+
+        /**
+         * Pretty bad implementation here, but as long as the UI dont seize up every
+         * submission we should be fine.
+         */
+
+        for (Integer key : crateMapping.keySet()) {
+            Crate currentCrate = crateMapping.get(key);
+
+            crateCompleted = currentCrate.getQueueMade();
+            crateNeeded = currentCrate.getQueueNeeded();
+        }
+
+        return crateCompleted / (float) crateNeeded;
     }
 }

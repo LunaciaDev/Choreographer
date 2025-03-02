@@ -11,11 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.widgets.ProgressDisplay;
 
 public class ManuScreen implements Screen {
     private UIDataPackage uiDataPackage;
     private Stage stage;
+    private Choreographer choreographer;
 
     private Skin skin;
 
@@ -23,7 +26,11 @@ public class ManuScreen implements Screen {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
         this.skin = uiDataPackage.getSkin();
+        this.choreographer = new Choreographer(uiDataPackage.getItemData());
+
+        choreographer.setData(uiDataPackage.getInputHandler());
         Gdx.input.setInputProcessor(stage);
+
         setLayout();
     }
 
@@ -42,16 +49,11 @@ public class ManuScreen implements Screen {
 
         // Setting up the first row - header
 
-        // TODO: setup a custom widget for this..... man.
-        // Looks something like this
+        ProgressDisplay progressDisplay = new ProgressDisplay(uiDataPackage);
 
-        HorizontalGroup header = new HorizontalGroup();
-        header.grow();
+        choreographer.truckSubmitted.connect(progressDisplay::onTruckSubmitted);
 
-        header.addActor(new Label("2 orders queued", skin));
-        header.addActor(new Label("43% of Manufacture Goal completed", skin));
-
-        rootTable.add(header);
+        rootTable.add(progressDisplay.getWidget());
         rootTable.row();
 
         // Setting up the second row - current item that need to be cooked

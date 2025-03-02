@@ -114,7 +114,6 @@ public class ManuItem extends WidgetGroup {
         amountLabel.setText(Integer.toString(crate.getQueueNeeded()));
         costLabel.setText(generateCostString(itemData.getCost(crate.getId())));
         priorityLabel.setText(crate.getPriority().getReadableName());
-        invalidateHierarchy();
     }
 
     private String generateCostString(Cost itemCost) {
