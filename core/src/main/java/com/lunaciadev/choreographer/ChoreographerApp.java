@@ -4,9 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.lunaciadev.choreographer.core.InputHandler;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
-import com.lunaciadev.choreographer.ui.MainScreen;
+import com.lunaciadev.choreographer.ui.ManuScreen;
 
 public class ChoreographerApp extends Game {
     private Screen currentScreen;
@@ -24,9 +25,9 @@ public class ChoreographerApp extends Game {
             return;
         }
 
-        uiDataPackage = new UIDataPackage(itemData, skin);
+        uiDataPackage = new UIDataPackage(itemData, skin, new InputHandler());
 
-        currentScreen = new MainScreen(uiDataPackage);
+        currentScreen = new ManuScreen(uiDataPackage);
         this.screen = currentScreen;
     }
 

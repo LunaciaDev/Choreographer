@@ -83,7 +83,7 @@ public class MainScreen implements Screen {
         editItemPopup = new EditItemPopup(uiDataPackage, stage);
         addButtonClicked.connect(addItemPopup::onAddNewItemButtonClicked);
 
-        inputHandler = new InputHandler();
+        inputHandler = uiDataPackage.getInputHandler();
         addItemPopup.addItemFormSubmitted.connect(inputHandler::addCrate);
         editItemPopup.editItemFormSubmitted.connect(inputHandler::editCrate);
 
