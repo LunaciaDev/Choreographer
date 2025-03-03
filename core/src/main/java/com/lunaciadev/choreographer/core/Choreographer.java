@@ -155,7 +155,7 @@ public class Choreographer {
      * 
      * @param status {@code Boolean} True if the request was handled successfully,
      *               False otherwise.
-     * @param truckCost {@code Cost} the cost of the top truck in the queue.
+     * @param truck {@code Truck} The top Truck in the queue.
      */
     public Signal queueRequestComplete;
 
@@ -184,7 +184,7 @@ public class Choreographer {
      * 
      * @param queueSize {@code Integer} how many Trucks are queued.
      * @param progress  {@code Float} the progress on finishing the goal.
-     * @param truckCost {@code Cost} the cost of the next truck.
+     * @param truck {@code Truck} The next truck.
      */
     public Signal truckSubmitted;
 
@@ -277,7 +277,7 @@ public class Choreographer {
             truckQueue.last().addItem(id);
         }
 
-        queueRequestComplete.emit(true, truckQueue.first().getTruckCost());
+        queueRequestComplete.emit(true, truckQueue.first());
         return id;
     }
 
@@ -311,7 +311,7 @@ public class Choreographer {
             truckQueue.addFirst(new Truck(itemData));
         }
 
-        truckSubmitted.emit(getQueueSize(), getProgress(), truckQueue.first().getTruckCost());
+        truckSubmitted.emit(getQueueSize(), getProgress(), truckQueue.first());
     }
 
     public boolean onCheckFinished() {

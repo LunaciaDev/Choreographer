@@ -1,8 +1,9 @@
 package com.lunaciadev.choreographer.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
-import com.lunaciadev.choreographer.types.Cost;
+import com.lunaciadev.choreographer.types.Truck;
 import com.lunaciadev.choreographer.utils.CostStringGenerator;
 
 public class CostLabel {
@@ -19,20 +20,20 @@ public class CostLabel {
     }
 
     /**
-     * Slot, to be added later
+     * Slot, triggered by {@link Choreographer#truckSubmitted}
      */
     public void onTruckSubmitted(Object... args) {
-        Cost cost = (Cost) args[2];
-        costLabel.setText(costStringGenerator.generate(cost));
+        Truck truck = (Truck) args[2];
+        costLabel.setText(costStringGenerator.generate(truck.getTruckCost()));
     }
 
     /**
-     * Slot, to be added later
+     * Slot, triggered by {@link Choreographer#queueRequestComplete}
      */
     public void onItemQueued(Object... args) {
         if (!(boolean) args[0]) return;
 
-        Cost cost = (Cost) args[1];
-        costLabel.setText(costStringGenerator.generate(cost));
+        Truck truck = (Truck) args[1];
+        costLabel.setText(costStringGenerator.generate(truck.getTruckCost()));
     }
 }
