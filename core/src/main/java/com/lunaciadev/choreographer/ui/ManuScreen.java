@@ -8,12 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
 import com.lunaciadev.choreographer.widgets.CostLabel;
+import com.lunaciadev.choreographer.widgets.ItemList;
 import com.lunaciadev.choreographer.widgets.ProgressDisplay;
 
 public class ManuScreen implements Screen {
@@ -59,24 +59,16 @@ public class ManuScreen implements Screen {
 
         // Setting up the second row - current item that need to be cooked
 
-        // TODO: setup a custom widget for this.
+        ItemList itemList = new ItemList(uiDataPackage);
 
-        // Looks something like this
+        choreographer.queueRequestComplete.connect(itemList::onQueueRequestComplete);
+        choreographer.truckSubmitted.connect(itemList::onTruckSubmitted);
+        choreographer.undoRequestComplete.connect(itemList::onUndoRequestComplete);
 
-        VerticalGroup currentItems = new VerticalGroup();
-        currentItems.grow();
-
-        currentItems.addActor(new Label("Booker Rifle", skin));
-        currentItems.addActor(new Label("Officer Regalia", skin));
-
-        rootTable.add(currentItems);
+        rootTable.add(itemList.getLayout());
         rootTable.row();
 
         // Setting up the third row - material need to be pulled
-
-        // TODO: setup a custom widget for this also
-
-        // Look something like this
 
         CostLabel costLabel = new CostLabel(uiDataPackage);
 
