@@ -55,7 +55,7 @@ public class ItemList {
         table.removeActorAt(table.getChildren().size - 1, false);
     }
 
-    public VerticalGroup getLayout() {
+    public VerticalGroup getWidget() {
         return table;
     }
 }

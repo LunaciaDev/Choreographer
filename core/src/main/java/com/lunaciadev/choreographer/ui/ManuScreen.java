@@ -65,7 +65,7 @@ public class ManuScreen implements Screen {
         choreographer.truckSubmitted.connect(itemList::onTruckSubmitted);
         choreographer.undoRequestComplete.connect(itemList::onUndoRequestComplete);
 
-        rootTable.add(itemList.getLayout());
+        rootTable.add(itemList.getWidget());
         rootTable.row();
 
         // Setting up the third row - material need to be pulled
@@ -75,7 +75,7 @@ public class ManuScreen implements Screen {
         choreographer.queueRequestComplete.connect(costLabel::onItemQueued);
         choreographer.truckSubmitted.connect(costLabel::onTruckSubmitted);
 
-        rootTable.add(costLabel.getLabel());
+        rootTable.add(costLabel.getWidget());
         rootTable.row();
 
         // Setting up the fourth row - queue type that still have item

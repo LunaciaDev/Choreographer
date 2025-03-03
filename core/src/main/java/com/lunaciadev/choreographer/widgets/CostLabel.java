@@ -15,7 +15,7 @@ public class CostLabel {
         this.costStringGenerator = new CostStringGenerator();
     }
 
-    public Label getLabel() {
+    public Label getWidget() {
         return costLabel;
     }
 
