@@ -21,7 +21,7 @@ public class ProgressDisplay {
 
     private void setLayout() {
         table = new HorizontalGroup();
-        table.grow();
+        table.grow().space(10);
 
         queuedOrdersLabel = new Label("[PH]", skin);
         progressLabel = new Label("[PH]", skin);
@@ -35,23 +35,23 @@ public class ProgressDisplay {
     }
 
     /**
-     * Slot, triggered by {@link Choreographer#truckSubmitted}
+     * Slot, triggered by {@link Choreographer#update}
      */
-    public void onTruckSubmitted(Object... args) {
+    public void onUpdate(Object... args) {
         updateQueue((int) args[0]);
         updateProgress((float) args[1]);
     }
 
     private void updateQueue(int queueSize) {
         if (queueSize > 2) {
-            queuedOrdersLabel.setText(queueSize + " orders queued.");
+            queuedOrdersLabel.setText(String.format("%d truck queued.", queueSize));
         }
         else {
-            queuedOrdersLabel.setText(queueSize + " order queued.");
+            queuedOrdersLabel.setText(String.format("%d trucks queued.", queueSize));
         }
     }
 
     private void updateProgress(float progress) {
-        progressLabel.setText(progress + "% crate manufactured.");
+        progressLabel.setText(String.format("%.2f%% total crates manufactured.", progress));
     }
 }

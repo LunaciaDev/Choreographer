@@ -11,14 +11,22 @@ import com.lunaciadev.choreographer.types.Truck;
 
 public class ItemList {
     private VerticalGroup table;
+    private VerticalGroup group;
     
     private ItemData itemData;
     private Skin skin;
 
     public ItemList(UIDataPackage uiDataPackage) {
         this.table = new VerticalGroup();
+        this.group = new VerticalGroup();
         this.itemData = uiDataPackage.getItemData();
         this.skin = uiDataPackage.getSkin();
+
+        table.space(5);
+        group.space(10);
+
+        group.addActor(new Label("Queues: ", uiDataPackage.getSkin()));
+        group.addActor(table);
     }
 
     private void resetTable(Truck truck) {
@@ -43,7 +51,7 @@ public class ItemList {
      * Slot, triggered by {@link Choreographer#truckSubmitted}
      */
     public void onTruckSubmitted(Object... args) {
-        resetTable((Truck) args[2]);
+        resetTable((Truck) args[0]);
     }
 
     /**
@@ -56,6 +64,6 @@ public class ItemList {
     }
 
     public VerticalGroup getWidget() {
-        return table;
+        return group;
     }
 }
