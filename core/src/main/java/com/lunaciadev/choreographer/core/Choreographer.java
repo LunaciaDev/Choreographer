@@ -246,8 +246,8 @@ public class Choreographer {
         for (Integer key : crateMapping.keySet()) {
             Crate currentCrate = crateMapping.get(key);
 
-            crateCompleted = currentCrate.getQueueMade();
-            crateNeeded = currentCrate.getQueueNeeded();
+            crateCompleted = crateCompleted + currentCrate.getQueueMade();
+            crateNeeded = crateNeeded + currentCrate.getQueueNeeded();
         }
 
         return crateCompleted / (float) crateNeeded * 100;

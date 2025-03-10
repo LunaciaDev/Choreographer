@@ -25,7 +25,7 @@ public class GlobalKeyListener implements NativeKeyListener {
 
     public boolean activateListener() {
         try {
-            //Logger.getLogger(GlobalScreen.class.getPackageName()).setLevel(Level.OFF);
+            Logger.getLogger(GlobalScreen.class.getPackageName()).setLevel(Level.OFF);
             GlobalScreen.registerNativeHook();
             GlobalScreen.addNativeKeyListener(this);
             return true;
