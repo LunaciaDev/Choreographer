@@ -46,7 +46,9 @@ public class Choreographer {
     public Signal undoRequestComplete = new Signal();
 
     /**
-     * Emitted after a checkFinished, if and only if all queue are empty.
+     * Emitted after a checkFinished or a manual quit.
+     * 
+     * @param crateMapping {@code HashMap<Integer, Crate>} Manufacture data.
      */
     public Signal reachedManuGoal = new Signal();
 
@@ -208,26 +210,24 @@ public class Choreographer {
 
         truckSubmitted.emit(truckQueue.first());
         update.emit(getQueueSize(), getProgress());
+        checkFinished();
     }
 
-    public boolean onCheckFinished() {
+    public void checkFinished() {
         if (queueManager.isFinished() && (truckQueue.size == 1 && truckQueue.first().isEmpty())) {
-            reachedManuGoal.emit((Object) null);
-            return true;
+            reachedManuGoal.emit(crateMapping);
         }
-
-        return false;
     }
 
     public void getTruckQueue() {
         returnTruckQueue.emit(truckQueue);
     }
 
-    public HashMap<Integer, Crate> getResult() {
+    public void getResult() {
         // wtf.
         while (undoRequest())
             ;
-        return crateMapping;
+        reachedManuGoal.emit(crateMapping);
     }
 
     private int getQueueSize() {

@@ -63,14 +63,14 @@ public class ChoreographerTest {
 
         assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
         assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(false, choreographer.onCheckFinished());
+        assertEquals(false, choreographer.checkFinished());
         assertEquals(2, choreographer.queueRequest(QueueType.LIGHT_ARMS));
         assertEquals(0, choreographer.queueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(false, choreographer.onCheckFinished());
+        assertEquals(false, choreographer.checkFinished());
         choreographer.submitTruck();
-        assertEquals(false, choreographer.onCheckFinished());
+        assertEquals(false, choreographer.checkFinished());
         choreographer.submitTruck();
-        assertEquals(true, choreographer.onCheckFinished());
+        assertEquals(true, choreographer.checkFinished());
     }
 
     @Test

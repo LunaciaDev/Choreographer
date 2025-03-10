@@ -95,6 +95,9 @@ public class GlobalKeyListener implements NativeKeyListener {
                     broadcastKeyEvent(EventType.TRUCK_SUBMIT, null);
                     keyLock = true;
                     break;
+
+                case NativeKeyEvent.VC_Q:
+                    broadcastKeyEvent(EventType.QUIT, null);
             }
         }
 
