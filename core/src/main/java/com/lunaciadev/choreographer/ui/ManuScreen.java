@@ -9,26 +9,49 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.EventType;
 import com.lunaciadev.choreographer.types.QueueType;
+import com.lunaciadev.choreographer.utils.GlobalKeyListener;
 import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ItemList;
 import com.lunaciadev.choreographer.widgets.ProgressDisplay;
 import com.lunaciadev.choreographer.widgets.QueueTypeHighlight;
 
-public class ManuScreen implements Screen {
+public class ManuScreen implements Screen{
     private UIDataPackage uiDataPackage;
     private Stage stage;
     private Choreographer choreographer;
+    private GlobalKeyListener keyListener;
 
     public ManuScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
         this.choreographer = new Choreographer(uiDataPackage.getItemData());
+        this.keyListener = new GlobalKeyListener();
+
+        keyListener.keyEvent.connect(this::onKeyEvent);
+        keyListener.activateListener();
 
         choreographer.setData(uiDataPackage.getInputHandler());
         Gdx.input.setInputProcessor(stage);
 
         setLayout();
+    }
+
+    private void onKeyEvent(Object... args) {
+        EventType eventType = (EventType) args[0];
+
+        switch (eventType) {
+            case QUEUE_ORDER:
+                choreographer.queueRequest((QueueType) args[1]);
+                break;
+            case TRUCK_SUBMIT:
+                choreographer.submitTruck();
+                break;
+            case UNDO:
+                choreographer.undoRequest();
+                break;
+        }
     }
 
     private void setLayout() {
@@ -90,16 +113,6 @@ public class ManuScreen implements Screen {
         // etc...
 
         stage.addActor(rootTable);
-        // probably a better way to init the UI.
-        choreographer.onSubmitTruck();
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.HEAVY_ARMS);
-        choreographer.onSubmitTruck();
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.HEAVY_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
     }
 
     @Override
@@ -140,8 +153,7 @@ public class ManuScreen implements Screen {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
+        keyListener.deactivateListener();
     }
 
 }

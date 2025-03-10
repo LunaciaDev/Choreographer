@@ -157,7 +157,7 @@ public class Choreographer {
         queueManager.enqueueArray(QueueType.MATERIALS, materialsQueue);
     }
 
-    public int onQueueRequest(QueueType queue) {
+    public int queueRequest(QueueType queue) {
         int id = queueManager.dequeue(queue);
 
         if (id == -1) {
@@ -176,7 +176,7 @@ public class Choreographer {
         return id;
     }
 
-    public boolean onUndoRequest() {
+    public boolean undoRequest() {
         int id = truckQueue.last().removeLastAdded();
 
         if (id == -1) {
@@ -199,7 +199,7 @@ public class Choreographer {
         return true;
     }
 
-    public void onSubmitTruck() {
+    public void submitTruck() {
         truckQueue.removeFirst();
 
         if (truckQueue.isEmpty()) {
@@ -225,7 +225,7 @@ public class Choreographer {
 
     public HashMap<Integer, Crate> getResult() {
         // wtf.
-        while (onUndoRequest())
+        while (undoRequest())
             ;
         return crateMapping;
     }
