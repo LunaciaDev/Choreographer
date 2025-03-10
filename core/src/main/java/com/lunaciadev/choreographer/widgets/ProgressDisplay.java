@@ -44,14 +44,14 @@ public class ProgressDisplay {
 
     private void updateQueue(int queueSize) {
         if (queueSize > 2) {
-            queuedOrdersLabel.setText(String.format("%d truck queued.", queueSize));
+            queuedOrdersLabel.setText(String.format("%d truck in queue.", queueSize));
         }
         else {
-            queuedOrdersLabel.setText(String.format("%d trucks queued.", queueSize));
+            queuedOrdersLabel.setText(String.format("%d trucks in queue.", queueSize));
         }
     }
 
     private void updateProgress(float progress) {
-        progressLabel.setText(String.format("%.2f%% total crates manufactured.", progress));
+        progressLabel.setText(String.format("%.2f%% total crates made/queued.", progress));
     }
 }

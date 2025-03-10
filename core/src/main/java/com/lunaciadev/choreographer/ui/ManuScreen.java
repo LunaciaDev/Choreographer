@@ -136,6 +136,7 @@ public class ManuScreen implements Screen{
     @Override
     public void pause() {
         // TODO Auto-generated method stub
+        keyListener.deactivateListener();
         throw new UnsupportedOperationException("Unimplemented method 'pause'");
     }
 
