@@ -6,7 +6,6 @@ import java.util.HashMap;
 import com.badlogic.gdx.utils.Queue;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.types.Crate;
-import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.types.Truck;
 import com.lunaciadev.choreographer.utils.Signal;
@@ -91,13 +90,7 @@ public class Choreographer {
     }
 
     public void setData(InputHandler dataSource) {
-        //crateMapping = dataSource.getData();
-
-        //TODO remove testing data
-        crateMapping = new HashMap<Integer, Crate>();
-        crateMapping.put(12, new Crate(12, 16, Priority.HIGH_PRIORITY));
-        crateMapping.put(36, new Crate(36, 8, Priority.PRIORITY));
-        crateMapping.put(14, new Crate(14, 12, Priority.NO_PRIORITY));
+        crateMapping = dataSource.getData();
 
         ArrayList<Crate> lightArmQueue = new ArrayList<>();
         ArrayList<Crate> heavyArmQueue = new ArrayList<>();

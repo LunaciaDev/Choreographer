@@ -21,16 +21,19 @@ import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.EventType;
 import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.utils.GlobalKeyListener;
+import com.lunaciadev.choreographer.utils.Signal;
 import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ItemList;
 import com.lunaciadev.choreographer.widgets.ProgressDisplay;
 import com.lunaciadev.choreographer.widgets.QueueTypeHighlight;
 
-public class ManuScreen implements Screen{
+public class ManuScreen implements Screen {
     private UIDataPackage uiDataPackage;
     private Stage stage;
     private Choreographer choreographer;
     private GlobalKeyListener keyListener;
+
+    public Signal returnButtonClicked = new Signal();
 
     public ManuScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
@@ -38,15 +41,8 @@ public class ManuScreen implements Screen{
         this.choreographer = new Choreographer(uiDataPackage.getItemData());
         this.keyListener = new GlobalKeyListener();
 
-        keyListener.keyEvent.connect(this::onKeyEvent);
-        keyListener.activateListener();
-
         choreographer.setData(uiDataPackage.getInputHandler());
         choreographer.reachedManuGoal.connect(this::onStop);
-
-        Gdx.input.setInputProcessor(stage);
-
-        setLayout();
     }
 
     private void onKeyEvent(Object... args) {
@@ -155,8 +151,11 @@ public class ManuScreen implements Screen{
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'show'");
+        keyListener.keyEvent.connect(this::onKeyEvent);
+        keyListener.activateListener();
+
+        Gdx.input.setInputProcessor(stage);
+        setLayout();
     }
 
     @Override
@@ -173,21 +172,18 @@ public class ManuScreen implements Screen{
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
         keyListener.deactivateListener();
-        throw new UnsupportedOperationException("Unimplemented method 'pause'");
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
+        keyListener.activateListener();
     }
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hide'");
+        keyListener.deactivateListener();
+        ((Table) stage.getActors().first()).clear();
     }
 
     @Override

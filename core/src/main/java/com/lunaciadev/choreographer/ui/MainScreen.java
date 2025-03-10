@@ -40,11 +40,14 @@ public class MainScreen implements Screen {
      */
     public Signal addButtonClicked = new Signal();
 
+    /**
+     * Emitted when the "manu" button is clicked.
+     */
+    public Signal startButtonClicked = new Signal();
+
     public MainScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
-        setLayout();
     }
 
     private void setLayout() {
@@ -62,9 +65,17 @@ public class MainScreen implements Screen {
             }
         });
 
+        TextButton startButton = new TextButton("Start Manu", uiDataPackage.getSkin());
+        startButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                startButtonClicked.emit();
+            }
+        });
+
         toolbar.add(addButton);
         toolbar.add(new Label("Import from LogiHub", uiDataPackage.getSkin()));
-        toolbar.add(new Label("Start Manu", uiDataPackage.getSkin()));
+        toolbar.add(startButton);
 
         rootTable.add(toolbar)
                 .fill()
@@ -147,8 +158,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'show'");
+        Gdx.input.setInputProcessor(stage);
+        setLayout();
     }
 
     @Override
@@ -165,25 +176,17 @@ public class MainScreen implements Screen {
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pause'");
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
     }
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hide'");
     }
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
     }
 }

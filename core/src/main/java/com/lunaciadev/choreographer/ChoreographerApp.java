@@ -2,15 +2,16 @@ package com.lunaciadev.choreographer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lunaciadev.choreographer.core.InputHandler;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.ui.MainScreen;
 import com.lunaciadev.choreographer.ui.ManuScreen;
 
 public class ChoreographerApp extends Game {
-    private Screen currentScreen;
+    private MainScreen mainScreen;
+    private ManuScreen manuScreen;
     private UIDataPackage uiDataPackage;
 
     @Override
@@ -27,8 +28,21 @@ public class ChoreographerApp extends Game {
 
         uiDataPackage = new UIDataPackage(itemData, skin, new InputHandler());
 
-        currentScreen = new ManuScreen(uiDataPackage);
-        this.screen = currentScreen;
+        mainScreen = new MainScreen(uiDataPackage);
+        manuScreen = new ManuScreen(uiDataPackage);
+
+        mainScreen.startButtonClicked.connect(this::toManuScreen);
+        manuScreen.returnButtonClicked.connect(this::toMainScreen);
+
+        setScreen(mainScreen);
+    }
+
+    private void toManuScreen(Object... args) {
+        setScreen(manuScreen);
+    }
+
+    private void toMainScreen(Object... args) {
+        setScreen(mainScreen);
     }
 
     @Override
