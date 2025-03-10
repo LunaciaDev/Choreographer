@@ -4,29 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ItemList;
 import com.lunaciadev.choreographer.widgets.ProgressDisplay;
+import com.lunaciadev.choreographer.widgets.QueueTypeHighlight;
 
 public class ManuScreen implements Screen {
     private UIDataPackage uiDataPackage;
     private Stage stage;
     private Choreographer choreographer;
 
-    private Skin skin;
-
     public ManuScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
-        this.skin = uiDataPackage.getSkin();
         this.choreographer = new Choreographer(uiDataPackage.getItemData());
 
         choreographer.setData(uiDataPackage.getInputHandler());
@@ -38,6 +34,8 @@ public class ManuScreen implements Screen {
     private void setLayout() {
         Table rootTable = new Table();
         rootTable.setFillParent(true);
+
+        rootTable.defaults().pad(5, 0, 5, 0);
 
         /*
          * For the UI, I'm thinking about something like this:
@@ -52,7 +50,7 @@ public class ManuScreen implements Screen {
 
         ProgressDisplay progressDisplay = new ProgressDisplay(uiDataPackage);
 
-        choreographer.truckSubmitted.connect(progressDisplay::onTruckSubmitted);
+        choreographer.update.connect(progressDisplay::onUpdate);
 
         rootTable.add(progressDisplay.getWidget());
         rootTable.row();
@@ -64,7 +62,7 @@ public class ManuScreen implements Screen {
         choreographer.queueRequestComplete.connect(itemList::onQueueRequestComplete);
         choreographer.truckSubmitted.connect(itemList::onTruckSubmitted);
         choreographer.undoRequestComplete.connect(itemList::onUndoRequestComplete);
-
+        
         rootTable.add(itemList.getWidget());
         rootTable.row();
 
@@ -80,20 +78,28 @@ public class ManuScreen implements Screen {
 
         // Setting up the fourth row - queue type that still have item
 
-        // TODO: setup a custom widget for this also also
+        QueueTypeHighlight queueTypeHighlight = new QueueTypeHighlight(uiDataPackage);
+        
+        choreographer.queueCompleted.connect(queueTypeHighlight::setBackground);
 
-        // Look something like this
+        for (QueueType queueType : QueueType.values()) {
+            choreographer.isQueueCompleted(queueType);
+        }
 
-        HorizontalGroup typesHaveItems = new HorizontalGroup();
-        typesHaveItems.grow();
-
-        typesHaveItems.addActor(new Label("Light Arms", skin)); // green BG for active, hidden/red BG for inactive?
-        typesHaveItems.addActor(new Label("Heavy Arms", skin));
+        rootTable.add(queueTypeHighlight.getWidget());
         // etc...
 
-        // why are everything stubs.
-
         stage.addActor(rootTable);
+        // probably a better way to init the UI.
+        choreographer.onSubmitTruck();
+        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.onQueueRequest(QueueType.HEAVY_ARMS);
+        choreographer.onSubmitTruck();
+        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.onQueueRequest(QueueType.HEAVY_ARMS);
+        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
     }
 
     @Override
