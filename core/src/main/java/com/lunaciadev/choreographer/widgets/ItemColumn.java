@@ -11,6 +11,7 @@ import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.utils.Signal;
 
+// TODO get layout instead of grabbing table from outside
 public class ItemColumn {
     private Array<Crate> crateArray;
     private Pool<ManuItem> manuItemPool;
@@ -34,15 +35,14 @@ public class ItemColumn {
      */
     public Signal deleteButtonClicked;
 
-    public ItemColumn(VerticalGroup group, UIDataPackage uiDataPackage, QueueType columnType) {
-        this.group = group;
+    public ItemColumn(UIDataPackage uiDataPackage, QueueType columnType) {
+        this.group = new VerticalGroup();
         this.itemData = uiDataPackage.getItemData();
         this.columnType = columnType;
 
-        group.expand()
+        group.grow()
                 .space(cellPadding)
-                .top()
-                .fill();
+                .top();
 
         crateArray = new Array<>();
         manuItemPool = new Pool<ManuItem>() {
@@ -54,6 +54,10 @@ public class ItemColumn {
 
         editButtonClicked = new Signal();
         deleteButtonClicked = new Signal();
+    }
+
+    public VerticalGroup getColumn() {
+        return this.group;
     }
 
     /**
@@ -109,7 +113,7 @@ public class ItemColumn {
         // we should have the reference of that crate too. Would be VERY FUNNY if we do not.
         int index = crateArray.indexOf(crate, true);
         ManuItem manuItem = (ManuItem) group.getChild(index);
-        
+
         crateArray.removeIndex(index);
         group.removeActorAt(index, false);
         manuItemPool.free(manuItem);

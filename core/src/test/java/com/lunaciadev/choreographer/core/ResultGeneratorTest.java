@@ -54,15 +54,15 @@ public class ResultGeneratorTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
 
-        choreographer.onSubmitTruck();
-        choreographer.onSubmitTruck();
-        choreographer.onSubmitTruck();
+        choreographer.submitTruck();
+        choreographer.submitTruck();
+        choreographer.submitTruck();
 
         ResultGenerator resultGenerator = new ResultGenerator(itemData);
         resultGenerator.getResult(choreographer.getResult());
@@ -92,11 +92,11 @@ public class ResultGeneratorTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
 
         ResultGenerator resultGenerator = new ResultGenerator(itemData);
         resultGenerator.getResult(choreographer.getResult());
@@ -124,14 +124,14 @@ public class ResultGeneratorTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
-        choreographer.onQueueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
+        choreographer.queueRequest(QueueType.LIGHT_ARMS);
 
-        choreographer.onSubmitTruck();
-        choreographer.onSubmitTruck();
+        choreographer.submitTruck();
+        choreographer.submitTruck();
 
         ResultGenerator resultGenerator = new ResultGenerator(itemData);
         resultGenerator.getResult(choreographer.getResult());

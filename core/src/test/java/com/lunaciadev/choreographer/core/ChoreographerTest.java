@@ -39,15 +39,15 @@ public class ChoreographerTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        assertEquals(4, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(4, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(5, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(3, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(4, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(4, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(5, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(2, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(2, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(3, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(0, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(0, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
     }
 
     @Test
@@ -61,16 +61,16 @@ public class ChoreographerTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(false, choreographer.onCheckFinished());
-        assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(false, choreographer.onCheckFinished());
-        choreographer.onSubmitTruck();
-        assertEquals(false, choreographer.onCheckFinished());
-        choreographer.onSubmitTruck();
-        assertEquals(true, choreographer.onCheckFinished());
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(false, choreographer.checkFinished());
+        assertEquals(2, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(0, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(false, choreographer.checkFinished());
+        choreographer.submitTruck();
+        assertEquals(false, choreographer.checkFinished());
+        choreographer.submitTruck();
+        assertEquals(true, choreographer.checkFinished());
     }
 
     @Test
@@ -84,17 +84,17 @@ public class ChoreographerTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        assertEquals(false, choreographer.onUndoRequest());
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(true, choreographer.onUndoRequest());
-        assertEquals(false, choreographer.onUndoRequest());
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(true, choreographer.onUndoRequest());
-        assertEquals(true, choreographer.onUndoRequest());
-        assertEquals(1, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(2, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(false, choreographer.undoRequest());
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(true, choreographer.undoRequest());
+        assertEquals(false, choreographer.undoRequest());
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(2, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(true, choreographer.undoRequest());
+        assertEquals(true, choreographer.undoRequest());
+        assertEquals(1, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(2, choreographer.queueRequest(QueueType.LIGHT_ARMS));
     }
 
     @Test
@@ -106,9 +106,9 @@ public class ChoreographerTest {
         Choreographer choreographer = new Choreographer(itemData);
         choreographer.setData(inputHandler);
 
-        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        assertEquals(0, choreographer.onQueueRequest(QueueType.LIGHT_ARMS));
-        choreographer.onSubmitTruck();
-        assertEquals(false, choreographer.onUndoRequest());
+        assertEquals(0, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        assertEquals(0, choreographer.queueRequest(QueueType.LIGHT_ARMS));
+        choreographer.submitTruck();
+        assertEquals(false, choreographer.undoRequest());
     }
 }
