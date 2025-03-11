@@ -68,9 +68,12 @@ public class EditItemPopup extends Dialog {
 
         rootTable.row();
 
-        rootTable.add(itemNameField);
-        rootTable.add(priorityField);
-        rootTable.add(amountField);
+        rootTable.add(itemNameField)
+                .height(itemNameField.getStyle().font.getCapHeight() + 20);
+        rootTable.add(priorityField)
+                .height(priorityField.getList().getStyle().font.getCapHeight() + 20);
+        rootTable.add(amountField)
+                .height(amountField.getStyle().font.getCapHeight() + 20);
 
         TextButton submitForm = new TextButton("OK", skin);
         TextButton cancelForm = new TextButton("Cancel", skin);
@@ -105,8 +108,12 @@ public class EditItemPopup extends Dialog {
             }
         });
 
-        button(submitForm);
-        button(cancelForm);
+        getButtonTable().add(submitForm)
+                .height(submitForm.getLabel().getPrefHeight() + 10)
+                .width(submitForm.getLabel().getPrefWidth() + 10);
+        getButtonTable().add(cancelForm)
+                .height(cancelForm.getLabel().getPrefHeight() + 10)
+                .width(cancelForm.getLabel().getPrefWidth() + 10);;
     }
 
     /**

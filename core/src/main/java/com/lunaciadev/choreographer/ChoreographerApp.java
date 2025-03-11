@@ -16,7 +16,7 @@ public class ChoreographerApp extends Game {
 
     @Override
     public void create() {
-        Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("ui/skin.json"));
         ItemData itemData;
 
         try {

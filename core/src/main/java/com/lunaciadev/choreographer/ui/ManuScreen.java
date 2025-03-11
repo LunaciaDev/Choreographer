@@ -41,7 +41,6 @@ public class ManuScreen implements Screen {
         this.choreographer = new Choreographer(uiDataPackage.getItemData());
         this.keyListener = new GlobalKeyListener();
 
-        choreographer.setData(uiDataPackage.getInputHandler());
         choreographer.reachedManuGoal.connect(this::onStop);
     }
 
@@ -153,6 +152,7 @@ public class ManuScreen implements Screen {
     public void show() {
         keyListener.keyEvent.connect(this::onKeyEvent);
         keyListener.activateListener();
+        choreographer.setData(uiDataPackage.getInputHandler());
 
         Gdx.input.setInputProcessor(stage);
         setLayout();

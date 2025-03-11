@@ -99,8 +99,12 @@ public class ManuItem extends WidgetGroup {
                 .expandX()
                 .fillX();
         lastRow.add(editButton)
-                .pad(0, 0, 0, 5);
-        lastRow.add(deleteButton);
+                .pad(5, 0, 0, 5)
+                .height(editButton.getLabel().getPrefHeight() + 10)
+                .width(editButton.getLabel().getPrefWidth() + 10);
+        lastRow.add(deleteButton)
+                .height(deleteButton.getLabel().getPrefHeight() + 10)
+                .width(deleteButton.getLabel().getPrefWidth() + 10);
 
         rootTable.add(lastRow)
                 .expandX()

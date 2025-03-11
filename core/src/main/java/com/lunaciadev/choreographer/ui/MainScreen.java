@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -73,9 +74,15 @@ public class MainScreen implements Screen {
             }
         });
 
-        toolbar.add(addButton);
+        toolbar.add(addButton)
+                .height(addButton.getLabel().getPrefHeight() + 10)
+                .width(addButton.getLabel().getPrefWidth() + 10)
+                .pad(5);
         toolbar.add(new Label("Import from LogiHub", uiDataPackage.getSkin()));
-        toolbar.add(startButton);
+        toolbar.add(startButton)
+                .height(startButton.getLabel().getPrefHeight() + 10)
+                .width(startButton.getLabel().getPrefWidth() + 10)
+                .pad(5);
 
         rootTable.add(toolbar)
                 .fill()
@@ -85,6 +92,22 @@ public class MainScreen implements Screen {
         Table content = new Table();
 
         content.defaults().expandY().fill().width(Value.percentWidth(1/7f, rootTable));
+
+        VerticalGroup lightArmTable = new VerticalGroup();
+        VerticalGroup heavyArmTable = new VerticalGroup();
+        VerticalGroup heavyShellTable = new VerticalGroup();
+        VerticalGroup utilitiesTable = new VerticalGroup();
+        VerticalGroup medicalTable = new VerticalGroup();
+        VerticalGroup uniformTable = new VerticalGroup();
+        VerticalGroup resourceTable = new VerticalGroup();
+
+        content.add(lightArmTable);
+        content.add(heavyArmTable);
+        content.add(heavyShellTable);
+        content.add(utilitiesTable);
+        content.add(medicalTable);
+        content.add(uniformTable);
+        content.add(resourceTable);
 
         rootTable.add(content).grow();
 
