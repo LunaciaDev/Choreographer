@@ -111,9 +111,6 @@ public class Choreographer {
                 case LIGHT_ARMS:
                     lightArmQueue.add(crate);
                     break;
-                case MATERIALS:
-                    materialsQueue.add(crate);
-                    break;
                 case MEDICAL:
                     medicalQueue.add(crate);
                     break;
@@ -149,7 +146,6 @@ public class Choreographer {
         queueManager.enqueueArray(QueueType.UTILITIES, utilitiesQueue);
         queueManager.enqueueArray(QueueType.MEDICAL, medicalQueue);
         queueManager.enqueueArray(QueueType.UNIFORMS, uniformsQueue);
-        queueManager.enqueueArray(QueueType.MATERIALS, materialsQueue);
     }
 
     public int queueRequest(QueueType queue) {
@@ -290,8 +286,6 @@ class QueueManager {
                 return processDequeue(heavyAmmoQueue);
             case HEAVY_ARMS:
                 return processDequeue(heavyArmQueue);
-            case MATERIALS:
-                return processDequeue(materialsQueue);
             case MEDICAL:
                 return processDequeue(medicalQueue);
             case LIGHT_ARMS:
@@ -315,9 +309,6 @@ class QueueManager {
                 break;
             case LIGHT_ARMS:
                 lightArmQueue.addFirst(crate);
-                break;
-            case MATERIALS:
-                materialsQueue.addFirst(crate);
                 break;
             case MEDICAL:
                 medicalQueue.addFirst(crate);
@@ -343,9 +334,6 @@ class QueueManager {
                 break;
             case LIGHT_ARMS:
                 temp = lightArmQueue;
-                break;
-            case MATERIALS:
-                temp = materialsQueue;
                 break;
             case MEDICAL:
                 temp = medicalQueue;
@@ -381,8 +369,6 @@ class QueueManager {
                 return heavyArmQueue.isEmpty();
             case LIGHT_ARMS:
                 return lightArmQueue.isEmpty();
-            case MATERIALS:
-                return materialsQueue.isEmpty();
             case MEDICAL:
                 return medicalQueue.isEmpty();
             case UNIFORMS:

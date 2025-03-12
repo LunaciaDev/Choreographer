@@ -8,11 +8,34 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	}
 }
 com.badlogic.gdx.graphics.Color: {
-	text: {
+	blank: {
+		r: 0
+		g: 0
+		b: 0
+		a: 0
+	}
+	grey: {
+		r: 0.8352941
+		g: 0.8352941
+		b: 0.8352941
+		a: 1
+	}
+	white: {
 		r: 1
 		g: 1
 		b: 1
 		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	blank: {
+		name: white-pixel
+		color: blank
+	}
+}
+com.lunaciadev.choreographer.widgets.ManuItem$ManuItemStyle: {
+	default: {
+		background: manu-item-bg
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
@@ -20,6 +43,14 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		up: button
 		down: button-clicked
 		over: button-hover
+	}
+	no-background: {
+		up: blank
+	}
+	no-highlight: {
+		up: button-nobg
+		down: button-nobg-clicked
+		over: button-nobg-hover
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
@@ -31,21 +62,21 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {
 		parent: default
 		font: OpenSans
-		fontColor: text
+		fontColor: white
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: OpenSans
-		fontColor: text
+		fontColor: white
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
 		font: OpenSans
-		fontColorSelected: text
-		fontColorUnselected: text
-		selection: button-hover
+		fontColorSelected: white
+		fontColorUnselected: white
+		selection: button
 		down: button-clicked
 		over: button-hover
 	}
@@ -58,25 +89,36 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
 		font: OpenSans
-		fontColor: text
-		background: selectbox
+		fontColor: white
+		background: textbox
 		scrollStyle: default
 		listStyle: default
-		backgroundOver: selectbox
-		backgroundOpen: selectbox-clicked
+		backgroundDisabled: disabled
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
 		parent: default
 		font: OpenSans
-		fontColor: text
+		fontColor: white
+	}
+	no-background: {
+		parent: no-background
+		font: OpenSans
+		fontColor: grey
+		downFontColor: white
+		overFontColor: white
+	}
+	no-highlight: {
+		parent: no-highlight
+		font: OpenSans
+		fontColor: white
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: OpenSans
-		fontColor: text
+		fontColor: white
 		background: textbox
 		focusedBackground: select-textbox
 		disabledBackground: disabled
@@ -89,9 +131,9 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
-		background: bg
+		background: textbox
 		titleFont: OpenSans
-		titleFontColor: text
+		titleFontColor: white
 		stageBackground: bgUnder
 	}
 }

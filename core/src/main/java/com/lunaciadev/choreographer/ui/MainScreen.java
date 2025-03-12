@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -28,7 +27,6 @@ public class MainScreen implements Screen {
     private ItemColumn utilitiesColumn;
     private ItemColumn medicalColumn;
     private ItemColumn uniformColumn;
-    private ItemColumn resourceColumn;
 
     private AddItemPopup addItemPopup;
     private EditItemPopup editItemPopup;
@@ -59,14 +57,14 @@ public class MainScreen implements Screen {
 
         // TODO add component to Toolbar, when I have those... Subtitude with Labels for now.
 
-        TextButton addButton = new TextButton("Add", uiDataPackage.getSkin());
+        TextButton addButton = new TextButton("Add", uiDataPackage.getSkin(), "no-background");
         addButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 addButtonClicked.emit(stage);
             }
         });
 
-        TextButton startButton = new TextButton("Start Manu", uiDataPackage.getSkin());
+        TextButton startButton = new TextButton("Start Manu", uiDataPackage.getSkin(), "no-background");
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -74,44 +72,37 @@ public class MainScreen implements Screen {
             }
         });
 
+        toolbar.defaults().pad(5);
+
+        toolbar.add(new Label("Choreographer", uiDataPackage.getSkin()));
         toolbar.add(addButton)
                 .height(addButton.getLabel().getPrefHeight() + 10)
-                .width(addButton.getLabel().getPrefWidth() + 10)
-                .pad(5);
-        toolbar.add(new Label("Import from LogiHub", uiDataPackage.getSkin()));
+                .width(addButton.getLabel().getPrefWidth() + 10);
         toolbar.add(startButton)
                 .height(startButton.getLabel().getPrefHeight() + 10)
-                .width(startButton.getLabel().getPrefWidth() + 10)
-                .pad(5);
+                .width(startButton.getLabel().getPrefWidth() + 10);
+
+        toolbar.left().pad(5, 15, 0, 15);
 
         rootTable.add(toolbar)
+                .width(Value.percentWidth(1f, rootTable))
                 .fill()
-                .expandX();
+                .pad(5, 0, 5, 0);
         rootTable.row();
 
         Table content = new Table();
 
-        content.defaults().expandY().fill().width(Value.percentWidth(1/7f, rootTable));
+        content.defaults().pad(10, 0, 10, 0);
 
-        VerticalGroup lightArmTable = new VerticalGroup();
-        VerticalGroup heavyArmTable = new VerticalGroup();
-        VerticalGroup heavyShellTable = new VerticalGroup();
-        VerticalGroup utilitiesTable = new VerticalGroup();
-        VerticalGroup medicalTable = new VerticalGroup();
-        VerticalGroup uniformTable = new VerticalGroup();
-        VerticalGroup resourceTable = new VerticalGroup();
+        content.add(new Label("Light Arms", uiDataPackage.getSkin())).center();
+        content.add(new Label("Heavy Arms", uiDataPackage.getSkin())).center();
+        content.add(new Label("Heavy Shells", uiDataPackage.getSkin())).center();
+        content.add(new Label("Utilities", uiDataPackage.getSkin())).center();
+        content.add(new Label("Medical", uiDataPackage.getSkin())).center();
+        content.add(new Label("Uniforms", uiDataPackage.getSkin())).center();
+        content.row();
 
-        content.add(lightArmTable);
-        content.add(heavyArmTable);
-        content.add(heavyShellTable);
-        content.add(utilitiesTable);
-        content.add(medicalTable);
-        content.add(uniformTable);
-        content.add(resourceTable);
-
-        rootTable.add(content).grow();
-
-        stage.addActor(rootTable);
+        content.defaults().expandY().fill().width(Value.percentWidth(1/6f, rootTable));
 
         addItemPopup = new AddItemPopup(uiDataPackage, stage);
         editItemPopup = new EditItemPopup(uiDataPackage, stage);
@@ -163,20 +154,16 @@ public class MainScreen implements Screen {
         uniformColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         uniformColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        resourceColumn = new ItemColumn(uiDataPackage, QueueType.MATERIALS);
-        inputHandler.crateAdded.connect(resourceColumn::onAddItem);
-        inputHandler.crateEdited.connect(resourceColumn::onDataModified);
-        inputHandler.crateDeleted.connect(resourceColumn::onCrateDeleted);
-        resourceColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
-        resourceColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
-
         content.add(lightArmColumn.getColumn());
         content.add(heavyArmColumn.getColumn());
         content.add(heavyShellColumn.getColumn());
         content.add(utilitiesColumn.getColumn());
         content.add(medicalColumn.getColumn());
         content.add(uniformColumn.getColumn());
-        content.add(resourceColumn.getColumn());
+
+        rootTable.add(content).pad(0, 10, 0, 10).grow();
+
+        stage.addActor(rootTable);
     }
 
     @Override
@@ -188,7 +175,7 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.GRAY);
+        ScreenUtils.clear(new Color(0x212529ff));
         stage.act();
         stage.draw();
     }

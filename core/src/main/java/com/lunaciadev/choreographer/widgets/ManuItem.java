@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.lunaciadev.choreographer.data.ItemData;
 import com.lunaciadev.choreographer.data.UIDataPackage;
@@ -16,6 +17,8 @@ import com.lunaciadev.choreographer.utils.CostStringGenerator;
 import com.lunaciadev.choreographer.utils.Signal;
 
 public class ManuItem extends WidgetGroup {
+    private ManuItemStyle style;
+
     private ItemData itemData;
     private Skin skin;
     private Label nameLabel;
@@ -31,9 +34,11 @@ public class ManuItem extends WidgetGroup {
     private Signal deleteSignal;
 
     // How much space is padded around the widget (not margin, PADDING)
-    private final float outerPadding = 10;
+    private final float outerPadding = 15;
     // How much space is padded inbetween row of the widget
-    private final float innerPadding = 5;
+    private final float innerPadding = 15;
+
+    public ManuItem() {}
 
     public ManuItem(UIDataPackage uiDataPackage, Signal editSignal, Signal deleteSignal) {
         this.itemData = uiDataPackage.getItemData();
@@ -41,12 +46,16 @@ public class ManuItem extends WidgetGroup {
         this.editSignal = editSignal;
         this.deleteSignal = deleteSignal;
         this.costStringGenerator = new CostStringGenerator();
+
+        this.style = skin.get(ManuItemStyle.class);
         setLayout();
     }
 
     public void setLayout() {
         rootTable = new Table();
         rootTable.pad(outerPadding);
+
+        rootTable.setBackground(style.background);
 
         // TODO add a figure, rn we ignore
 
@@ -74,7 +83,7 @@ public class ManuItem extends WidgetGroup {
         priorityLabel = new Label("[PH]", skin);
         priorityLabel.setAlignment(Align.left);
 
-        TextButton editButton = new TextButton("Edit", skin);
+        TextButton editButton = new TextButton("Edit", skin, "no-highlight");
 
         editButton.addListener(new ChangeListener() {
             @Override
@@ -83,7 +92,7 @@ public class ManuItem extends WidgetGroup {
             }
         });
 
-        TextButton deleteButton = new TextButton("Delete", skin);
+        TextButton deleteButton = new TextButton("Delete", skin, "no-highlight");
 
         deleteButton.addListener(new ChangeListener() {
             @Override
@@ -99,7 +108,7 @@ public class ManuItem extends WidgetGroup {
                 .expandX()
                 .fillX();
         lastRow.add(editButton)
-                .pad(5, 0, 0, 5)
+                .pad(0, 0, 0, 10)
                 .height(editButton.getLabel().getPrefHeight() + 10)
                 .width(editButton.getLabel().getPrefWidth() + 10);
         lastRow.add(deleteButton)
@@ -136,5 +145,11 @@ public class ManuItem extends WidgetGroup {
         }
 
         return maxWidth;
+    }
+
+    static public class ManuItemStyle {
+        public Drawable background;
+
+        public ManuItemStyle() {}
     }
 }

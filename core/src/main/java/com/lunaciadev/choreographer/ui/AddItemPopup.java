@@ -46,6 +46,10 @@ public class AddItemPopup extends Dialog {
 
     private void setLayout() {
         Table rootTable = this.getContentTable();
+
+        rootTable.pad(30, 30, 0, 30);
+        this.getButtonTable().pad(10, 0, 10, 0);
+
         itemNameField = new SelectBox<String>(skin);
         priorityField = new SelectBox<String>(skin);
         amountField = new TextField("", skin);
@@ -79,7 +83,7 @@ public class AddItemPopup extends Dialog {
                 .height(amountField.getStyle().font.getCapHeight() + 20);
 
         TextButton submitForm = new TextButton("OK", skin);
-        TextButton cancelForm = new TextButton("Cancel", skin);
+        TextButton cancelForm = new TextButton("Cancel", skin, "no-highlight");
 
         submitForm.addListener(new ChangeListener() {
             @Override

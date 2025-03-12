@@ -160,7 +160,7 @@ public class ManuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.GRAY);
+        ScreenUtils.clear(new Color(0x212529ff));
         stage.act();
         stage.draw();
     }

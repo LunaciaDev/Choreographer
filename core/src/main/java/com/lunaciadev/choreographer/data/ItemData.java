@@ -67,9 +67,6 @@ public class ItemData {
                 case "5":
                     queueType = QueueType.UNIFORMS;
                     break;
-                case "6":
-                    queueType = QueueType.MATERIALS;
-                    break;
                 default:
                     throw new RuntimeException("Invalid queue type in database, row data: " + temp);
             }

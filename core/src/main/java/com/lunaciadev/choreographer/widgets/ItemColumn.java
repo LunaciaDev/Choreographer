@@ -1,6 +1,7 @@
 package com.lunaciadev.choreographer.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -19,7 +20,7 @@ public class ItemColumn {
     private QueueType columnType;
     private ItemData itemData;
 
-    private final float cellPadding = 5;
+    private final int cellPadding = 10;
 
     /**
      * Emitted when one of its ManuItem has its editButton clicked.
@@ -41,6 +42,7 @@ public class ItemColumn {
         this.columnType = columnType;
 
         group.grow()
+                .pad(0, 10, 0, 10)
                 .space(cellPadding)
                 .top();
 
@@ -56,8 +58,8 @@ public class ItemColumn {
         deleteButtonClicked = new Signal();
     }
 
-    public VerticalGroup getColumn() {
-        return this.group;
+    public ScrollPane getColumn() {
+        return new ScrollPane(group);
     }
 
     /**

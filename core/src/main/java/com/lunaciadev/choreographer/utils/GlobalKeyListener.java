@@ -51,38 +51,33 @@ public class GlobalKeyListener implements NativeKeyListener {
 
         if (heldKeys.contains(NativeKeyEvent.VC_CONTROL) && !keyLock && !(heldKeys.size() >= 2)) {
             switch (keyCode) {
-                case NativeKeyEvent.VC_F6:
+                case NativeKeyEvent.VC_1:
                     broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.LIGHT_ARMS);
                     keyLock = true;
                     break;
 
-                case NativeKeyEvent.VC_F7:
+                case NativeKeyEvent.VC_2:
                     broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.HEAVY_ARMS);
                     keyLock = true;
                     break;
 
-                case NativeKeyEvent.VC_F8:
+                case NativeKeyEvent.VC_3:
                     broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.HEAVY_AMMO);
                     keyLock = true;
                     break;
 
-                case NativeKeyEvent.VC_F9:
+                case NativeKeyEvent.VC_4:
                     broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.UTILITIES);
                     keyLock = true;
                     break;
 
-                case NativeKeyEvent.VC_F10:
+                case NativeKeyEvent.VC_5:
                     broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.MEDICAL);
                     keyLock = true;
                     break;
 
-                case NativeKeyEvent.VC_F11:
+                case NativeKeyEvent.VC_6:
                     broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.UNIFORMS);
-                    keyLock = true;
-                    break;
-
-                case NativeKeyEvent.VC_F12:
-                    broadcastKeyEvent(EventType.QUEUE_ORDER, QueueType.MATERIALS);
                     keyLock = true;
                     break;
 
@@ -110,13 +105,12 @@ public class GlobalKeyListener implements NativeKeyListener {
         int keyCode = nativeEvent.getKeyCode();
 
         switch (keyCode) {
-            case NativeKeyEvent.VC_F6:
-            case NativeKeyEvent.VC_F7:
-            case NativeKeyEvent.VC_F8:
-            case NativeKeyEvent.VC_F9:
-            case NativeKeyEvent.VC_F10:
-            case NativeKeyEvent.VC_F11:
-            case NativeKeyEvent.VC_F12:
+            case NativeKeyEvent.VC_1:
+            case NativeKeyEvent.VC_2:
+            case NativeKeyEvent.VC_3:
+            case NativeKeyEvent.VC_4:
+            case NativeKeyEvent.VC_5:
+            case NativeKeyEvent.VC_6:
             case NativeKeyEvent.VC_Z:
             case NativeKeyEvent.VC_ENTER:
             case NativeKeyEvent.VC_CONTROL:
