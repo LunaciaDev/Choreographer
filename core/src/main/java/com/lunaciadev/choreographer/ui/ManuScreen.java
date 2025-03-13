@@ -84,7 +84,10 @@ public class ManuScreen implements Screen {
         rootTable.row();
         rootTable.add(textArea);
         rootTable.row();
-        rootTable.add(button);
+        rootTable.add(button)
+                .height(button.getLabel().getPrefHeight() + 10)
+                .width(button.getLabel().getPrefWidth() + 10);
+;
     }
 
     private void setLayout() {
@@ -155,6 +158,7 @@ public class ManuScreen implements Screen {
         choreographer.setData(uiDataPackage.getInputHandler());
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.graphics.setWindowedMode(280, 250);
         setLayout();
     }
 

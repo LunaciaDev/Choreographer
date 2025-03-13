@@ -51,6 +51,8 @@ public class MainScreen implements Screen {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
         this.titleStyle = uiDataPackage.getSkin().get(TitleBarStyle.class);
+
+        setLayout();
     }
 
     private void setLayout() {
@@ -175,7 +177,14 @@ public class MainScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         uiDataPackage.getInputHandler().clearData();
-        setLayout();
+        Gdx.graphics.setWindowedMode(1600, 900);
+
+        lightArmColumn.clearColumn();
+        heavyArmColumn.clearColumn();
+        heavyShellColumn.clearColumn();
+        utilitiesColumn.clearColumn();
+        medicalColumn.clearColumn();
+        uniformColumn.clearColumn();
     }
 
     @Override

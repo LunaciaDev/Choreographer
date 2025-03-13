@@ -98,7 +98,6 @@ public class Choreographer {
         ArrayList<Crate> utilitiesQueue = new ArrayList<>();
         ArrayList<Crate> medicalQueue = new ArrayList<>();
         ArrayList<Crate> uniformsQueue = new ArrayList<>();
-        ArrayList<Crate> materialsQueue = new ArrayList<>();
 
         for (Crate crate : crateMapping.values()) {
             switch (itemData.getQueueType(crate.getId())) {
@@ -137,8 +136,6 @@ public class Choreographer {
         medicalQueue.sort(Crate.compareByPriority);
         uniformsQueue.sort(Crate.compareByQueue);
         uniformsQueue.sort(Crate.compareByPriority);
-        materialsQueue.sort(Crate.compareByQueue);
-        materialsQueue.sort(Crate.compareByPriority);
 
         queueManager.enqueueArray(QueueType.LIGHT_ARMS, lightArmQueue);
         queueManager.enqueueArray(QueueType.HEAVY_ARMS, heavyArmQueue);

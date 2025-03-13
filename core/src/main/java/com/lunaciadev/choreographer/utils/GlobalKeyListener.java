@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.badlogic.gdx.Gdx;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
@@ -97,7 +96,6 @@ public class GlobalKeyListener implements NativeKeyListener {
         }
 
         heldKeys.add(nativeEvent.getKeyCode());
-        Gdx.app.log("Key Press", NativeKeyEvent.getKeyText(nativeEvent.getKeyCode()));
     }
 
     @Override
@@ -118,7 +116,6 @@ public class GlobalKeyListener implements NativeKeyListener {
         }
 
         heldKeys.remove(keyCode);
-        Gdx.app.log("Key Release", NativeKeyEvent.getKeyText(nativeEvent.getKeyCode()));
     }
 
     private void broadcastKeyEvent(EventType eventType, QueueType queueType) {

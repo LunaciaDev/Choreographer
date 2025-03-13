@@ -13,7 +13,7 @@ public class CostLabel {
     private CostStringGenerator costStringGenerator;
 
     public CostLabel(UIDataPackage uiDataPackage) {
-        this.costLabel = new Label("[PH]", uiDataPackage.getSkin());
+        this.costLabel = new Label("", uiDataPackage.getSkin());
         this.costStringGenerator = new CostStringGenerator();
         this.group = new HorizontalGroup();
         

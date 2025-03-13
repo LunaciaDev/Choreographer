@@ -144,6 +144,11 @@ public class ItemColumn {
         dataModified();
     }
 
+    public void clearColumn() {
+        crateArray.clear();
+        dataModified();
+    }
+
     public Array<Crate> getCrateArray() {
         return crateArray;
     }
