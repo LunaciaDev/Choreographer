@@ -146,7 +146,7 @@ public class ItemColumn {
 
     public void clearColumn() {
         crateArray.clear();
-        dataModified();
+        group.clearChildren();
     }
 
     public Array<Crate> getCrateArray() {
