@@ -147,7 +147,7 @@ public class ManuItem extends WidgetGroup {
         return maxWidth;
     }
 
-    static public class ManuItemStyle {
+    public static class ManuItemStyle {
         public Drawable background;
 
         public ManuItemStyle() {}

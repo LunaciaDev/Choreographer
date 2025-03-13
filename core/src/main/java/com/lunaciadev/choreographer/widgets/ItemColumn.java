@@ -3,6 +3,7 @@ package com.lunaciadev.choreographer.widgets;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.lunaciadev.choreographer.core.InputHandler;
@@ -19,6 +20,9 @@ public class ItemColumn {
     private VerticalGroup group;
     private QueueType columnType;
     private ItemData itemData;
+
+    private ItemColumnStyle style;
+    private ScrollPane pane;
 
     private final int cellPadding = 10;
 
@@ -54,12 +58,29 @@ public class ItemColumn {
             }
         };
 
+        switch (columnType) {
+            case LIGHT_ARMS:
+                style = uiDataPackage.getSkin().get("first", ItemColumnStyle.class);
+                break;
+
+            case UNIFORMS:
+                style = uiDataPackage.getSkin().get("last", ItemColumnStyle.class);
+                break;
+
+            default:
+                style = uiDataPackage.getSkin().get("default", ItemColumnStyle.class);
+                break;
+        }
+
+        pane = new ScrollPane(group);
+        pane.getStyle().background = style.background;
+
         editButtonClicked = new Signal();
         deleteButtonClicked = new Signal();
     }
 
     public ScrollPane getColumn() {
-        return new ScrollPane(group);
+        return pane;
     }
 
     /**
@@ -125,5 +146,9 @@ public class ItemColumn {
 
     public Array<Crate> getCrateArray() {
         return crateArray;
+    }
+
+    public static class ItemColumnStyle {
+        public Drawable background;
     }
 }

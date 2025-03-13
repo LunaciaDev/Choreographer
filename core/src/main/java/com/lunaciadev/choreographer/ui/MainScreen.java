@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.InputHandler;
@@ -32,6 +33,8 @@ public class MainScreen implements Screen {
     private EditItemPopup editItemPopup;
     private InputHandler inputHandler;
 
+    private TitleBarStyle titleStyle;
+
     /**
      * Emitted when the "add" button is clicked.
      * 
@@ -47,6 +50,7 @@ public class MainScreen implements Screen {
     public MainScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
+        this.titleStyle = uiDataPackage.getSkin().get(TitleBarStyle.class);
     }
 
     private void setLayout() {
@@ -54,6 +58,7 @@ public class MainScreen implements Screen {
         rootTable.setFillParent(true);
 
         Table toolbar = new Table();
+        toolbar.setBackground(titleStyle.background);
 
         // TODO add component to Toolbar, when I have those... Subtitude with Labels for now.
 
@@ -82,7 +87,7 @@ public class MainScreen implements Screen {
                 .height(startButton.getLabel().getPrefHeight() + 10)
                 .width(startButton.getLabel().getPrefWidth() + 10);
 
-        toolbar.left().pad(5, 15, 0, 15);
+        toolbar.left().pad(10, 15, 10, 15);
 
         rootTable.add(toolbar)
                 .width(Value.percentWidth(1f, rootTable))
@@ -199,5 +204,11 @@ public class MainScreen implements Screen {
 
     @Override
     public void dispose() {
+    }
+
+    public static class TitleBarStyle {
+        public Drawable background;
+
+        public TitleBarStyle() {}
     }
 }

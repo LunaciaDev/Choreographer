@@ -42,6 +42,8 @@ public class InputHandler {
         crateDeleted = new Signal();
     }
 
+    private final int[] modulusLookup = {4, 1, 2, 3};
+
     /**
      * In theory these methods need not be unit tested since they are only simple
      * wrapper of HashMap, so.
@@ -56,6 +58,8 @@ public class InputHandler {
         int id = (int) args[0];
         Priority priority = (Priority) args[1];
         int manufactureGoal = (int) args[2];
+
+        manufactureGoal += 4 - modulusLookup[manufactureGoal % 4];
 
         /**
          * If crate already exists, switch to editCrate method as this method if used

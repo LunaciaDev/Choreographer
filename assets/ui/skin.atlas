@@ -80,6 +80,14 @@ button-nobg-hover
   orig: 64, 64
   offset: 0, 0
   index: -1
+col
+  rotate: false
+  xy: 1, 50
+  size: 64, 64
+  split: 1, 1, 0, 0
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 disabled
   rotate: false
   xy: 1, 248
@@ -94,6 +102,22 @@ dropdown
   size: 64, 64
   split: 5, 5, 2, 5
   pad: 5, 5, 6, 5
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+firstCol
+  rotate: false
+  xy: 199, 314
+  size: 64, 64
+  split: 0, 1, 0, 0
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+lastCol
+  rotate: false
+  xy: 265, 380
+  size: 64, 64
+  split: 1, 0, 0, 0
   orig: 64, 64
   offset: 0, 0
   index: -1

@@ -76,11 +76,14 @@ public class AddItemPopup extends Dialog {
         rootTable.row();
 
         rootTable.add(itemNameField)
-                .height(itemNameField.getList().getStyle().font.getCapHeight() + 20);
+                .height(itemNameField.getList().getStyle().font.getCapHeight() + 20)
+                .space(0, 10, 0, 10);
         rootTable.add(priorityField)
-                .height(priorityField.getList().getStyle().font.getCapHeight() + 20);
+                .height(priorityField.getList().getStyle().font.getCapHeight() + 20)
+                .space(0, 10, 0, 10);
         rootTable.add(amountField)
-                .height(amountField.getStyle().font.getCapHeight() + 20);
+                .height(amountField.getStyle().font.getCapHeight() + 20)
+                .space(0, 10, 0, 10);
 
         TextButton submitForm = new TextButton("OK", skin);
         TextButton cancelForm = new TextButton("Cancel", skin, "no-highlight");
