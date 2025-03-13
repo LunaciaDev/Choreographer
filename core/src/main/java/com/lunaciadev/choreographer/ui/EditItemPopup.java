@@ -27,6 +27,7 @@ public class EditItemPopup extends Dialog {
     private Label itemNameField;
     private SelectBox<String> priorityField;
     private TextField amountField;
+    private Label errorLabel;
 
     private int itemID;
 
@@ -45,6 +46,7 @@ public class EditItemPopup extends Dialog {
         this.skin = uiDataPackage.getSkin();
         this.stage = stage;
         this.itemData = uiDataPackage.getItemData();
+        this.errorLabel = new Label("", skin);
         setLayout();
     }
 
@@ -82,12 +84,20 @@ public class EditItemPopup extends Dialog {
                 .height(amountField.getStyle().font.getCapHeight() + 20)
                 .space(0, 10, 0, 10);
 
+        rootTable.row();
+        rootTable.add(errorLabel).colspan(3);
+
         TextButton submitForm = new TextButton("OK", skin);
         TextButton cancelForm = new TextButton("Cancel", skin, "no-highlight");
 
         submitForm.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                if (amountField.getText() == "") {
+                    errorLabel.setText("Amount field cannot be empty.");
+                    return;
+                }
+
                 Priority selectedPriority = null;
                 int priorityID = priorityField.getSelectedIndex();
 
@@ -133,6 +143,7 @@ public class EditItemPopup extends Dialog {
         itemNameField.setText(itemData.getItemName(itemID));
         priorityField.setSelected(crate.getPriority().getReadableName());
         amountField.setText(Integer.toString(crate.getQueueNeeded()));
+        errorLabel.setText("");
 
         stage.addActor(this);
         this.show(stage);

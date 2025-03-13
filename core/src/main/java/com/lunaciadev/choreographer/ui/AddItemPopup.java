@@ -25,6 +25,7 @@ public class AddItemPopup extends Dialog {
     private SelectBox<String> itemNameField;
     private SelectBox<String> priorityField;
     private TextField amountField;
+    private Label errorLabel;
 
     /**
      * Emitted when the form is submitted after an add request.
@@ -41,6 +42,7 @@ public class AddItemPopup extends Dialog {
         this.skin = uiDataPackage.getSkin();
         this.itemData = uiDataPackage.getItemData();
         this.stage = stage;
+        this.errorLabel = new Label("", skin);
         setLayout();
     }
 
@@ -85,12 +87,20 @@ public class AddItemPopup extends Dialog {
                 .height(amountField.getStyle().font.getCapHeight() + 20)
                 .space(0, 10, 0, 10);
 
+        rootTable.row();
+        rootTable.add(errorLabel).colspan(3);
+
         TextButton submitForm = new TextButton("OK", skin);
         TextButton cancelForm = new TextButton("Cancel", skin, "no-highlight");
 
         submitForm.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                if (amountField.getText() == "") {
+                    errorLabel.setText("Amount field cannot be empty.");
+                    return;
+                }
+
                 Priority selectedPriority = null;
                 int priorityID = priorityField.getSelectedIndex();
 
@@ -134,6 +144,7 @@ public class AddItemPopup extends Dialog {
         itemNameField.setSelectedIndex(0);
         priorityField.setSelectedIndex(0);
         amountField.setText("");
+        errorLabel.setText("");
 
         stage.addActor(this);
         this.show(stage);
