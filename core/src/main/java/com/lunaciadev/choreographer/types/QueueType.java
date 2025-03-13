@@ -6,6 +6,5 @@ public enum QueueType {
     HEAVY_AMMO,
     UTILITIES,
     MEDICAL,
-    UNIFORMS,
-    MATERIALS
+    UNIFORMS
 }

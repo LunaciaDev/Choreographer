@@ -10,12 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.InputHandler;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.Cost;
 import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.utils.Signal;
+import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ItemColumn;
 
 public class MainScreen implements Screen {
@@ -27,11 +30,13 @@ public class MainScreen implements Screen {
     private ItemColumn utilitiesColumn;
     private ItemColumn medicalColumn;
     private ItemColumn uniformColumn;
-    private ItemColumn resourceColumn;
+    private CostLabel costLabel;
 
     private AddItemPopup addItemPopup;
     private EditItemPopup editItemPopup;
     private InputHandler inputHandler;
+
+    private TitleBarStyle titleStyle;
 
     /**
      * Emitted when the "add" button is clicked.
@@ -48,6 +53,10 @@ public class MainScreen implements Screen {
     public MainScreen(UIDataPackage uiDataPackage) {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
+        this.titleStyle = uiDataPackage.getSkin().get(TitleBarStyle.class);
+        this.costLabel = new CostLabel(uiDataPackage);
+
+        setLayout();
     }
 
     private void setLayout() {
@@ -55,17 +64,16 @@ public class MainScreen implements Screen {
         rootTable.setFillParent(true);
 
         Table toolbar = new Table();
+        toolbar.setBackground(titleStyle.background);
 
-        // TODO add component to Toolbar, when I have those... Subtitude with Labels for now.
-
-        TextButton addButton = new TextButton("Add", uiDataPackage.getSkin());
+        TextButton addButton = new TextButton("Add", uiDataPackage.getSkin(), "no-background");
         addButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 addButtonClicked.emit(stage);
             }
         });
 
-        TextButton startButton = new TextButton("Start Manu", uiDataPackage.getSkin());
+        TextButton startButton = new TextButton("Start Manu", uiDataPackage.getSkin(), "no-background");
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -73,22 +81,40 @@ public class MainScreen implements Screen {
             }
         });
 
-        toolbar.add(addButton);
-        toolbar.add(new Label("Import from LogiHub", uiDataPackage.getSkin()));
-        toolbar.add(startButton);
+        toolbar.defaults().pad(5);
+
+        toolbar.add(new Label("Choreographer", uiDataPackage.getSkin()));
+        toolbar.add(addButton)
+                .height(addButton.getLabel().getPrefHeight() + 10)
+                .width(addButton.getLabel().getPrefWidth() + 10);
+        toolbar.add(startButton)
+                .height(startButton.getLabel().getPrefHeight() + 10)
+                .width(startButton.getLabel().getPrefWidth() + 10);
+        toolbar.add()
+                .expandX();
+        toolbar.add(costLabel.getWidget());
+
+        toolbar.left().pad(10, 15, 10, 15);
 
         rootTable.add(toolbar)
+                .width(Value.percentWidth(1f, rootTable))
                 .fill()
-                .expandX();
+                .pad(5, 0, 5, 0);
         rootTable.row();
 
         Table content = new Table();
 
-        content.defaults().expandY().fill().width(Value.percentWidth(1/7f, rootTable));
+        content.defaults().pad(10, 0, 10, 0);
 
-        rootTable.add(content).grow();
+        content.add(new Label("Light Arms", uiDataPackage.getSkin())).center();
+        content.add(new Label("Heavy Arms", uiDataPackage.getSkin())).center();
+        content.add(new Label("Heavy Shells", uiDataPackage.getSkin())).center();
+        content.add(new Label("Utilities", uiDataPackage.getSkin())).center();
+        content.add(new Label("Medical", uiDataPackage.getSkin())).center();
+        content.add(new Label("Uniforms", uiDataPackage.getSkin())).center();
+        content.row();
 
-        stage.addActor(rootTable);
+        content.defaults().expandY().fill().width(Value.percentWidth(1/6f, rootTable));
 
         addItemPopup = new AddItemPopup(uiDataPackage, stage);
         editItemPopup = new EditItemPopup(uiDataPackage, stage);
@@ -97,6 +123,7 @@ public class MainScreen implements Screen {
         inputHandler = uiDataPackage.getInputHandler();
         addItemPopup.addItemFormSubmitted.connect(inputHandler::addCrate);
         editItemPopup.editItemFormSubmitted.connect(inputHandler::editCrate);
+        inputHandler.updateCost.connect(costLabel::setCost);
 
         lightArmColumn = new ItemColumn(uiDataPackage, QueueType.LIGHT_ARMS);
         inputHandler.crateAdded.connect(lightArmColumn::onAddItem);
@@ -140,32 +167,36 @@ public class MainScreen implements Screen {
         uniformColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         uniformColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        resourceColumn = new ItemColumn(uiDataPackage, QueueType.MATERIALS);
-        inputHandler.crateAdded.connect(resourceColumn::onAddItem);
-        inputHandler.crateEdited.connect(resourceColumn::onDataModified);
-        inputHandler.crateDeleted.connect(resourceColumn::onCrateDeleted);
-        resourceColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
-        resourceColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
-
         content.add(lightArmColumn.getColumn());
         content.add(heavyArmColumn.getColumn());
         content.add(heavyShellColumn.getColumn());
         content.add(utilitiesColumn.getColumn());
         content.add(medicalColumn.getColumn());
         content.add(uniformColumn.getColumn());
-        content.add(resourceColumn.getColumn());
+
+        rootTable.add(content).pad(0, 10, 0, 10).grow();
+
+        stage.addActor(rootTable);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         uiDataPackage.getInputHandler().clearData();
-        setLayout();
+        Gdx.graphics.setWindowedMode(1600, 900);
+
+        lightArmColumn.clearColumn();
+        heavyArmColumn.clearColumn();
+        heavyShellColumn.clearColumn();
+        utilitiesColumn.clearColumn();
+        medicalColumn.clearColumn();
+        uniformColumn.clearColumn();
+        costLabel.setCost(new Cost(0, 0, 0, 0));
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.GRAY);
+        ScreenUtils.clear(new Color(0x212529ff));
         stage.act();
         stage.draw();
     }
@@ -189,5 +220,11 @@ public class MainScreen implements Screen {
 
     @Override
     public void dispose() {
+    }
+
+    public static class TitleBarStyle {
+        public Drawable background;
+
+        public TitleBarStyle() {}
     }
 }

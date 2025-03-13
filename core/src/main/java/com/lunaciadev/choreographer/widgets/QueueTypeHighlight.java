@@ -16,7 +16,6 @@ public class QueueTypeHighlight {
     private Label utilitiesLabel;
     private Label medicalLabel;
     private Label uniformLabel;
-    private Label materialsLabel;
 
     private final Color finishColor = Color.RED;
     private final Color ongoingColor = Color.GREEN;
@@ -28,7 +27,6 @@ public class QueueTypeHighlight {
         utilitiesLabel = new Label("UT", uiDataPackage.getSkin());
         medicalLabel = new Label("ME", uiDataPackage.getSkin());
         uniformLabel = new Label("UN", uiDataPackage.getSkin());
-        materialsLabel = new Label("RE", uiDataPackage.getSkin());
         group = new HorizontalGroup();
 
         lightArmLabel.setColor(ongoingColor);
@@ -37,7 +35,6 @@ public class QueueTypeHighlight {
         utilitiesLabel.setColor(ongoingColor);
         medicalLabel.setColor(ongoingColor);
         uniformLabel.setColor(ongoingColor);
-        materialsLabel.setColor(ongoingColor);
 
         setLayout();
     }
@@ -50,7 +47,6 @@ public class QueueTypeHighlight {
         group.addActor(utilitiesLabel);
         group.addActor(medicalLabel);
         group.addActor(uniformLabel);
-        group.addActor(materialsLabel);
     }
 
     /**
@@ -71,9 +67,6 @@ public class QueueTypeHighlight {
                 break;
             case LIGHT_ARMS:
                 lightArmLabel.setColor(finishColor);
-                break;
-            case MATERIALS:
-                materialsLabel.setColor(finishColor);
                 break;
             case MEDICAL:
                 medicalLabel.setColor(finishColor);

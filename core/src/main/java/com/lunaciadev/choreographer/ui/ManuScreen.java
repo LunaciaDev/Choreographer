@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.Choreographer;
@@ -41,7 +43,8 @@ public class ManuScreen implements Screen {
         this.choreographer = new Choreographer(uiDataPackage.getItemData());
         this.keyListener = new GlobalKeyListener();
 
-        choreographer.setData(uiDataPackage.getInputHandler());
+        keyListener.keyEvent.connect(this::onKeyEvent);
+
         choreographer.reachedManuGoal.connect(this::onStop);
     }
 
@@ -80,12 +83,22 @@ public class ManuScreen implements Screen {
 
         TextButton button = new TextButton("Exit", uiDataPackage.getSkin());
 
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                returnButtonClicked.emit();
+            }
+        });
+
         rootTable.clearChildren();
         rootTable.add(new Label("Manufacture Finished!", uiDataPackage.getSkin()));
         rootTable.row();
         rootTable.add(textArea);
         rootTable.row();
-        rootTable.add(button);
+        rootTable.add(button)
+                .height(button.getLabel().getPrefHeight() + 10)
+                .width(button.getLabel().getPrefWidth() + 10);
+;
     }
 
     private void setLayout() {
@@ -151,16 +164,17 @@ public class ManuScreen implements Screen {
 
     @Override
     public void show() {
-        keyListener.keyEvent.connect(this::onKeyEvent);
         keyListener.activateListener();
+        choreographer.setData(uiDataPackage.getInputHandler());
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.graphics.setWindowedMode(280, 250);
         setLayout();
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.GRAY);
+        ScreenUtils.clear(new Color(0x212529ff));
         stage.act();
         stage.draw();
     }

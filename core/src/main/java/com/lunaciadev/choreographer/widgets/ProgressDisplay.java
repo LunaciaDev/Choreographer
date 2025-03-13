@@ -1,13 +1,14 @@
 package com.lunaciadev.choreographer.widgets;
 
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Align;
 import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
 
 public class ProgressDisplay {
-    private HorizontalGroup table;
+    private VerticalGroup table;
     private Label queuedOrdersLabel;
     private Label progressLabel;
 
@@ -20,17 +21,20 @@ public class ProgressDisplay {
     }
 
     private void setLayout() {
-        table = new HorizontalGroup();
+        table = new VerticalGroup();
         table.grow().space(10);
 
-        queuedOrdersLabel = new Label("[PH]", skin);
-        progressLabel = new Label("[PH]", skin);
+        queuedOrdersLabel = new Label("0 truck in queue.", skin);
+        progressLabel = new Label("0.00% total crates made/queued.", skin);
+
+        queuedOrdersLabel.setAlignment(Align.center);
+        progressLabel.setAlignment(Align.center);
 
         table.addActor(queuedOrdersLabel);
         table.addActor(progressLabel);
     }
 
-    public HorizontalGroup getWidget() {
+    public VerticalGroup getWidget() {
         return table;
     }
 

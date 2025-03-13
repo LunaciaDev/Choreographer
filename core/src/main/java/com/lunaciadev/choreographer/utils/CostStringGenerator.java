@@ -20,6 +20,10 @@ public class CostStringGenerator {
         addToString(itemCost.getHematCost(), costString, 2);
         addToString(itemCost.getRmatCost(), costString, 3);
 
+        if (costString.length() == 0) {
+            return "0b";
+        }
+
         return costString.toString();
     }
 

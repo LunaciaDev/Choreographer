@@ -1,7 +1,9 @@
 package com.lunaciadev.choreographer.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.lunaciadev.choreographer.core.InputHandler;
@@ -19,7 +21,10 @@ public class ItemColumn {
     private QueueType columnType;
     private ItemData itemData;
 
-    private final float cellPadding = 5;
+    private ItemColumnStyle style;
+    private ScrollPane pane;
+
+    private final int cellPadding = 10;
 
     /**
      * Emitted when one of its ManuItem has its editButton clicked.
@@ -41,6 +46,7 @@ public class ItemColumn {
         this.columnType = columnType;
 
         group.grow()
+                .pad(0, 10, 0, 10)
                 .space(cellPadding)
                 .top();
 
@@ -52,12 +58,29 @@ public class ItemColumn {
             }
         };
 
+        switch (columnType) {
+            case LIGHT_ARMS:
+                style = uiDataPackage.getSkin().get("first", ItemColumnStyle.class);
+                break;
+
+            case UNIFORMS:
+                style = uiDataPackage.getSkin().get("last", ItemColumnStyle.class);
+                break;
+
+            default:
+                style = uiDataPackage.getSkin().get("default", ItemColumnStyle.class);
+                break;
+        }
+
+        pane = new ScrollPane(group);
+        pane.getStyle().background = style.background;
+
         editButtonClicked = new Signal();
         deleteButtonClicked = new Signal();
     }
 
-    public VerticalGroup getColumn() {
-        return this.group;
+    public ScrollPane getColumn() {
+        return pane;
     }
 
     /**
@@ -121,7 +144,16 @@ public class ItemColumn {
         dataModified();
     }
 
+    public void clearColumn() {
+        crateArray.clear();
+        group.clearChildren();
+    }
+
     public Array<Crate> getCrateArray() {
         return crateArray;
+    }
+
+    public static class ItemColumnStyle {
+        public Drawable background;
     }
 }

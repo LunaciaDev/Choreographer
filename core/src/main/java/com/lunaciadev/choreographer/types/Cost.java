@@ -56,6 +56,16 @@ public class Cost {
     }
 
     /**
+     * Scale the cost by a scalar, returning a new cost.
+     * For specialized usage.
+     * 
+     * @param scalar
+     */
+    public Cost scale(int scalar) {
+        return new Cost(bmatCost * scalar, ematCost * scalar, rmatCost * scalar, hematCost * scalar);
+    }
+
+    /**
      * Convenience method to check if two {@link Cost} are equals in content.
      * 
      * @param cost The other cost to compare with
