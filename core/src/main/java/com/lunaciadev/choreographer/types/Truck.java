@@ -28,9 +28,9 @@ public class Truck {
         return true;
     }
 
-    public boolean removeLastAdded() {
+    public int removeLastAdded() {
         if (truckContent.isEmpty()) {
-            return false;
+            return -1;
         }
 
         int id = truckContent.remove(truckContent.size() - 1);
@@ -38,7 +38,11 @@ public class Truck {
 
         truckCost.subtract(itemCost);
 
-        return true;
+        return id;
+    }
+
+    public boolean isEmpty() {
+        return truckContent.isEmpty();
     }
 
     public Integer[] getTruckContent() {

@@ -12,8 +12,7 @@ Choreographer is a **Work in Progress**. Expect bugs, drastic change, half-baked
 
 - **Create Manufacturing Goal**
     - Enter your own target and see how much resource is needed.
-    - Interpret target from FMAT's Manufacturing Sheet (note that you need access to said spreadsheet to be able to use this feature).
-    - (Tentative) Integration with [LogiHub](https://logihub.app), reading manufacturing goal for a certain stockpile.
+    - Integration with [LogiHub](https://logihub.app), reading manufacturing goal for a certain stockpile.
 - **Choreograph your Factory Dance**
     - Choose what queue type to add to your truck at a push of a button.
         - Queue which do not fit in the truck are remembered to be added later automatically.
@@ -30,12 +29,6 @@ Choreographer is a **Work in Progress**. Expect bugs, drastic change, half-baked
 You can find the latest stable version of the app in the [Release](https://github.com/LunaciaDev/Choreographer/releases) section.
 
 ## Building from Source
-
-### Prerequisite
-
-Please make sure that you have the following installed:
-
-- A desktop platform with [LibGDX](https://libgdx.com/) and its dependencies installed.
 
 ### Getting the Source Code
 

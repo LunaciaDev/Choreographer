@@ -6,17 +6,9 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.lunaciadev.choreographer.types.ConstantCost;
+import com.lunaciadev.choreographer.types.QueueType;
 
 public class ItemData {
-    enum QueueType {
-        SMALL_ARMS,
-        HEAVY_ARMS,
-        HEAVY_AMMO,
-        UTILITIES,
-        MEDICAL,
-        UNIFORMS
-    }
-
     private class ItemDataHolder {
         private QueueType queueType;
         private String itemName;
@@ -58,7 +50,7 @@ public class ItemData {
 
             switch (values[1]) {
                 case "0":
-                    queueType = QueueType.SMALL_ARMS;
+                    queueType = QueueType.LIGHT_ARMS;
                     break;
                 case "1":
                     queueType = QueueType.HEAVY_ARMS;
@@ -74,6 +66,9 @@ public class ItemData {
                     break;
                 case "5":
                     queueType = QueueType.UNIFORMS;
+                    break;
+                case "6":
+                    queueType = QueueType.MATERIALS;
                     break;
                 default:
                     throw new RuntimeException("Invalid queue type in database, row data: " + temp);
@@ -107,5 +102,9 @@ public class ItemData {
 
     public QueueType getQueueType(int id) {
         return items.get(id).getQueueType();
+    }
+
+    public int getItemDataSize() {
+        return items.size();
     }
 }

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.badlogic.gdx.Gdx;
 import com.lunaciadev.choreographer.GdxExtension;
-import com.lunaciadev.choreographer.data.ItemData.QueueType;
+import com.lunaciadev.choreographer.types.QueueType;
 
 public class ItemDataTest {
 
@@ -23,7 +23,7 @@ public class ItemDataTest {
         ItemData itemData = new ItemData(new BufferedReader(new StringReader("Cascadier,0,60,0,0,0")));
 
         assertEquals("Cascadier", itemData.getItemName(0));
-        assertEquals(QueueType.SMALL_ARMS, itemData.getQueueType(0));
+        assertEquals(QueueType.LIGHT_ARMS, itemData.getQueueType(0));
         assertEquals(240, itemData.getCost(0).getBmatCost());
         assertEquals(0, itemData.getCost(0).getEmatCost());
         assertEquals(0, itemData.getCost(0).getRmatCost());
