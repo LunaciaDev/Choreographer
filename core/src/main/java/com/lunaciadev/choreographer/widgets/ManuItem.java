@@ -126,7 +126,7 @@ public class ManuItem extends WidgetGroup {
     public void setData(Crate crate) {
         this.data = crate;
         nameLabel.setText(itemData.getItemName(crate.getId()));
-        amountLabel.setText(Integer.toString(crate.getQueueNeeded()));
+        amountLabel.setText(String.format("%sx4", Integer.toString(crate.getQueueNeeded())));
         costLabel.setText(costStringGenerator.generate(itemData.getCost(crate.getId())));
         priorityLabel.setText(crate.getPriority().getReadableName());
     }

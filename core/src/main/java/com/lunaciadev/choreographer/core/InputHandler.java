@@ -2,6 +2,8 @@ package com.lunaciadev.choreographer.core;
 
 import java.util.HashMap;
 
+import com.lunaciadev.choreographer.data.ItemData;
+import com.lunaciadev.choreographer.types.Cost;
 import com.lunaciadev.choreographer.types.Crate;
 import com.lunaciadev.choreographer.types.Priority;
 import com.lunaciadev.choreographer.ui.AddItemPopup;
@@ -9,9 +11,9 @@ import com.lunaciadev.choreographer.ui.EditItemPopup;
 import com.lunaciadev.choreographer.utils.Signal;
 import com.lunaciadev.choreographer.widgets.ItemColumn;
 
-
 public class InputHandler {
     private HashMap<Integer, Crate> inputCrates;
+    private ItemData itemData;
 
     /**
      * Emitted when a crate is added to the handler.
@@ -35,14 +37,17 @@ public class InputHandler {
      */
     public Signal crateDeleted;
 
-    public InputHandler() {
+    public Signal updateCost;
+
+    public InputHandler(ItemData itemData) {
         inputCrates = new HashMap<Integer, Crate>();
         crateAdded = new Signal();
         crateEdited = new Signal();
         crateDeleted = new Signal();
-    }
+        updateCost = new Signal();
 
-    private final int[] modulusLookup = {4, 1, 2, 3};
+        this.itemData = itemData;
+    }
 
     /**
      * In theory these methods need not be unit tested since they are only simple
@@ -59,7 +64,8 @@ public class InputHandler {
         Priority priority = (Priority) args[1];
         int manufactureGoal = (int) args[2];
 
-        manufactureGoal += 4 - modulusLookup[manufactureGoal % 4];
+        // divide by 4 rounding up.
+        manufactureGoal = (manufactureGoal + 3) >> 2;
 
         /**
          * If crate already exists, switch to editCrate method as this method if used
@@ -73,6 +79,7 @@ public class InputHandler {
         inputCrates.put(id, new Crate(id, manufactureGoal, priority));
 
         crateAdded.emit(inputCrates.get(id));
+        calculateTotalCost();
     }
 
     /**
@@ -89,6 +96,17 @@ public class InputHandler {
         targetCrate.setQueueNeeded(manufactureGoal);
 
         crateEdited.emit(targetCrate);
+        calculateTotalCost();
+    }
+
+    private void calculateTotalCost() {
+        Cost cost = new Cost(0, 0, 0, 0);
+
+        for (Crate crate : inputCrates.values()) {
+            cost.add(itemData.getCost(crate.getId()).scale(crate.getQueueNeeded()));
+        }
+
+        updateCost.emit(cost);
     }
 
     /**

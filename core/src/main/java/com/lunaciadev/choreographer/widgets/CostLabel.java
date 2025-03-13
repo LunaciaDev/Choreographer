@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.Cost;
 import com.lunaciadev.choreographer.types.Truck;
 import com.lunaciadev.choreographer.utils.CostStringGenerator;
 
@@ -46,5 +47,10 @@ public class CostLabel {
 
         Truck truck = (Truck) args[1];
         costLabel.setText(costStringGenerator.generate(truck.getTruckCost()));
+    }
+
+    public void setCost(Object... args) {
+        Cost cost = (Cost) args[0];
+        costLabel.setText(costStringGenerator.generate(cost));
     }
 }

@@ -26,7 +26,7 @@ public class ChoreographerApp extends Game {
             return;
         }
 
-        uiDataPackage = new UIDataPackage(itemData, skin, new InputHandler());
+        uiDataPackage = new UIDataPackage(itemData, skin, new InputHandler(itemData));
 
         mainScreen = new MainScreen(uiDataPackage);
         manuScreen = new ManuScreen(uiDataPackage);

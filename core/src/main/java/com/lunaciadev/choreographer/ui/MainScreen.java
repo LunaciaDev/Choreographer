@@ -15,8 +15,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lunaciadev.choreographer.core.InputHandler;
 import com.lunaciadev.choreographer.data.UIDataPackage;
+import com.lunaciadev.choreographer.types.Cost;
 import com.lunaciadev.choreographer.types.QueueType;
 import com.lunaciadev.choreographer.utils.Signal;
+import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ItemColumn;
 
 public class MainScreen implements Screen {
@@ -28,6 +30,7 @@ public class MainScreen implements Screen {
     private ItemColumn utilitiesColumn;
     private ItemColumn medicalColumn;
     private ItemColumn uniformColumn;
+    private CostLabel costLabel;
 
     private AddItemPopup addItemPopup;
     private EditItemPopup editItemPopup;
@@ -51,6 +54,7 @@ public class MainScreen implements Screen {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
         this.titleStyle = uiDataPackage.getSkin().get(TitleBarStyle.class);
+        this.costLabel = new CostLabel(uiDataPackage);
 
         setLayout();
     }
@@ -61,8 +65,6 @@ public class MainScreen implements Screen {
 
         Table toolbar = new Table();
         toolbar.setBackground(titleStyle.background);
-
-        // TODO add component to Toolbar, when I have those... Subtitude with Labels for now.
 
         TextButton addButton = new TextButton("Add", uiDataPackage.getSkin(), "no-background");
         addButton.addListener(new ChangeListener() {
@@ -88,6 +90,9 @@ public class MainScreen implements Screen {
         toolbar.add(startButton)
                 .height(startButton.getLabel().getPrefHeight() + 10)
                 .width(startButton.getLabel().getPrefWidth() + 10);
+        toolbar.add()
+                .expandX();
+        toolbar.add(costLabel.getWidget());
 
         toolbar.left().pad(10, 15, 10, 15);
 
@@ -118,6 +123,7 @@ public class MainScreen implements Screen {
         inputHandler = uiDataPackage.getInputHandler();
         addItemPopup.addItemFormSubmitted.connect(inputHandler::addCrate);
         editItemPopup.editItemFormSubmitted.connect(inputHandler::editCrate);
+        inputHandler.updateCost.connect(costLabel::setCost);
 
         lightArmColumn = new ItemColumn(uiDataPackage, QueueType.LIGHT_ARMS);
         inputHandler.crateAdded.connect(lightArmColumn::onAddItem);
@@ -185,6 +191,7 @@ public class MainScreen implements Screen {
         utilitiesColumn.clearColumn();
         medicalColumn.clearColumn();
         uniformColumn.clearColumn();
+        costLabel.setCost(new Cost(0, 0, 0, 0));
     }
 
     @Override
