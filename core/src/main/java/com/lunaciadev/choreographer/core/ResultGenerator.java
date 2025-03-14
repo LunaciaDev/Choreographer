@@ -38,7 +38,8 @@ public class ResultGenerator {
 
         for (int key = 0; key < maxID; key++) {
             if (result.containsKey(key)) {
-                output.append(result.get(key).getQueueMade());
+                // converting back from queue to crate
+                output.append(result.get(key).getQueueMade() * 4);
             }
             else {
                 output.append(0);
