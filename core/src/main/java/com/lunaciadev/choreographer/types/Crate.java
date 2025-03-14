@@ -63,13 +63,13 @@ public class Crate {
      * otherwise
      */
     public boolean queueManufactured() {
-        queueMade += 4;
+        queueMade += 1;
 
         return queueMade >= queueNeeded;
     }
 
     public void undoQueueManufactured() {
-        queueMade -= 4;
+        queueMade -= 1;
     }
 
     public boolean isCompleted() {
