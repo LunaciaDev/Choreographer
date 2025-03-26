@@ -56,7 +56,7 @@ public class ItemData {
                     queueType = QueueType.HEAVY_ARMS;
                     break;
                 case "2":
-                    queueType = QueueType.HEAVY_AMMO;
+                    queueType = QueueType.HEAVY_SHELL;
                     break;
                 case "3":
                     queueType = QueueType.UTILITIES;

@@ -10,8 +10,6 @@ dependencies {
   testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
   testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
-  implementation 'com.github.kwhat:jnativehook:2.2.2'
-
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
   if(enableGraalNative == 'true') {
