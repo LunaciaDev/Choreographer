@@ -39,6 +39,9 @@ public class ItemData {
         items = new ArrayList<ItemDataHolder>();
         String temp;
 
+        // discard the header row
+        data.readLine();
+
         while ((temp = data.readLine()) != null) {
             String[] values = temp.split(",");
 
