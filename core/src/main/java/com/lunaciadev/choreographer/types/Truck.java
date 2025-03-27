@@ -41,6 +41,14 @@ public class Truck {
         return id;
     }
 
+    public int removeId(int id) {
+        try {
+            return truckContent.remove(id);
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
     public boolean isEmpty() {
         return truckContent.isEmpty();
     }

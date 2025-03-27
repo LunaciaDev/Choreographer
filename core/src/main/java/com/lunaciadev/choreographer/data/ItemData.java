@@ -39,6 +39,9 @@ public class ItemData {
         items = new ArrayList<ItemDataHolder>();
         String temp;
 
+        // discard the header row
+        data.readLine();
+
         while ((temp = data.readLine()) != null) {
             String[] values = temp.split(",");
 
@@ -56,7 +59,7 @@ public class ItemData {
                     queueType = QueueType.HEAVY_ARMS;
                     break;
                 case "2":
-                    queueType = QueueType.HEAVY_AMMO;
+                    queueType = QueueType.HEAVY_SHELL;
                     break;
                 case "3":
                     queueType = QueueType.UTILITIES;
