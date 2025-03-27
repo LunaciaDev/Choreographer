@@ -1,62 +1,66 @@
-Booker Storm Rifle,0,165,0,0,0
-Aalto Storm Rifle,0,165,0,0,0
-7.92mm Ammo,0,120,0,0,0
+Name,Type,Bmat Cost,Emat Cost,Rmat Cost,HEmat Cost
+Booker Storm Rifle,0,0,0,15,0
+Aalto Storm Rifle,0,0,0,15,0
+7.92mm,0,120,0,0,0
 Malone Mk2,0,0,0,25,0
-Harpa Grenade,0,100,20,0,0
+Harpa Grenade,0,100,40,0,0
 Cascadier,0,60,0,0,0
-8mm Ammo,0,40,0,0,0
+8mm,0,40,0,0,0
 Cometa Revolver,0,60,0,0,0
 Hangman,0,125,0,0,0
-.44 Ammo,0,40,0,0,0
+.44,0,40,0,0,0
 Sampo Autorifle,0,125,0,0,0
 Blakerow Rifle,0,140,0,0,0
 Clancy Cinder,0,130,0,0,0
 Hawthorne,0,70,0,0,0
 Loughcaster,0,100,0,0,0
-Clancy-Raca Sniper,0,200,0,15,0
-7.62mm Ammo,0,80,0,0,0
+Clancy-Raca Sniper,0,250,0,25,0
+7.62mm,0,80,0,0,0
 Brasa Shotgun,0,80,0,0,0
-Buckshot Ammo,0,80,0,0,0
+Buckshot,0,80,0,0,0
 Liar SMG,0,120,0,0,0
 Fiddler SMG,0,120,0,0,0
-9mm Ammo,0,80,0,0,0
+9mm,0,80,0,0,0
 Smoke Grenade,0,120,0,0,0
 Green Ash Grenade,0,140,0,0,0
-12.7mm Ammo,0,100,0,0,0
+12.7mm,0,100,0,0,0
 Neville AT Rifle,1,150,0,0,0
-20mm Ammo,1,100,0,0,0
+20mm,1,100,0,0,0
+Varsi AT Grenade,1,95,125,0,0
 Mounted Bonesaw,1,100,0,5,0
 Bonesaw Mk3,1,100,0,25,0
-ARC/RPG Ammo,1,60,75,0,0
+ARC/RPG,1,60,150,0,0
 Willow's Bane Flamethrower,1,165,0,30,0
-Tremola Grenade,1,75,50,0,0
+Tremola Grenade,1,75,100,0,0
 Malone Ratcatcher,1,100,0,5,0
-30mm Ammo,1,80,20,0,0
+30mm,1,80,40,0,0
 Cremari Mortar,1,100,0,25,0
-Flare Mortar Shell,1,60,10,0,0
-Shrapnel Mortar Shell,1,60,15,0,0
-HE Mortar Shell,1,60,35,0,0
-White Ash Flask Grenade,1,100,40,0,0
-Mammon HE Grenade,1,100,10,0,0
-AT Sticky,1,50,50,0,0
+Flare Mortar Shell,1,60,15,0,0
+Shrapnel Mortar Shell,1,60,20,0,0
+HE Mortar Shell,1,60,70,0,0
+White Ash Flask Grenade,1,100,80,0,0
+Mammon HE Grenade,1,100,20,0,0
+AT Sticky,1,50,100,0,0
+Carnyx ATRL,1,125,0,15,0
 Cutler Foebreaker,1,100,0,5,0
 Cutler Launcher,1,100,0,35,0
-RPG Shell,1,60,45,0,0
-150mm,2,120,0,0,10
-120mm,2,60,15,0,0
-250mm,2,120,0,0,25
-68mm AT,2,120,120,0,0
-40mm,2,160,120,0,0
+RPG Shell,1,60,90,0,0
+150mm,2,150,0,0,60
+120mm,2,120,0,0,10
+250mm,2,120,0,0,100
+68mm,2,120,240,0,0
+40mm,2,160,240,0,0
 Barbed Wire,3,15,0,0,0
 Binoculars,3,75,0,0,0
-Havoc Charge,3,75,0,0,10
-Willow's Bane Ammo,3,135,0,0,5
+Havoc Charge,3,75,0,0,40
+Willow's Bane Ammo,3,135,0,0,20
 Listening Kit,3,150,0,0,0
+Wind Sock,3,150,0,0,0
 Metal Beam,3,25,0,0,0
 Radio Backpack,3,150,0,0,0
 Sandbag,3,15,0,0,0
-Havoc Detonator,3,75,0,0,0
-Alligator Charge,3,150,80,0,0
+Havoc Detonator,3,75,0,0,20
+Alligator Charge,3,150,160,0,0
 Shovel,3,200,0,0,0
 Sledgehammer,3,200,0,0,0
 AT Mine,3,100,10,0,0
@@ -64,6 +68,7 @@ Tripod,3,100,0,0,0
 Wrench,3,75,0,0,0
 Water Bucket,3,80,0,0,0
 Bayonet,3,40,0,0,0
+Falias Raiding Club,3,200,0,0,0
 Gas Mask,3,160,0,0,0
 Gas Filter,3,100,0,0,0
 Ospreay GL,3,85,0,10,0

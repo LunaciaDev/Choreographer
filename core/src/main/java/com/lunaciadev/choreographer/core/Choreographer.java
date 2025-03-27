@@ -81,6 +81,8 @@ public class Choreographer {
      */
     public Signal update = new Signal();
 
+    public Signal crateRemoveComplete = new Signal();
+
     public Choreographer(ItemData itemData) {
         queueManager = new QueueManager();
         truckQueue = new Queue<>();
@@ -101,7 +103,7 @@ public class Choreographer {
 
         for (Crate crate : crateMapping.values()) {
             switch (itemData.getQueueType(crate.getId())) {
-                case HEAVY_AMMO:
+                case HEAVY_SHELL:
                     heavyAmmoQueue.add(crate);
                     break;
                 case HEAVY_ARMS:
@@ -139,7 +141,7 @@ public class Choreographer {
 
         queueManager.enqueueArray(QueueType.LIGHT_ARMS, lightArmQueue);
         queueManager.enqueueArray(QueueType.HEAVY_ARMS, heavyArmQueue);
-        queueManager.enqueueArray(QueueType.HEAVY_AMMO, heavyAmmoQueue);
+        queueManager.enqueueArray(QueueType.HEAVY_SHELL, heavyAmmoQueue);
         queueManager.enqueueArray(QueueType.UTILITIES, utilitiesQueue);
         queueManager.enqueueArray(QueueType.MEDICAL, medicalQueue);
         queueManager.enqueueArray(QueueType.UNIFORMS, uniformsQueue);
@@ -184,6 +186,34 @@ public class Choreographer {
         target.undoQueueManufactured();
 
         undoRequestComplete.emit(true);
+        return true;
+    }
+
+    public boolean removeCrateFromTruck(Object... args) {
+        int id = (int) args[0];
+
+        if (truckQueue.isEmpty()) {
+            crateRemoveComplete.emit(false);
+            return false;
+        }
+
+        int crateID = truckQueue.first().removeId(id);
+
+        if (crateID == -1) {
+            crateRemoveComplete.emit(false);
+            return false;
+        }
+
+        Crate target = crateMapping.get(crateID);
+
+        if (target.isCompleted()) {
+            queueManager.enqueue(itemData.getQueueType(crateID), target);
+        }
+        target.undoQueueManufactured();
+
+        crateRemoveComplete.emit(true, truckQueue.first());
+        update.emit(getQueueSize(), getProgress());
+        isQueueCompleted(itemData.getQueueType(crateID));
         return true;
     }
 
@@ -279,7 +309,7 @@ class QueueManager {
 
     public int dequeue(QueueType queueType) {
         switch (queueType) {
-            case HEAVY_AMMO:
+            case HEAVY_SHELL:
                 return processDequeue(heavyAmmoQueue);
             case HEAVY_ARMS:
                 return processDequeue(heavyArmQueue);
@@ -298,7 +328,7 @@ class QueueManager {
 
     public void enqueue(QueueType queueType, Crate crate) {
         switch (queueType) {
-            case HEAVY_AMMO:
+            case HEAVY_SHELL:
                 heavyAmmoQueue.addFirst(crate);
                 break;
             case HEAVY_ARMS:
@@ -323,7 +353,7 @@ class QueueManager {
         Queue<Crate> temp = null;
 
         switch (queueType) {
-            case HEAVY_AMMO:
+            case HEAVY_SHELL:
                 temp = heavyAmmoQueue;
                 break;
             case HEAVY_ARMS:
@@ -360,7 +390,7 @@ class QueueManager {
 
     public boolean isQueueCompleted(QueueType queueType) {
         switch (queueType) {
-            case HEAVY_AMMO:
+            case HEAVY_SHELL:
                 return heavyAmmoQueue.isEmpty();
             case HEAVY_ARMS:
                 return heavyArmQueue.isEmpty();

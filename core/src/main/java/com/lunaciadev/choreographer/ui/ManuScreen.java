@@ -20,9 +20,7 @@ import com.lunaciadev.choreographer.core.Choreographer;
 import com.lunaciadev.choreographer.core.ResultGenerator;
 import com.lunaciadev.choreographer.data.UIDataPackage;
 import com.lunaciadev.choreographer.types.Crate;
-import com.lunaciadev.choreographer.types.EventType;
 import com.lunaciadev.choreographer.types.QueueType;
-import com.lunaciadev.choreographer.utils.GlobalKeyListener;
 import com.lunaciadev.choreographer.utils.Signal;
 import com.lunaciadev.choreographer.widgets.CostLabel;
 import com.lunaciadev.choreographer.widgets.ItemList;
@@ -33,7 +31,8 @@ public class ManuScreen implements Screen {
     private UIDataPackage uiDataPackage;
     private Stage stage;
     private Choreographer choreographer;
-    private GlobalKeyListener keyListener;
+    private TextButton submitTruck;
+    private TextButton stopManu;
 
     public Signal returnButtonClicked = new Signal();
 
@@ -41,37 +40,31 @@ public class ManuScreen implements Screen {
         this.uiDataPackage = uiDataPackage;
         this.stage = new Stage(new ScreenViewport());
         this.choreographer = new Choreographer(uiDataPackage.getItemData());
-        this.keyListener = new GlobalKeyListener();
+        this.submitTruck = new TextButton("Submit", uiDataPackage.getSkin());
+        this.stopManu = new TextButton("Stop", uiDataPackage.getSkin());
 
-        keyListener.keyEvent.connect(this::onKeyEvent);
+        submitTruck.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                choreographer.submitTruck();
+            }
+        });
+
+        stopManu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                choreographer.getResult();
+            }
+        });
 
         choreographer.reachedManuGoal.connect(this::onStop);
-    }
-
-    private void onKeyEvent(Object... args) {
-        EventType eventType = (EventType) args[0];
-
-        switch (eventType) {
-            case QUEUE_ORDER:
-                choreographer.queueRequest((QueueType) args[1]);
-                break;
-            case TRUCK_SUBMIT:
-                choreographer.submitTruck();
-                break;
-            case UNDO:
-                choreographer.undoRequest();
-                break;
-            case QUIT:
-                choreographer.getResult();
-                break;
-        }
     }
 
     @SuppressWarnings("unchecked")
     private void onStop(Object... args) {
         Table rootTable = (Table) stage.getActors().first();
         ResultGenerator generator = new ResultGenerator(uiDataPackage.getItemData());
-        
+
         generator.getResult((HashMap<Integer, Crate>) args[0]);
 
         TextArea textArea = new TextArea(generator.generateGoogleSheetPaste(), uiDataPackage.getSkin());
@@ -93,7 +86,7 @@ public class ManuScreen implements Screen {
         rootTable.clearChildren();
         rootTable.add(new Label("Manufacture Finished!", uiDataPackage.getSkin()));
         rootTable.row();
-        rootTable.add(textArea);
+        rootTable.add(textArea).grow();
         rootTable.row();
         rootTable.add(button)
                 .height(button.getLabel().getPrefHeight() + 10)
@@ -131,9 +124,15 @@ public class ManuScreen implements Screen {
 
         choreographer.queueRequestComplete.connect(itemList::onQueueRequestComplete);
         choreographer.truckSubmitted.connect(itemList::onTruckSubmitted);
-        choreographer.undoRequestComplete.connect(itemList::onUndoRequestComplete);
-        
+        choreographer.crateRemoveComplete.connect(itemList::onQueueRequestComplete);
+
+        itemList.removeItemAt.connect(choreographer::removeCrateFromTruck);
+
         rootTable.add(itemList.getWidget());
+        rootTable.row();
+        rootTable.add(submitTruck)
+                .height(submitTruck.getLabel().getPrefHeight() + 10)
+                .width(submitTruck.getLabel().getPrefWidth() + 10);;
         rootTable.row();
 
         // Setting up the third row - material need to be pulled
@@ -142,13 +141,14 @@ public class ManuScreen implements Screen {
 
         choreographer.queueRequestComplete.connect(costLabel::onItemQueued);
         choreographer.truckSubmitted.connect(costLabel::onTruckSubmitted);
+        choreographer.crateRemoveComplete.connect(costLabel::onItemQueued);
 
         rootTable.add(costLabel.getWidget());
         rootTable.row();
 
         // Setting up the fourth row - queue type that still have item
 
-        QueueTypeHighlight queueTypeHighlight = new QueueTypeHighlight(uiDataPackage);
+        QueueTypeHighlight queueTypeHighlight = new QueueTypeHighlight(uiDataPackage, choreographer);
         
         choreographer.queueCompleted.connect(queueTypeHighlight::setBackground);
 
@@ -157,14 +157,17 @@ public class ManuScreen implements Screen {
         }
 
         rootTable.add(queueTypeHighlight.getWidget());
-        // etc...
+        
+        rootTable.row();
+        rootTable.add(stopManu)
+                .height(stopManu.getLabel().getPrefHeight() + 10)
+                .width(stopManu.getLabel().getPrefWidth() + 10);
 
         stage.addActor(rootTable);
     }
 
     @Override
     public void show() {
-        keyListener.activateListener();
         choreographer.setData(uiDataPackage.getInputHandler());
 
         Gdx.input.setInputProcessor(stage);
@@ -186,23 +189,19 @@ public class ManuScreen implements Screen {
 
     @Override
     public void pause() {
-        keyListener.deactivateListener();
     }
 
     @Override
     public void resume() {
-        keyListener.activateListener();
     }
 
     @Override
     public void hide() {
-        keyListener.deactivateListener();
         ((Table) stage.getActors().first()).clear();
     }
 
     @Override
     public void dispose() {
-        keyListener.deactivateListener();
     }
 
 }

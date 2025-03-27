@@ -139,7 +139,7 @@ public class MainScreen implements Screen {
         heavyArmColumn.editButtonClicked.connect(editItemPopup::onEditItemButtonClicked);
         heavyArmColumn.deleteButtonClicked.connect(inputHandler::removeCrate);
 
-        heavyShellColumn = new ItemColumn(uiDataPackage, QueueType.HEAVY_AMMO);
+        heavyShellColumn = new ItemColumn(uiDataPackage, QueueType.HEAVY_SHELL);
         inputHandler.crateAdded.connect(heavyShellColumn::onAddItem);
         inputHandler.crateEdited.connect(heavyShellColumn::onDataModified);
         inputHandler.crateDeleted.connect(heavyShellColumn::onCrateDeleted);

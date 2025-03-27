@@ -38,15 +38,15 @@ public class ResultGenerator {
 
         for (int key = 0; key < maxID; key++) {
             if (result.containsKey(key)) {
-                // converting back from queue to crate
+                output.append(itemData.getItemName(key) + ": ");
                 output.append(result.get(key).getQueueMade() * 4);
             }
             else {
-                output.append(0);
+                continue;
             }
 
             if (key != maxID-1) {
-                output.append("\t");
+                output.append("\n");
             }
         }
 
