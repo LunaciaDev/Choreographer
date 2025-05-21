@@ -1,3 +1,7 @@
+# Notice
+
+This project is abandoned. I hope you can find it useful at it's current state, but there will not be any update nor bug fixes in the future.
+
 # Choreographer
 
 **A Manufacturing Tracker for Foxhole.**
@@ -6,7 +10,7 @@ No more fiddling with truck space. No need to do math in your head while other d
 
 ## Status
 
-Choreographer is a **Work in Progress**. Expect bugs, drastic change, half-baked UI, etc.
+Choreographer is **incomplete**. Expect bugs, drastic change, half-baked UI, etc.
 
 ## Feature
 
